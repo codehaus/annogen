@@ -60,13 +60,18 @@ import org.codehaus.jam.JamClassLoader;
 import org.codehaus.jam.JamService;
 import org.codehaus.jam.JamServiceFactory;
 import org.codehaus.jam.JamServiceParams;
+import org.codehaus.jam.JMethod;
+import org.codehaus.jam.JParameter;
+import org.codehaus.jam.JamUtils;
 import org.codehaus.jam.test.cases.JamTestBase;
+import org.codehaus.jam.test.samples.FooImpl;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.lang.reflect.Method;
 
 /**
  * Runs the JamTestBase samples by loading the types from source.
@@ -142,5 +147,6 @@ public class ReflectJamTest extends JamTestBase {
     assertTrue(aFailedClass.getQualifiedName()+" expected to be unresolved",
                aFailedClass.isUnresolvedType());
   }
+
 
 }

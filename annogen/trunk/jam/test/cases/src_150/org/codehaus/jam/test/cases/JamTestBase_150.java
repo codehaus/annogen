@@ -58,6 +58,9 @@ package org.codehaus.jam.test.cases;
 import org.codehaus.jam.JAnnotation;
 import org.codehaus.jam.JAnnotationValue;
 import org.codehaus.jam.JClass;
+import org.codehaus.jam.JamService;
+import org.codehaus.jam.JMethod;
+import org.codehaus.jam.JParameter;
 import org.codehaus.jam.test.samples.jsr175.EmployeeAnnotation;
 import org.codehaus.jam.test.samples.jsr175.EmployeeGroupAnnotation;
 import org.codehaus.jam.test.samples.jsr175.RFEAnnotation_150;
@@ -139,6 +142,28 @@ public abstract class JamTestBase_150 extends JamTestBase {
     assertTrue("id = "+rfe.id(), rfe.id() == 4561414);
     assertTrue("synopsis = '"+rfe.synopsis()+"'",
                rfe.synopsis().equals("Balance the federal budget"));
+  }
+
+  public void testGoofyParamNamesCase() throws Exception {
+    JamService js = getResultToTest();
+    JClass fooImpl = js.getClassLoader().loadClass("org.codehaus.jam.test.samples.Baz");
+    JMethod[] methods = fooImpl.getDeclaredMethods();
+    for(int i=0; i<methods.length; i++) {
+      if (methods[i].getSimpleName().equals("getAString")) {
+        JClass string = methods[i].getReturnType();
+        JMethod[] smethods = string.getMethods();
+        for(int j=0; j<smethods.length; j++) {
+          if (smethods[j].getSimpleName().equals("regionMatches")) {
+            JParameter[] params = smethods[j].getParameters();
+            for(int x=0; x<params.length; x++) {
+              System.out.println("=== "+params[x].getSimpleName());
+            }
+            return;
+          }
+        }
+      }
+    }
+    assertTrue("couldn't find something",false);
   }
 
   public void testNested175AnnotationsUntyped() throws IOException, XMLStreamException {

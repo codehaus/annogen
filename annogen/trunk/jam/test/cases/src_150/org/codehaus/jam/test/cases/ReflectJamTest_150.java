@@ -60,6 +60,8 @@ import org.codehaus.jam.JamClassLoader;
 import org.codehaus.jam.JamService;
 import org.codehaus.jam.JamServiceFactory;
 import org.codehaus.jam.JamServiceParams;
+import org.codehaus.jam.JMethod;
+import org.codehaus.jam.JParameter;
 
 import java.io.File;
 import java.io.IOException;
@@ -146,5 +148,20 @@ public class ReflectJamTest_150 extends JamTestBase_150 {
 
   }
 
+  public void testParameterNames() throws Exception {
+    JamService js = getResultToTest();
+    JClass fooImpl = js.getClassLoader().loadClass("org.codehaus.jam.test.samples.Baz");
+    JMethod[] methods = fooImpl.getDeclaredMethods();
+    for(int i=0; i<methods.length; i++) {
+      if (methods[i].getSimpleName().equals("someOperation")) {
+        JParameter[] params = methods[i].getParameters();
+        for(int j=0; j<params.length; j++) {
+          assertTrue(params[j].getSimpleName().equals("param"+j));
+        }
+        return;
+      }
+    }
+    assertTrue("couldn't find someOperation",false);
+  }
 
 }

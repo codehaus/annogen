@@ -292,7 +292,6 @@ public class JavadocClassBuilder extends JamClassBuilder implements JamClassPopu
     for(int i=0; i<exceptions.length; i++) {
       dest.addException(getFdFor(exceptions[i]));
     }
-    Parameter[] params = src.parameters();
     for(int i=0; i<params.length; i++) {
       populate(dest.addNewParameter(),src,params[i]);
     }

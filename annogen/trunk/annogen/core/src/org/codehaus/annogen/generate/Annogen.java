@@ -168,7 +168,7 @@ public class Annogen {
     }
   }
 
-  public void setPre15CompatibilityMode(boolean b) {
+  public void setImplementAnnotationTypes(boolean b) {
     mImplementAnnotationTypes = b;
   }
 

@@ -79,7 +79,7 @@ public class AnnogenTask extends Task {
   }
 
   public void setImplementAnnotationTypes(boolean b) {
-    mAnnogen.setPre15CompatibilityMode(b);
+    mAnnogen.setImplementAnnotationTypes(b);
   }
 
   public void setToolpath(Path path) {
@@ -98,7 +98,7 @@ public class AnnogenTask extends Task {
   public Path createToolpath() {
     if (mToolpath == null) {
       mToolpath = new Path(getProject());
-    }
+    }                                                                                         jav
     return mToolpath.createPath();
   }
 

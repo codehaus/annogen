@@ -10,5 +10,8 @@ public class Baz implements Runnable {
 
   public void run() {}
 
+  public void someOperation(int a, String b, char[] c, Object d) {}
+
+  public String getAString() { return null; };
 
 }

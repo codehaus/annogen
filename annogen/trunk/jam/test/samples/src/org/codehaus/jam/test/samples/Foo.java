@@ -13,4 +13,6 @@ public interface Foo {
 
   public void setId(int id);
 
+
+
 }
