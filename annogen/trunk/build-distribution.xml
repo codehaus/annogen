@@ -51,6 +51,8 @@
       <fileset includes='**/*.java' dir='annogen/adapters/javadoc/src'/>
       <fileset includes='**/*.java' dir='annogen/adapters/javadoc/src_150'/>
       <fileset includes='**/*.java' dir='annogen/adapters/jam/src'/>
+      <fileset includes='**/*.java' dir='annogen/adapters/qdox/src'/>
+      <fileset includes='**/*.java' dir='annogen/adapters/mirror/src_150'/>
     </jar>
   </target>
   
