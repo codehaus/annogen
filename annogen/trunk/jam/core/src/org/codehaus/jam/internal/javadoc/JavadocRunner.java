@@ -83,6 +83,7 @@ public class JavadocRunner extends Doclet {
                                        PrintWriter out,
                                        String sourcePath,
                                        String classPath,
+                                       String encoding,
                                        String[] javadocArgs,
                                        JamLogger logger)
           throws IOException, FileNotFoundException
@@ -104,6 +105,10 @@ public class JavadocRunner extends Doclet {
       argList.add(classPath);
       argList.add("-docletpath");
       argList.add(classPath);
+    }
+    if (encoding != null) {
+      argList.add("-encoding");
+      argList.add(encoding);
     }
     for(int i=0; i<files.length; i++) {
       argList.add(files[i].toString());

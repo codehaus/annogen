@@ -19,6 +19,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 
 /**
  * Implementation of WriterFactory which creates files for new classes under
@@ -37,6 +39,7 @@ public class FileWriterFactory implements WriterFactory {
   // Variables
 
   private File mSourceRoot;
+  private String mEncoding = null;
 
   // ========================================================================
   // Constructors
@@ -46,12 +49,25 @@ public class FileWriterFactory implements WriterFactory {
     mSourceRoot = sourceRoot;
   }
 
+  public FileWriterFactory(File sourceRoot, String encoding) {
+    if (sourceRoot == null) throw new IllegalArgumentException();
+    if (encoding == null) throw new IllegalArgumentException();
+    mSourceRoot = sourceRoot;
+    mEncoding = encoding;
+  }
+
   // ========================================================================
   // WriterFactory implementation
 
   public Writer createWriter(String packageName, String className)
           throws IOException {
-    return new FileWriter(createFile(packageName,className));
+    if (mEncoding == null) {
+      return new FileWriter(createFile(packageName,className));
+    } else {
+      FileOutputStream fos =
+        new FileOutputStream(createFile(packageName,className));
+      return new OutputStreamWriter(fos, mEncoding);
+    }
   }
 
   // ========================================================================

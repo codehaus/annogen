@@ -276,6 +276,12 @@ public interface JamServiceParams {
   public void set14WarningsEnabled(boolean b);
 
   /**
+   * Sets the encoding to use when reading java source files (e.g. "UTF-8").
+   * If this is not set, the vm's default encoding will be used.
+   */
+  public void setCharacterEncoding(String enc);
+
+  /**
    * @deprecated use setVerbose(Class).  This is the same as
    * setVerbose(Object.class).
    */
@@ -283,10 +289,11 @@ public interface JamServiceParams {
 
 
   /**
-   * @deprecated The tag mapping mechanism in JAM has been deprecated.
+   * @deprecated The javadoc tag mapping mechanism in JAM has been deprecated.
    * Instead, please use Annogen to do tag-to-175 mappings.
    */
   public void setJavadocTagParser(JavadocTagParser tp);
+
 
 
 }

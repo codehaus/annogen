@@ -124,6 +124,12 @@ public interface JamServiceContext {
    */
   public JavadocTagParser getTagParser();
 
+  /**
+   * <p>Returns the character encoding to be used in reading java
+   * source files, or null if the default encoding should be used.</p>
+   */
+  public String getCharacterEncoding();
+
   //public PrintWriter getOut();
 
   public boolean is14WarningsEnabled();

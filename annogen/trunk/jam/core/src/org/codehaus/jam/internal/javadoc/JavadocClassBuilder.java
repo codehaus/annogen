@@ -238,6 +238,7 @@ public class JavadocClassBuilder extends JamClassBuilder implements JamClassPopu
                          out,
                          sourcePath,
                          classPath,
+                         serviceContext.getCharacterEncoding(),
                          getJavadocArgs(serviceContext),
                          getLogger());
       if (mRootDoc == null) {

@@ -89,6 +89,7 @@ public class JamServiceContextImpl implements JamServiceContext,
   private List mBaseBuilders = null;
 
   private JamClassLoader mLoader = null;
+  private String mEncoding = null;
 
   // ========================================================================
   // REVIEW
@@ -209,6 +210,8 @@ public class JamServiceContextImpl implements JamServiceContext,
 
   public ResourcePath getToolClasspath() { return createJPath(mToolClasspath); }
 
+  public String getCharacterEncoding() { return mEncoding; }
+  
   public String getProperty(String name) {
     return (mProperties == null) ? null : mProperties.getProperty(name);
   }
@@ -414,6 +417,9 @@ public class JamServiceContextImpl implements JamServiceContext,
   public void set14WarningsEnabled(boolean b) {
     m14WarningsEnabled = b;
   }
+
+
+  public void setCharacterEncoding(String enc) { mEncoding = enc; }
 
 
   public void setParentClassLoader(JamClassLoader loader) {

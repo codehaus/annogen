@@ -113,6 +113,14 @@ public class Annogen {
     mImplementAnnotationTypes = b;
   }
 
+  /**
+   * Sets the character encoding to use for generating anno beans.
+   * If not set, the vm default is used.
+   */
+  public void setOutputEncoding(String enc) {
+    mJoust.setEncoding(enc);
+  }
+
   // ========================================================================
   // Private methods
 

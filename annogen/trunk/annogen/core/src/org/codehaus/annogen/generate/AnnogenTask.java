@@ -45,6 +45,7 @@ public class AnnogenTask extends Task {
   private Path mClasspath = null;
   private String mIncludes = "**/*.java";
   private List mMappings = null;
+  private String mInputEncoding = null;
 
   // ========================================================================
   // Constructors
@@ -136,6 +137,14 @@ public class AnnogenTask extends Task {
     mAnnogen.setKeepGenerated(b);
   }
 
+  public void setInputEncoding(String encoding) {
+    mInputEncoding = encoding;
+  }
+
+  public void setOutputEncoding(String encoding) {
+    mAnnogen.setOutputEncoding(encoding);
+  }
+
   // ========================================================================
   // Task implementation
 
@@ -145,6 +154,7 @@ public class AnnogenTask extends Task {
     }
     JamServiceFactory jsf = JamServiceFactory.getInstance();
     JamServiceParams p = jsf.createServiceParams();
+    if (mInputEncoding != null) p.setCharacterEncoding(mInputEncoding);
     if (mToolpath != null) {
       File[] tcp = path2files(mToolpath);
       for(int i=0; i<tcp.length; i++) p.addToolClasspath(tcp[i]);

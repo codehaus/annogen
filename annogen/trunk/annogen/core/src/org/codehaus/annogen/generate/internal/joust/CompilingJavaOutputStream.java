@@ -42,12 +42,13 @@ public class CompilingJavaOutputStream extends SourceJavaOutputStream
 
   private FileWriterFactory mWriterFactoryDelegate;
   private List mSourceFiles;
-  private File mSourceDir = null;
   private File mCompileDir = null;
   private File[] mJavacClasspath = null;
   private boolean mKeepGenerated;
   private String mJavacPath = null;
   private boolean mDoCompile = true;
+  private String mEncoding = null;
+  private File mSourceDir = null;
 
   // ========================================================================
   // Constructors
@@ -85,9 +86,18 @@ public class CompilingJavaOutputStream extends SourceJavaOutputStream
    */
   public void setSourceDir(File srcDir) {
     if (srcDir == null) throw new IllegalArgumentException("null srcDir");
-    mWriterFactoryDelegate = new FileWriterFactory(mSourceDir = srcDir);
+    mWriterFactoryDelegate = null;
+    mSourceDir = srcDir;
   }
 
+  /**
+   * Sets the encoding to use for writing java sources.
+   */
+  public void setEncoding(String enc) {
+    mWriterFactoryDelegate = null;
+    mEncoding = enc;
+  }
+  
   /**
    * Enables compilation of the generated source files into the given
    * directory.  If this method is never called, no compilation will occur.
@@ -128,6 +138,7 @@ public class CompilingJavaOutputStream extends SourceJavaOutputStream
     mDoCompile = b;
   }
 
+
   // ========================================================================
   // WriterFactory implementation
 
@@ -138,8 +149,12 @@ public class CompilingJavaOutputStream extends SourceJavaOutputStream
   public Writer createWriter(String packageName, String className)
           throws IOException {
     if (mWriterFactoryDelegate == null) {
-      throw new IllegalStateException("delegate never set called on the "+
-                                      "CompilingJavaOutputStream");
+      if (mSourceDir == null) {
+        throw new IllegalStateException("setSourceDir must be called");
+      }
+      mWriterFactoryDelegate = (mEncoding != null) ?
+        new FileWriterFactory(mSourceDir, mEncoding) :
+        new FileWriterFactory(mSourceDir);
     }
     File out = mWriterFactoryDelegate.createFile(packageName,className);
     mSourceFiles.add(out);
