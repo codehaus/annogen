@@ -2,9 +2,12 @@
 
   <!-- Properties -->
 
-  <property name='classes_dir' location='build/classes'/>
-  <property name='dist_dir' value='build/distribution'/>
-  <property name='distlib_dir' value='${dist_dir}/lib'/>
+  <property file='build.properties'/>
+
+  <property name='build_dir'   location='build'/>
+  <property name='classes_dir' location='${build_dir}/classes'/>
+  <property name='dist_dir'    location='${build_dir}/distribution'/>
+  <property name='distlib_dir' location='${dist_dir}/lib'/>
 
   <!-- Targets -->
 
@@ -30,15 +33,15 @@
       <fileset file='external/lib/stax-impl.jar'/>
     </copy>
 
-    <jar jarfile='build/annogen.zip' basedir='${dist_dir}'/>
+    <jar jarfile='build/annogen-devkit-${annogen-version}.zip' basedir='${dist_dir}'/>
   </target>
 
 
   <target name='jars' >
     <ant target='all.clean'/>
     <mkdir dir='${dist_dir}'/>
-    <jar jarfile='${dist_dir}/annogen.jar'  basedir='${classes_dir}'/>
-    <jar jarfile='${dist_dir}/annogen_src.zip' >
+    <jar jarfile='${dist_dir}/annogen-${annogen-version}.jar'  basedir='${classes_dir}'/>
+    <jar jarfile='${dist_dir}/annogen-src-${annogen-version}.zip' >
       <fileset includes='**/*.java' dir='jam/core/src' />
       <fileset includes='**/*.java' dir='jam/core/src_150'/>
       <fileset includes='**/*.java' dir='annogen/core/src'/>
