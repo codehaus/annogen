@@ -14,7 +14,7 @@
  */
 package org.codehaus.jam.internal.reflect;
 
-import org.codehaus.jam.internal.TigerDelegate;
+import org.codehaus.jam.internal.TigerDelegateHelper;
 import org.codehaus.jam.internal.elements.ElementContext;
 import org.codehaus.jam.mutable.MClass;
 import org.codehaus.jam.mutable.MConstructor;
@@ -22,6 +22,7 @@ import org.codehaus.jam.mutable.MField;
 import org.codehaus.jam.mutable.MMember;
 import org.codehaus.jam.mutable.MParameter;
 import org.codehaus.jam.provider.JamLogger;
+import org.codehaus.jam.JamClassLoader;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -30,7 +31,7 @@ import java.lang.reflect.Method;
 /**
  * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
-public abstract class ReflectTigerDelegate extends TigerDelegate {
+public abstract class ReflectTigerDelegate {
 
   // ========================================================================
   // Constants
@@ -41,37 +42,19 @@ public abstract class ReflectTigerDelegate extends TigerDelegate {
   // ========================================================================
   // Static methods
 
-  public static ReflectTigerDelegate create(JamLogger logger) {
-    if (!isTigerReflectionAvailable(logger)) return null;
-    // ok, if we could load that, let's new up the extractor delegate
-    try {
-      ReflectTigerDelegate out = (ReflectTigerDelegate)
-        Class.forName(IMPL_NAME).newInstance();
-      out.init(logger);
-      return out;
-    } catch (ClassNotFoundException e) {
-      issue14BuildWarning(e,logger);
-    } catch (IllegalAccessException e) {
-      logger.error(e);
-    } catch (InstantiationException e) {
-      logger.error(e);
-    }
-    return null;
-  }
-
   /**
-   * @deprecated
    */
   public static ReflectTigerDelegate create(ElementContext ctx) {
-    if (!isTigerReflectionAvailable(ctx.getLogger())) return null;
+    if (!TigerDelegateHelper.isTigerReflectionAvailable(ctx.getLogger()))
+      return null;
     // ok, if we could load that, let's new up the extractor delegate
     try {
       ReflectTigerDelegate out = (ReflectTigerDelegate)
         Class.forName(IMPL_NAME).newInstance();
-      out.init(ctx);
+      out.init(ctx.getLogger(),ctx.getClassLoader());
       return out;
     } catch (ClassNotFoundException e) {
-      issue14BuildWarning(e,ctx.getLogger());
+      TigerDelegateHelper.issue14BuildWarning(e,ctx.getLogger());
     } catch (IllegalAccessException e) {
       ctx.getLogger().error(e);
     } catch (InstantiationException e) {
@@ -85,6 +68,11 @@ public abstract class ReflectTigerDelegate extends TigerDelegate {
   // Constructors
 
   protected ReflectTigerDelegate() {}
+
+  // ========================================================================
+  // Protected methods
+
+  protected abstract void init(JamLogger logger, JamClassLoader cl);
 
   // ========================================================================
   // Public methods

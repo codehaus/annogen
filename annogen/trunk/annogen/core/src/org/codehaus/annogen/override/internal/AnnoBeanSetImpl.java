@@ -14,22 +14,28 @@
  */
 package org.codehaus.annogen.override.internal;
 
-import org.codehaus.annogen.override.AnnoContext;
 import org.codehaus.annogen.override.AnnoBean;
 import org.codehaus.annogen.override.AnnoBeanSet;
-import org.codehaus.annogen.override.AnnoBeanMapping;
+import org.codehaus.annogen.override.AnnoContext;
 import org.codehaus.jam.provider.JamLogger;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Implementation of AnnoBeanSet.
+ *
+ * Encapsualtes a set of AnnoBeans which apply to some element in the java
+ * type system, such as a class, method, or field.
+ *
  * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public class AnnoBeanSetImpl implements AnnoBeanSet {
 
+  // ========================================================================
+  // Variables
+
   private Map mBeanClass2AnnoClass = new HashMap();
-  private AnnoBeanMapping mTypeMapping = null;
   private JamLogger mLogger = null;
   private AnnoContext mContext = null;
 
@@ -38,7 +44,6 @@ public class AnnoBeanSetImpl implements AnnoBeanSet {
 
   public AnnoBeanSetImpl(AnnoContext ctx) {
     if (ctx == null) throw new IllegalArgumentException();
-    mTypeMapping = ctx.getAnnoBeanMapping();
     mLogger = ctx.getLogger();
     mContext = ctx;
   }
@@ -49,7 +54,7 @@ public class AnnoBeanSetImpl implements AnnoBeanSet {
   public boolean containsBeanFor(Class requestedClass) {
     Class beanClass;
     try {
-      beanClass = mTypeMapping.getAnnoBeanClassForRequest(requestedClass);
+      beanClass = mContext.getAnnobeanClassFor(requestedClass);
     } catch(ClassNotFoundException cnfe) {
       mLogger.error(cnfe);
       return false;
@@ -60,7 +65,7 @@ public class AnnoBeanSetImpl implements AnnoBeanSet {
   public AnnoBean findOrCreateBeanFor(Class requestedClass) {
     Class beanClass;
     try {
-      beanClass = mTypeMapping.getAnnoBeanClassForRequest(requestedClass);
+      beanClass = mContext.getAnnobeanClassFor(requestedClass);
     } catch(ClassNotFoundException cnfe) {
       mLogger.error(cnfe);
       return null;
@@ -83,7 +88,7 @@ public class AnnoBeanSetImpl implements AnnoBeanSet {
   public AnnoBean removeBeanFor(Class requestedClass) {
     Class beanClass;
     try {
-      beanClass = mTypeMapping.getAnnoBeanClassForRequest(requestedClass);
+      beanClass = mContext.getAnnobeanClassFor(requestedClass);
     } catch(ClassNotFoundException cnfe) {
       mLogger.error(cnfe);
       return null;

@@ -19,14 +19,6 @@ package org.codehaus.jam.provider;
  */
 public interface JamLogger {
 
-  public void setVerbose(Class c);
-
-  public boolean isVerbose(Object o);
-
-  public boolean isVerbose(Class c);  
-
-  public void setShowWarnings(boolean b);
-
   /**
    * <p>Outputs a debug message if appropriate for the given object.</p>
    */
@@ -69,9 +61,28 @@ public interface JamLogger {
 
 
   /**
+   * Enables verbose output in all JAM classes which are equal to or a
+   * subclass of the given classs.
+   */
+  public void setVerbose(Class c);
+
+  /**
+   * Returns true if debugging is enabled for the given object.
+   */
+  public boolean isVerbose(Object o);
+
+  /**
+   * Returns true if debugging is enabled for the given class.
+   */
+  public boolean isVerbose(Class c);
+
+  /**
+   * Returns true if display of warnings is enabled.
+   */
+  public void setShowWarnings(boolean b);
+
+  /**
    * @deprecated
-   *
-   * @return
    */
   public boolean isVerbose();
   

@@ -14,9 +14,9 @@
  */
 package org.codehaus.annogen.override.internal;
 
-import org.codehaus.annogen.override.AnnoContext;
 import org.codehaus.annogen.override.AnnoBean;
 import org.codehaus.annogen.override.AnnoBeanSet;
+import org.codehaus.annogen.override.AnnoContext;
 import org.codehaus.annogen.override.ElementId;
 import org.codehaus.annogen.override.StoredAnnoOverrider;
 

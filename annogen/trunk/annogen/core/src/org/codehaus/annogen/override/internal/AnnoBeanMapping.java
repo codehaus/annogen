@@ -12,17 +12,17 @@
  *   See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.codehaus.annogen.generate;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+package org.codehaus.annogen.override.internal;
 
 /**
+ * Describes a bi-directional mapping between a set of JSR175 types and
+ * their corresponding Annobean types.  This mapping is typically retrieved
+ * by checking for a properties file (for 175->annobean) and a generated
+ * static field (annobean->176).  It's abstracted away here in case anyone
+ * every wants to do something fancier.
+ *
  * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
-@Retention(value=RetentionPolicy.RUNTIME)
-public @interface AnnogenInfo {
-
-  public String annoBeanClass();
+public interface AnnoBeanMapping {
 
 }

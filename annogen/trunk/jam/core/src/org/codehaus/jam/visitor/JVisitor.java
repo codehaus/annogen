@@ -23,6 +23,7 @@ import org.codehaus.jam.JMethod;
 import org.codehaus.jam.JPackage;
 import org.codehaus.jam.JParameter;
 import org.codehaus.jam.JProperty;
+import org.codehaus.jam.JTag;
 
 //REVIEW I think this should be an interface
 /**
@@ -48,6 +49,8 @@ public abstract class JVisitor {
 
   public void visit(JComment comment) {}
 
-  public void visit(JProperty proprty) {}
+  public void visit(JProperty property) {}
+
+  public void visit(JTag tag) {}
 
 }

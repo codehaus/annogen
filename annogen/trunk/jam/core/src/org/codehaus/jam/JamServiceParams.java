@@ -241,8 +241,6 @@ public interface JamServiceParams {
   //DOCME
   public void addInitializer(MVisitor initializer);
 
-  //DOCME
-  public void setJavadocTagParser(JavadocTagParser tp);
 
   /**
    * <p>Specifies whether the JAM Service should load classes from the system
@@ -283,6 +281,12 @@ public interface JamServiceParams {
    */
   public void setVerbose(boolean v);
 
+
+  /**
+   * @deprecated The tag mapping mechanism in JAM has been deprecated.
+   * Instead, please use Annogen to do tag-to-175 mappings.
+   */
+  public void setJavadocTagParser(JavadocTagParser tp);
 
 
 }

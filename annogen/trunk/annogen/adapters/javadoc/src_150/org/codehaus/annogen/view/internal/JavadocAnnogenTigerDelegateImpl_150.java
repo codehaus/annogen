@@ -22,6 +22,7 @@ import com.sun.javadoc.ProgramElementDoc;
 import org.codehaus.annogen.override.AnnoBean;
 import org.codehaus.annogen.override.AnnoBeanSet;
 import org.codehaus.annogen.view.internal.javadoc.JavadocAnnogenTigerDelegate;
+import org.codehaus.jam.provider.JamLogger;
 
 
 
@@ -31,8 +32,16 @@ import org.codehaus.annogen.view.internal.javadoc.JavadocAnnogenTigerDelegate;
 public final class JavadocAnnogenTigerDelegateImpl_150
   extends JavadocAnnogenTigerDelegate
  {
+
+  // ========================================================================
+  // Variables
+
+  private JamLogger mLogger;
+
   // ========================================================================
   // Javadoc15Delegate implementation
+
+  public void init(JamLogger logger) { mLogger = logger; }
 
   public boolean extractAnnotations(AnnoBeanSet out,
                                     ProgramElementDoc src) {
@@ -90,12 +99,12 @@ public final class JavadocAnnogenTigerDelegateImpl_150
       return
         Class.forName(javadocAnn.annotationType().qualifiedTypeName());
     } catch(ClassNotFoundException cnfe) {
-      getLogger().error(cnfe);
+      mLogger.error(cnfe);
       return null;
     } catch(ClassCastException cce) {
       // This is part of the fix/workaround for a javadoc bug
       // as described in issue 14: http://jira.codehaus.org/browse/ANNOGEN-14
-      getLogger().error(cce);
+      mLogger.error(cce);
       return null;
     }
   }

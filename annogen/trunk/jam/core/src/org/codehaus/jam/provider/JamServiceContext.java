@@ -72,7 +72,7 @@ import java.io.IOException;
  *
  * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
-public interface JamServiceContext extends JamLogger/*killme*/ {
+public interface JamServiceContext {
 
   // ========================================================================
   // Public methods

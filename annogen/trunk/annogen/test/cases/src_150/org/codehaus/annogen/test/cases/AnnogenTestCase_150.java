@@ -23,6 +23,12 @@ import org.codehaus.annogen.override.AnnoContext;
 import org.codehaus.annogen.override.ElementId;
 import org.codehaus.annogen.override.AnnoBeanSet;
 import org.codehaus.annogen.override.AnnoBean;
+import org.codehaus.jam.JamServiceFactory;
+import org.codehaus.jam.JamServiceParams;
+
+import java.util.List;
+import java.util.ArrayList;
+import java.io.File;
 
 /**
  * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
@@ -30,11 +36,55 @@ import org.codehaus.annogen.override.AnnoBean;
 public final class AnnogenTestCase_150 extends AnnogenTestCase {
 
   // ========================================================================
+  // Constants
+
+  //FIXME put a knob on this please so we can get it from the ant script
+  private File[] CLASSPATH = { new File("build/annogen_test_samples") };
+
+  //FIXME put a knob on this please so we can get it from the ant script
+  private File[] SOURCEPATH = { /*new File(".","annogen/test/samples/src"),*/
+                                  new File(".","annogen/test/samples/src_150")};
+
+  // ========================================================================
   // Constructors
 
   public AnnogenTestCase_150() {}
 
   public AnnogenTestCase_150(String name) { super(name); }
+
+
+  // ========================================================================
+  // Protected methods
+
+  protected AnnogenContext[] initStuffers() throws Exception {
+    List list = new ArrayList();
+    {
+      // reflect stuffer
+      list.add(new ReflectContext(ClassLoader.getSystemClassLoader()));
+    }
+    {
+      // source-based jam stuffer
+      JamServiceFactory jsf = JamServiceFactory.getInstance();
+      JamServiceParams params = jsf.createServiceParams();
+      params.includeSourcePattern(SOURCEPATH,
+                                  "org/codehaus/annogen/test/samples/**/*.java");
+      list.add(new JamContext(jsf.createService(params).getClassLoader()));
+    }
+    {
+      // class-based jam stuffer
+      JamServiceFactory jsf = JamServiceFactory.getInstance();
+      JamServiceParams params = jsf.createServiceParams();
+      params.includeClassPattern(CLASSPATH,
+                                 "org/codehaus/annogen/test/samples/**/*.class");
+      list.add(new JamContext(jsf.createService(params).getClassLoader()));
+    }
+    {
+      // package up all the stuffers and return them
+      AnnogenContext[] out = new AnnogenContext[list.size()];
+      list.toArray(out);
+      return out;
+    }
+  }
 
   // ========================================================================
   // Test methods

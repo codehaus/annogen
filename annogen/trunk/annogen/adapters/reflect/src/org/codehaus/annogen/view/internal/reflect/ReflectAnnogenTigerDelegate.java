@@ -15,7 +15,7 @@
 package org.codehaus.annogen.view.internal.reflect;
 
 import org.codehaus.annogen.override.AnnoBeanSet;
-import org.codehaus.jam.internal.TigerDelegate;
+import org.codehaus.jam.internal.TigerDelegateHelper;
 import org.codehaus.jam.provider.JamLogger;
 
 import java.lang.reflect.Constructor;
@@ -25,7 +25,7 @@ import java.lang.reflect.Method;
 /**
  * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
-public abstract class ReflectAnnogenTigerDelegate extends TigerDelegate {
+public abstract class ReflectAnnogenTigerDelegate {
 
   // ========================================================================
   // Constants
@@ -37,7 +37,7 @@ public abstract class ReflectAnnogenTigerDelegate extends TigerDelegate {
   // Static methods
 
   public static ReflectAnnogenTigerDelegate create(JamLogger logger) {
-    if (!isTigerReflectionAvailable(logger)) return null;
+    if (!TigerDelegateHelper.isTigerReflectionAvailable(logger)) return null;
     // ok, if we could load that, let's new up the extractor delegate
     try {
       ReflectAnnogenTigerDelegate out = (ReflectAnnogenTigerDelegate)
@@ -45,7 +45,7 @@ public abstract class ReflectAnnogenTigerDelegate extends TigerDelegate {
       out.init(logger);
       return out;
     } catch (ClassNotFoundException e) {
-      issue14BuildWarning(e,logger);
+      TigerDelegateHelper.issue14BuildWarning(e,logger);
     } catch (IllegalAccessException e) {
       logger.error(e);
     } catch (InstantiationException e) {
@@ -63,13 +63,16 @@ public abstract class ReflectAnnogenTigerDelegate extends TigerDelegate {
   // ========================================================================
   // Proxy-type mapping methods
 
-  public abstract Class getAnnogenInfo_annoBeanClass(Class a175class)
-    throws ClassNotFoundException;
-
+  /**
+   * Returns the Jsr175 type of the given annotation object.  This is here
+   * just to factor away static references to java.lang.Annotation.
+   */
   public abstract Class getAnnotationClassFor(/*Annotation*/Object annotation);
 
   // ========================================================================
   // Annotation extraction methods
+
+  public abstract void init(JamLogger l);
 
   public abstract boolean extractAnnotations(AnnoBeanSet out, Package on);
 
@@ -85,12 +88,4 @@ public abstract class ReflectAnnogenTigerDelegate extends TigerDelegate {
 
   public abstract boolean extractAnnotations(AnnoBeanSet out, Constructor on, int parmNum);
 
-  // ========================================================================
-  // Misc methods
-
-  /**
-   * Returns the class of the AnnotationInfo.  Used by the code generator,
-   * just a little bit more robust than storing it by name.
-   */ 
-  public abstract Class getAnnogenInfoClass();
 }

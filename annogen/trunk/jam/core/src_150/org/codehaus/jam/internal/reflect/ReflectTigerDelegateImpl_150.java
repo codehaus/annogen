@@ -15,6 +15,8 @@
 package org.codehaus.jam.internal.reflect;
 
 import org.codehaus.jam.JClass;
+import org.codehaus.jam.JamClassLoader;
+import org.codehaus.jam.provider.JamLogger;
 import org.codehaus.jam.mutable.MAnnotatedElement;
 import org.codehaus.jam.mutable.MAnnotation;
 import org.codehaus.jam.mutable.MClass;
@@ -35,8 +37,20 @@ import java.lang.reflect.Modifier;
  */
 public final class ReflectTigerDelegateImpl_150 extends ReflectTigerDelegate {
 
+
+  // ========================================================================
+  // Private
+
+  private JamLogger mLogger;
+  private JamClassLoader mClassLoader;
+
   // ========================================================================
   // Reflect15Delegate implementation
+
+  public void init(JamLogger logger, JamClassLoader cl) {
+    mLogger = logger;
+    mClassLoader = cl;
+  }
 
   public void populateAnnotationTypeIfNecessary(Class cd,
                                                 MClass clazz,
@@ -187,7 +201,7 @@ public final class ReflectTigerDelegateImpl_150 extends ReflectTigerDelegate {
              anns.length);
           for(int j=0; j<anns.length; j++) populateAnnotation(nested[j],anns[j]);
         } else {
-          JClass type = mContext.getClassLoader().
+          JClass type = mClassLoader.
             loadClass(methods[i].getReturnType().getName());
           dest.setSimpleValue(methods[i].getName(),value,type);
         }

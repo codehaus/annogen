@@ -26,6 +26,7 @@ import com.sun.javadoc.ProgramElementDoc;
 import com.sun.javadoc.SourcePosition;
 import com.sun.javadoc.Type;
 import org.codehaus.jam.JClass;
+import org.codehaus.jam.JamClassLoader;
 import org.codehaus.jam.internal.elements.ElementContext;
 import org.codehaus.jam.mutable.MAnnotatedElement;
 import org.codehaus.jam.mutable.MAnnotation;
@@ -47,14 +48,17 @@ public final class JavadocTigerDelegateImpl_150 extends JavadocTigerDelegate {
   private boolean mAnnotationDefaultsDisabled = false;
 
   // ========================================================================
+  // Variables
+
+  private JamLogger mLogger;
+  private JamClassLoader mClassLoader;
+
+  // ========================================================================
   // Javadoc15Delegate implementation
 
   public void init(ElementContext ctx) {
-    if (mContext != null) {
-      throw new IllegalStateException("init called more than once");
-    }
-    mContext = ctx;
     mLogger = ctx.getLogger();
+    mClassLoader = ctx.getClassLoader();
 
     if (((JamServiceContext)ctx).getProperty(ANNOTATION_DEFAULTS_DISABLED_PROPERTY) != null) {
       mAnnotationDefaultsDisabled = true;
@@ -153,7 +157,6 @@ public final class JavadocTigerDelegateImpl_150 extends JavadocTigerDelegate {
 
   public void extractAnnotations(MAnnotatedElement dest,
                                  ProgramElementDoc src) {
-    if (mContext == null) throw new IllegalStateException("init not called");
     if (dest == null) throw new IllegalArgumentException("null dest");
     if (src == null) throw new IllegalArgumentException("null src");
     extractAnnotations(dest,src.annotations(),src.position());
@@ -248,17 +251,17 @@ if (mAnnotationDefaultsDisabled) return;
       populateAnnotation(nested,(AnnotationDesc)valueObj,sp);
     } else if (valueObj instanceof Number || valueObj instanceof Boolean) {
       String tn = JavadocClassBuilder.getFdFor(returnType);
-      JClass type = mContext.getClassLoader().loadClass(tn);
+      JClass type = mClassLoader.loadClass(tn);
       dest.setSimpleValue(memberName,valueObj,type);
     } else if (valueObj instanceof FieldDoc) {
       String tn = JavadocClassBuilder.getFdFor(((FieldDoc)valueObj).containingClass());
       // this means it's an enum constant
-      JClass type = mContext.getClassLoader().loadClass(tn);
+      JClass type = mClassLoader.loadClass(tn);
       String val = ((FieldDoc)valueObj).name(); //REVIEW is this right?
       dest.setSimpleValue(memberName,val,type);
     } else if (valueObj instanceof ClassDoc) {
       String tn = JavadocClassBuilder.getFdFor(((FieldDoc)valueObj).containingClass());
-       JClass clazz = mContext.getClassLoader().loadClass(tn);
+       JClass clazz = mClassLoader.loadClass(tn);
       dest.setSimpleValue(memberName,clazz,loadClass(JClass.class));
     } else if (valueObj instanceof String) {
       String v = ((String)valueObj).trim();
@@ -398,7 +401,7 @@ if (mAnnotationDefaultsDisabled) return;
   }
 
   private JClass loadClass(String fd) {
-    return mContext.getClassLoader().loadClass(fd);
+    return mClassLoader.loadClass(fd);
   }
 
   /**

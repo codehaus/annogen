@@ -17,7 +17,7 @@ package org.codehaus.annogen.view.internal.javadoc;
 import com.sun.javadoc.ExecutableMemberDoc;
 import com.sun.javadoc.ProgramElementDoc;
 import org.codehaus.annogen.override.AnnoBeanSet;
-import org.codehaus.jam.internal.TigerDelegate;
+import org.codehaus.jam.internal.TigerDelegateHelper;
 import org.codehaus.jam.provider.JamLogger;
 
 /**
@@ -26,7 +26,7 @@ import org.codehaus.jam.provider.JamLogger;
  *
  * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
-public abstract class JavadocAnnogenTigerDelegate extends TigerDelegate {
+public abstract class JavadocAnnogenTigerDelegate {
 
   // ========================================================================
   // Constants
@@ -38,7 +38,7 @@ public abstract class JavadocAnnogenTigerDelegate extends TigerDelegate {
   // Factory
 
   public static JavadocAnnogenTigerDelegate create(JamLogger logger) {
-    if (!isTigerJavadocAvailable(logger)) return null;
+    if (!TigerDelegateHelper.isTigerJavadocAvailable(logger)) return null;
     // ok, if we could load that, let's new up the extractor delegate
     try {
       JavadocAnnogenTigerDelegate out = (JavadocAnnogenTigerDelegate)
@@ -46,7 +46,7 @@ public abstract class JavadocAnnogenTigerDelegate extends TigerDelegate {
       out.init(logger);
       return out;
     } catch (ClassNotFoundException e) {
-      issue14BuildWarning(e,logger);
+      TigerDelegateHelper.issue14BuildWarning(e,logger);
     } catch (IllegalAccessException e) {
       logger.error(e);
     } catch (InstantiationException e) {
@@ -57,6 +57,8 @@ public abstract class JavadocAnnogenTigerDelegate extends TigerDelegate {
 
   // ========================================================================
   // Public methods
+
+  public abstract void init(JamLogger logger);
 
   /**
    *

@@ -25,9 +25,9 @@ package org.codehaus.jam;
 public interface JMethod extends JInvokable {
 
   /**
-   * Returns a JClass object representing the type of this methods
+   * <p>Returns a JClass object representing the type of this methods
    * return value.  Note that void methods will return a JClass
-   * representing void.</p>
+   * for which isVoidType() returns true.</p>
    */
   public JClass getReturnType();
 
@@ -42,8 +42,7 @@ public interface JMethod extends JInvokable {
   public boolean isStatic();
 
   /**
-   * Return true if this member is final.  Note that constructors are
-   * fields are never abstract.
+   * Return true if this member is abstract.
    */
   public boolean isAbstract();
 

@@ -18,11 +18,10 @@ import com.sun.javadoc.ClassDoc;
 import com.sun.javadoc.ExecutableMemberDoc;
 import com.sun.javadoc.Parameter;
 import com.sun.javadoc.ProgramElementDoc;
-import org.codehaus.jam.internal.TigerDelegate;
+import org.codehaus.jam.internal.TigerDelegateHelper;
 import org.codehaus.jam.internal.elements.ElementContext;
 import org.codehaus.jam.mutable.MAnnotatedElement;
 import org.codehaus.jam.mutable.MClass;
-import org.codehaus.jam.provider.JamLogger;
 
 /**
  * Provides an interface to 1.5-specific functionality.  The impl of
@@ -30,7 +29,7 @@ import org.codehaus.jam.provider.JamLogger;
  *
  * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
-public abstract class JavadocTigerDelegate extends TigerDelegate {
+public abstract class JavadocTigerDelegate {
 
   // ========================================================================
   // Constants
@@ -48,30 +47,11 @@ public abstract class JavadocTigerDelegate extends TigerDelegate {
   // ========================================================================
   // Factory
 
-  public static JavadocTigerDelegate create(JamLogger logger) {
-    if (!isTigerJavadocAvailable(logger)) return null;
-    // ok, if we could load that, let's new up the extractor delegate
-    try {
-      JavadocTigerDelegate out = (JavadocTigerDelegate)
-        Class.forName(JAVADOC_DELEGATE_IMPL).newInstance();
-      out.init(logger);
-      return out;
-    } catch (ClassNotFoundException e) {
-      issue14BuildWarning(e,logger);
-    } catch (IllegalAccessException e) {
-      logger.error(e);
-    } catch (InstantiationException e) {
-      logger.error(e);
-    }
-    return null;
-  }
-
   /**
-   * @deprecated
    */
   public static JavadocTigerDelegate create(ElementContext ctx)
   {
-    if (!isTigerJavadocAvailable(ctx.getLogger())) return null;
+    if (!TigerDelegateHelper.isTigerJavadocAvailable(ctx.getLogger())) return null;
     // ok, if we could load that, let's new up the extractor delegate
     try {
       JavadocTigerDelegate out = (JavadocTigerDelegate)
@@ -96,7 +76,7 @@ public abstract class JavadocTigerDelegate extends TigerDelegate {
    */ 
   public abstract boolean isEnum(ClassDoc cd);
 
-  public abstract void init(JamLogger logger);
+  public abstract void init(ElementContext ctx);
 
   public abstract void populateAnnotationTypeIfNecessary(ClassDoc cd,
                                                          MClass clazz,

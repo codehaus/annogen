@@ -14,12 +14,11 @@
  */
 package org.codehaus.annogen.view.internal;
 
-import org.codehaus.annogen.override.AnnoContext;
-import org.codehaus.annogen.override.AnnoOverrider;
 import org.codehaus.annogen.override.AnnoBean;
 import org.codehaus.annogen.override.AnnoBeanSet;
+import org.codehaus.annogen.override.AnnoContext;
+import org.codehaus.annogen.override.AnnoOverrider;
 import org.codehaus.annogen.override.ElementId;
-import org.codehaus.annogen.override.AnnoBeanMapping;
 import org.codehaus.annogen.override.internal.AnnoBeanSetImpl;
 import org.codehaus.annogen.override.internal.CompositeAnnoOverrider;
 import org.codehaus.annogen.override.internal.ElementIdImpl;
@@ -34,7 +33,6 @@ public abstract class AnnoViewerBase {
   // Variables
 
   private AnnoContext mContext;
-  private AnnoBeanMapping mMapping;
   private AnnoOverrider mOverrider;
   protected JamLogger mLogger;
 
@@ -43,7 +41,7 @@ public abstract class AnnoViewerBase {
 
   public AnnoViewerBase(AnnoViewerParamsImpl asp) {
     if (asp == null) throw new IllegalArgumentException("null asp");
-    AnnoOverrider[] pps = asp.getPopulators();
+    AnnoOverrider[] pps = asp.getOverriders();
     if (pps == null || pps.length == 0) {
       mOverrider = null;
     } else if (pps.length == 1) {
@@ -52,7 +50,6 @@ public abstract class AnnoViewerBase {
       mOverrider = new CompositeAnnoOverrider(pps);
     }
     if (mOverrider != null) mOverrider.init(asp);
-    mMapping = asp.getAnnoBeanMapping();
     mLogger = asp.getLogger();
     mContext = (AnnoContext)asp;
   }
@@ -80,7 +77,7 @@ public abstract class AnnoViewerBase {
   /*protected*/ public AnnoBean getAnnotation(Class what, ElementId where) {
     Class beanClass;
     try {
-      beanClass = mMapping.getAnnoBeanClassForRequest(what);
+      beanClass = mContext.getAnnobeanClassFor(what);
     } catch(ClassNotFoundException cnfe) {
       mLogger.error(cnfe);
       return null;

@@ -15,8 +15,8 @@
 package org.codehaus.annogen.override.internal;
 
 import org.codehaus.annogen.generate.Annogen;
-import org.codehaus.annogen.override.AnnoContext;
 import org.codehaus.annogen.override.AnnoBean;
+import org.codehaus.annogen.override.AnnoContext;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -79,7 +79,7 @@ public /*abstract*/ class AnnoBeanBase implements AnnoBean {
     assertInited();
     try {
       Class c =
-        mContext.getAnnoBeanMapping().getAnnoBeanClassForRequest(beanOrAnnoType);
+        mContext.getAnnobeanClassFor(beanOrAnnoType);
       if (c == null) return null;
       return mContext.createAnnoBeanFor(c);
     } catch (ClassNotFoundException e) {
@@ -101,8 +101,8 @@ public /*abstract*/ class AnnoBeanBase implements AnnoBean {
 
   public Class annotationType() {
     try {
-      return mContext.getAnnoBeanMapping().
-        getDeclaredClassForAnnoBeanClass(this.getClass());
+      return mContext.
+          getJsr175ClassForAnnobeanClass(this.getClass());
     } catch(ClassNotFoundException cnfe) {
       mContext.getLogger().error(cnfe);
       return null;

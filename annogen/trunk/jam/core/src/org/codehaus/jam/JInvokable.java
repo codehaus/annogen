@@ -77,4 +77,5 @@ public abstract interface JInvokable extends JMember {
    * if the method throws no exceptions.</p>
    */
   public JClass[] getExceptionTypes();
+
 }

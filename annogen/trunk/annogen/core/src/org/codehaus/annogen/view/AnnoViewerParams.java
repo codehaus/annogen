@@ -40,13 +40,24 @@ public interface AnnoViewerParams {
   // ========================================================================
   // Public methods
 
+  /**
+   * Adds an anno overrider that will be consulted by the AnnoViewer
+   * constructed from these params.
+   */
   public void addOverrider(AnnoOverrider ao);
+
+  /**
+   * Sets the classloader from which Annobeans will be loaded.  By default,
+   * the system classloader is used.
+   */
+  public void setClassLoader(ClassLoader c);
 
   /**
    * </p>Enables verbose debugging output from all instances of the given
    * class.</p>
    */
   public void setVerbose(Class c);
+
 
 
 }

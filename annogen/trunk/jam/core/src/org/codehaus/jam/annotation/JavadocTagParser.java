@@ -26,6 +26,8 @@ import org.codehaus.jam.provider.JamLogger;
 import org.codehaus.jam.provider.JamServiceContext;
 
 /**
+ * @deprecated
+ *
  * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public abstract class JavadocTagParser {

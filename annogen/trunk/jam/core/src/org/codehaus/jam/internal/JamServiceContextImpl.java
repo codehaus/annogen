@@ -17,7 +17,6 @@ package org.codehaus.jam.internal;
 
 import org.codehaus.jam.JamClassLoader;
 import org.codehaus.jam.JamServiceParams;
-import org.codehaus.jam.annotation.AnnotationProxy;
 import org.codehaus.jam.annotation.DefaultAnnotationProxy;
 import org.codehaus.jam.annotation.JavadocTagParser;
 import org.codehaus.jam.annotation.WhitespaceDelimitedTagParser;
@@ -50,7 +49,7 @@ import java.util.Set;
  *
  * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
-public class JamServiceContextImpl extends JamLoggerImpl implements JamServiceContext,
+public class JamServiceContextImpl implements JamServiceContext,
   JamServiceParams, ElementContext
 {
 
@@ -61,6 +60,8 @@ public class JamServiceContextImpl extends JamLoggerImpl implements JamServiceCo
 
   // ========================================================================
   // Variables
+
+  private JamLogger mLogger = new JamLoggerImpl();
 
   private boolean m14WarningsEnabled = false;
   private Properties mProperties = null;
@@ -150,7 +151,7 @@ public class JamServiceContextImpl extends JamLoggerImpl implements JamServiceCo
     return out;
   }
 
-  public JamLogger getLogger() { return this; }
+  public JamLogger getLogger() { return mLogger; }
 
   /*
   public String[] getSourceClassnames() throws IOException {
@@ -173,14 +174,10 @@ public class JamServiceContextImpl extends JamLoggerImpl implements JamServiceCo
     if (mSourceRoot2Scanner != null) {
       for(Iterator i = mSourceRoot2Scanner.values().iterator(); i.hasNext(); ) {
         DirectoryScanner ds = (DirectoryScanner)i.next();
-        if (isVerbose(this)) {
-          verbose(PREFIX+ " checking scanner for dir"+ds.getRoot());
-        }
+        verbose(PREFIX+ " checking scanner for dir"+ds.getRoot());
         String[] files = ds.getIncludedFiles();
         for(int j=0; j<files.length; j++) {
-          if (isVerbose(this)) {
-            verbose(PREFIX+ " ...including a source file "+files[j]);
-          }
+          verbose(PREFIX+ " ...including a source file "+files[j]);
           set.add(new File(ds.getRoot(),files[j]));
         }
       }
@@ -189,8 +186,8 @@ public class JamServiceContextImpl extends JamLoggerImpl implements JamServiceCo
     // know the difference, but eventually we're going to care
     // when we introduce lazy parsing
     if (mUnstructuredSourceFiles != null) {
-      if (isVerbose(this)) verbose(PREFIX+ "adding "+mUnstructuredSourceFiles.size()+
-                            " other source files");
+      verbose(PREFIX+ "adding "+mUnstructuredSourceFiles.size()+
+              " other source files");
       set.addAll(mUnstructuredSourceFiles);
     }
     File[] out = new File[set.size()];
@@ -265,7 +262,7 @@ public class JamServiceContextImpl extends JamLoggerImpl implements JamServiceCo
   public void includeSourceFile(File file) {
     if (file == null) throw new IllegalArgumentException("null file");
     file = file.getAbsoluteFile();
-    if (isVerbose(this)) verbose(PREFIX+ "adding source ");
+    verbose(PREFIX+ "adding source ");
     if (!file.exists()) throw new IllegalArgumentException(file+" does not exist");
     if (file.isDirectory()) throw new IllegalArgumentException
       (file+" cannot be included as a source file because it is a directory.");    
@@ -282,7 +279,7 @@ public class JamServiceContextImpl extends JamLoggerImpl implements JamServiceCo
     pattern = pattern.trim();
     if (pattern.length() == 0) throw new IllegalArgumentException("empty pattern");
     for(int i=0; i<sourcepath.length; i++) {
-      if (isVerbose(this)) verbose(PREFIX+ "including '"+pattern+"' under "+sourcepath[i]);
+      verbose(PREFIX+ "including '"+pattern+"' under "+sourcepath[i]);
       addSourcepath(sourcepath[i]);
       getSourceScanner(sourcepath[i]).include(pattern);
     }
@@ -295,7 +292,7 @@ public class JamServiceContextImpl extends JamLoggerImpl implements JamServiceCo
     pattern = pattern.trim();
     if (pattern.length() == 0) throw new IllegalArgumentException("empty pattern");
     for(int i=0; i<classpath.length; i++) {
-      if (isVerbose(this)) verbose(PREFIX+ "including '"+pattern+"' under "+classpath[i]);
+      verbose(PREFIX+ "including '"+pattern+"' under "+classpath[i]);
       addClasspath(classpath[i]);
       getClassScanner(classpath[i]).include(pattern);
     }
@@ -308,7 +305,7 @@ public class JamServiceContextImpl extends JamLoggerImpl implements JamServiceCo
     pattern = pattern.trim();
     if (pattern.length() == 0) throw new IllegalArgumentException("empty pattern");
     for(int i=0; i<sourcepath.length; i++) {
-      if (isVerbose(this)) verbose(PREFIX+ "EXCLUDING '"+pattern+"' under "+sourcepath[i]);
+      verbose(PREFIX+ "EXCLUDING '"+pattern+"' under "+sourcepath[i]);
       addSourcepath(sourcepath[i]);
       getSourceScanner(sourcepath[i]).exclude(pattern);
     }
@@ -321,7 +318,7 @@ public class JamServiceContextImpl extends JamLoggerImpl implements JamServiceCo
     pattern = pattern.trim();
     if (pattern.length() == 0) throw new IllegalArgumentException("empty pattern");
     for(int i=0; i<classpath.length; i++) {
-      if (isVerbose(this)) verbose(PREFIX+ "EXCLUDING '"+pattern+"' under "+classpath[i]);
+      verbose(PREFIX+ "EXCLUDING '"+pattern+"' under "+classpath[i]);
       addClasspath(classpath[i]);
       getClassScanner(classpath[i]).exclude(pattern);
     }
@@ -367,11 +364,27 @@ public class JamServiceContextImpl extends JamLoggerImpl implements JamServiceCo
   }
 
   public void setLoggerWriter(PrintWriter out) {
-    super.setOut(out);//FIXME
+    if (mLogger instanceof JamLoggerImpl) {
+      ((JamLoggerImpl)mLogger).setOut(out);
+    } else {
+      throw new IllegalStateException();
+    }
   }
 
   public void setJamLogger(JamLogger logger) {
-    throw new IllegalStateException("NYI");  //have to untangle some mess first
+    mLogger = logger;
+  }
+
+  public void setVerbose(Class c) {
+    mLogger.setVerbose(c);
+  }
+
+  public void setShowWarnings(boolean b) {
+    mLogger.setShowWarnings(b);
+  }
+
+  public void setVerbose(boolean v) {
+    if (v) mLogger.setVerbose(java.lang.Object.class);
   }
 
 
@@ -401,9 +414,6 @@ public class JamServiceContextImpl extends JamLoggerImpl implements JamServiceCo
   public void set14WarningsEnabled(boolean b) {
     m14WarningsEnabled = b;
   }
-
-
-  //public void setLogger(PrintWriter out) { mOut = out; }
 
 
   public void setParentClassLoader(JamClassLoader loader) {
@@ -451,8 +461,8 @@ public class JamServiceContextImpl extends JamLoggerImpl implements JamServiceCo
 
   public JamClassLoader getClassLoader() { return mLoader; }
 
-  public AnnotationProxy createAnnotationProxy(String jsr175typename) {
-    AnnotationProxy out = new DefaultAnnotationProxy();
+  public DefaultAnnotationProxy createAnnotationProxy(String jsr175typename) {
+    DefaultAnnotationProxy out = new DefaultAnnotationProxy();
     out.init(this);
     return out;
   }
@@ -467,25 +477,30 @@ public class JamServiceContextImpl extends JamLoggerImpl implements JamServiceCo
     if (sourcepath.length == 0) throw new IllegalArgumentException("empty sourcepath");
     if (sourceFile == null) throw new IllegalArgumentException("null sourceFile");
     sourceFile = sourceFile.getAbsoluteFile();
-    if (isVerbose(this)) verbose(PREFIX+"Getting root for "+sourceFile+"...");
+    if (mLogger.isVerbose(this)) {
+      mLogger.verbose(PREFIX+"Getting root for "+sourceFile+"...");
+    }
     for(int i=0; i<sourcepath.length; i++) {
-      if (isVerbose(this)) verbose(PREFIX+"...looking in "+sourcepath[i]);
+      if (mLogger.isVerbose(this)) {
+        mLogger.verbose(PREFIX+"...looking in "+sourcepath[i]);
+      }
       if (isContainingDir(sourcepath[i].getAbsoluteFile(),sourceFile)) {
-        if (isVerbose(this)) verbose(PREFIX+"...found it!");
+        verbose(PREFIX+"...found it!");
         return sourcepath[i].getAbsoluteFile();
       }
     }
     throw new IllegalArgumentException(sourceFile+" is not in the given path.");
   }
 
+
   /**
    * Returns true if the given dir contains the given file.
    */
   private boolean isContainingDir(File dir, File file) {
-    if (isVerbose(this)) verbose(PREFIX+ "... ...isContainingDir "+dir+"  "+file);
+    verbose(PREFIX+ "... ...isContainingDir "+dir+"  "+file);
     if (file == null) return false;
     if (dir.equals(file)) {
-      if (isVerbose(this)) verbose(PREFIX+ "... ...yes!");
+      verbose(PREFIX+ "... ...yes!");
       return true;
     }
     return isContainingDir(dir,file.getParentFile());
@@ -496,13 +511,11 @@ public class JamServiceContextImpl extends JamLoggerImpl implements JamServiceCo
    * given root.
    */
   private String source2pattern(File root, File sourceFile) {
-    if (isVerbose(this)) verbose(PREFIX+ "source2pattern "+root+"  "+sourceFile);
+    verbose(PREFIX+ "source2pattern "+root+"  "+sourceFile);
     //REVIEW this is a bit cheesy
     String r = root.getAbsolutePath();
     String s = sourceFile.getAbsolutePath();
-    if (isVerbose(this)) {
-      verbose(PREFIX+ "source2pattern returning "+s.substring(r.length()+1));
-    }
+    verbose(PREFIX+ "source2pattern returning "+s.substring(r.length()+1));
     return s.substring(r.length()+1);
   }
 
@@ -553,7 +566,7 @@ public class JamServiceContextImpl extends JamLoggerImpl implements JamServiceCo
     if (mSourceRoot2Scanner == null) mSourceRoot2Scanner = new HashMap();
     DirectoryScanner out = (DirectoryScanner)mSourceRoot2Scanner.get(srcRoot);
     if (out == null) {
-      mSourceRoot2Scanner.put(srcRoot,out = new DirectoryScanner(srcRoot,this));
+      mSourceRoot2Scanner.put(srcRoot,out = new DirectoryScanner(srcRoot,mLogger));
     }
     return out;
   }
@@ -566,8 +579,13 @@ public class JamServiceContextImpl extends JamLoggerImpl implements JamServiceCo
     if (mClassRoot2Scanner == null) mClassRoot2Scanner = new HashMap();
     DirectoryScanner out = (DirectoryScanner)mClassRoot2Scanner.get(clsRoot);
     if (out == null) {
-      mClassRoot2Scanner.put(clsRoot,out = new DirectoryScanner(clsRoot,this));
+      mClassRoot2Scanner.put(clsRoot,out = new DirectoryScanner(clsRoot,mLogger));
     }
     return out;
   }
+
+  private final void verbose(String msg) {
+    if (mLogger.isVerbose(this)) mLogger.verbose(msg);
+  }
+
 }

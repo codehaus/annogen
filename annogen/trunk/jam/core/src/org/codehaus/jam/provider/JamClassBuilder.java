@@ -133,7 +133,7 @@ public abstract class JamClassBuilder {
     return out;
   }
 
-  protected JamLogger getLogger() { return mContext; }
+  protected JamLogger getLogger() { return mContext.getLogger(); }
 
 
   /**

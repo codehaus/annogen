@@ -88,5 +88,5 @@ public abstract interface JElement {
    * <p>Returns the same String as getQualifiedName().</p>
    */
   public String toString();
-  
+
 }

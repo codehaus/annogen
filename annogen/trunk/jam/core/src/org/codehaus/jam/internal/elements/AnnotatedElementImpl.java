@@ -3,7 +3,7 @@ package org.codehaus.jam.internal.elements;
 import org.codehaus.jam.JAnnotation;
 import org.codehaus.jam.JAnnotationValue;
 import org.codehaus.jam.JComment;
-import org.codehaus.jam.annotation.AnnotationProxy;
+import org.codehaus.jam.annotation.DefaultAnnotationProxy;
 import org.codehaus.jam.mutable.MAnnotatedElement;
 import org.codehaus.jam.mutable.MAnnotation;
 import org.codehaus.jam.mutable.MComment;
@@ -120,7 +120,7 @@ public abstract class AnnotatedElementImpl extends ElementImpl
     //ClassImpl.validateClassName(annotationName);
     MAnnotation ann = getMutableAnnotation(annotationName);
     if (ann != null) return ann;
-    AnnotationProxy proxy = getContext().
+    DefaultAnnotationProxy proxy = getContext().
       createAnnotationProxy(annotationName);
     ann = new AnnotationImpl(getContext(),proxy,annotationName);
     if (mName2Annotation == null) {
@@ -136,7 +136,7 @@ public abstract class AnnotatedElementImpl extends ElementImpl
     // otherwise, we have to create an 'extra' one.  note this will only
     // happen when processing javadoc tags where more than one tag of a given
     // name appears in a given scope
-    AnnotationProxy proxy = getContext().createAnnotationProxy(annName);
+    DefaultAnnotationProxy proxy = getContext().createAnnotationProxy(annName);
     MAnnotation ann = new AnnotationImpl(getContext(),proxy,annName);
     if (mAllAnnotations == null) mAllAnnotations = new ArrayList();
     mAllAnnotations.add(ann);
@@ -183,7 +183,7 @@ public abstract class AnnotatedElementImpl extends ElementImpl
    * be removed soon.
    */
   public MAnnotation addAnnotationForProxy(Class proxyClass,
-                                           AnnotationProxy proxy)
+                                           DefaultAnnotationProxy proxy)
   {
     //ClassImpl.validateClassName(annotationName);
     String annotationName = proxyClass.getName();

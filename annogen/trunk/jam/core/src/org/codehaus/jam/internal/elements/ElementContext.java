@@ -15,7 +15,7 @@
 package org.codehaus.jam.internal.elements;
 
 import org.codehaus.jam.JamClassLoader;
-import org.codehaus.jam.annotation.AnnotationProxy;
+import org.codehaus.jam.annotation.DefaultAnnotationProxy;
 import org.codehaus.jam.provider.JamLogger;
 
 /**
@@ -23,7 +23,7 @@ import org.codehaus.jam.provider.JamLogger;
  *
  * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
-public interface ElementContext extends JamLogger /**REMOVE THIS EXTENDS PLEASE*/ {
+public interface ElementContext {
 
   public JamLogger getLogger();
 
@@ -37,6 +37,6 @@ public interface ElementContext extends JamLogger /**REMOVE THIS EXTENDS PLEASE*
    * <p>Creates an empty appropriate proxy for the given 175 annotation
    * instance.</p>
    */
-  public AnnotationProxy createAnnotationProxy(String jsr175typename);
+  public DefaultAnnotationProxy createAnnotationProxy(String jsr175typename);
 
 }

@@ -195,9 +195,9 @@ public class JamServiceFactoryImpl extends JamServiceFactory {
   {
     File[] sources = ctx.getSourceFiles();
     if (sources == null || sources.length == 0) {
-      if (ctx.isVerbose(this)) {
-        ctx.verbose(PREFIX+ "no source files present, "+
-                    "skipping source ClassBuilder");
+      if (ctx.getLogger().isVerbose(this)) {
+        ctx.getLogger().verbose(PREFIX+ "no source files present, "+
+                                "skipping source ClassBuilder");
       }
       return null;
     }

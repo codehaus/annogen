@@ -59,7 +59,10 @@
     <annogen outputdir='${codegen_build_dir}' srcdir='${samples_dir}/src_150'
              includes='org/codehaus/annogen/test/samples/annotations/*.java'
              classpathref='classpath'
-             implementAnnotationTypes='true'/>
+             implementAnnotationTypes='true'>
+      <mapping type='org.codehaus.annogen.test.samples.annotations.*'
+               bean='org.codehaus.annogen.test.samples.annotations.impl.*Impl'/>
+    </annogen>
     <javac destdir='${samples_build_dir}' source='1.5' target='1.5'
            debug='on' classpathref='classpath'>
       <src path='${samples_dir}/src_150'/>
@@ -72,7 +75,7 @@
   </target>
 
   <!-- fixme we skip unless 150 because we have no non-150 tests right now -->
-  <target name='run' depends='do150check' if='is150'>
+  <target name='run' depends='do150check'>
 
     <!--
       If you get errors here about not being able to load the junit task,

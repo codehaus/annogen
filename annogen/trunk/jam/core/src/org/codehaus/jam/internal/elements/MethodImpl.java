@@ -100,6 +100,7 @@ public final class MethodImpl extends InvokableImpl implements MMethod {
   public boolean isSynchronized() {
     return Modifier.isSynchronized(getModifiers());
   }
+  
 
   // ========================================================================
   // Element implementation

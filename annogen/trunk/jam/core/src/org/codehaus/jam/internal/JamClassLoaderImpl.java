@@ -108,7 +108,7 @@ public class JamClassLoaderImpl implements JamClassLoader {
             name = fd.substring(dot+1);
           }
           out = new UnresolvedClassImpl(pkg,name,mContext);
-          mContext.warning("failed to resolve class "+fd);
+          mContext.getLogger().warning("failed to resolve class "+fd);
           cachePut(out);
         }
         return out;
@@ -132,7 +132,7 @@ public class JamClassLoaderImpl implements JamClassLoader {
       //something.  We need to break out a separate checkClass() method
       //or something for them which returns null rather than UnresolvedClass.
       out = new UnresolvedClassImpl(pkg,name,mContext);
-      mContext.warning("failed to resolve class "+fd);
+      mContext.getLogger().warning("failed to resolve class "+fd);
       cachePut(out);
       return out;
     }

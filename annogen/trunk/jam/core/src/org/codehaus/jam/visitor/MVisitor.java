@@ -22,6 +22,7 @@ import org.codehaus.jam.mutable.MField;
 import org.codehaus.jam.mutable.MMethod;
 import org.codehaus.jam.mutable.MPackage;
 import org.codehaus.jam.mutable.MParameter;
+import org.codehaus.jam.mutable.MTag;
 
 /**
  * <p>To be extended by classes which wish to traverse an MElement tree.</p>
@@ -45,5 +46,7 @@ public abstract class MVisitor {
   public void visit(MAnnotation ann) {}
 
   public void visit(MComment comment) {}
+
+  public void visit(MTag tag) {}
 
 }

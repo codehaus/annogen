@@ -15,7 +15,6 @@
 package org.codehaus.annogen.view.internal;
 
 import org.codehaus.annogen.override.AnnoBeanSet;
-import org.codehaus.annogen.view.internal.IndigenousAnnoExtractor;
 
 /**
  * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;

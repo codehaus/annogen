@@ -25,7 +25,10 @@ import java.util.Properties;
  * This provides ejbgen-style tag parsing: tag contents
  * are treated as whitespace-separated name=value pairs, where values
  * can be double-quoted.
- * 
+ *
+ * @deprecated The tag mapping mechanism in JAM has been deprecated.
+ * Instead, please use Annogen to do tag-to-175 mappings.
+ *
  * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public class WhitespaceDelimitedTagParser extends JavadocTagParser {
@@ -70,7 +73,7 @@ public class WhitespaceDelimitedTagParser extends JavadocTagParser {
    *
    * This method contributed by Cedric Beust
    */
-  private void parseAssignments(Properties out, String line) {
+  public void parseAssignments(Properties out, String line) {
     getLogger().verbose("PARSING LINE " + line,this);
     String originalLine = line;
     line = removeComments(line);

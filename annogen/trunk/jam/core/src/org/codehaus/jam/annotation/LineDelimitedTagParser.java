@@ -25,6 +25,9 @@ import java.util.StringTokenizer;
  * <p>Attempts to parse tag contents as a series of line-delimited name-value
  * pairs.</p>
  *
+ * @deprecated The tag mapping mechanism in JAM has been deprecated.
+ * Instead, please use Annogen to do tag-to-175 mappings.
+ *
  * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public class LineDelimitedTagParser extends JavadocTagParser {

@@ -33,8 +33,6 @@ public class JamLoggerImpl implements JamLogger {
   private Set mVerboseClasses = null;
   private PrintWriter mOut = new PrintWriter(System.out,true);
 
-  //FIXME temp until JamServiceContextImpl is no longer a subclass
-  protected void setOut(PrintWriter out) { mOut= out; }
 
   // ========================================================================
   // JamLogger implementation
@@ -114,17 +112,19 @@ public class JamLoggerImpl implements JamLogger {
     mOut.println(msg);
   }
 
+
   // ========================================================================
   // Deprecated methods
-
-  public void setVerbose(boolean v) { setVerbose(Object.class); }
 
   public boolean isVerbose() { return mVerboseClasses != null; }
 
   // ========================================================================
   // Private methods
 
-  private void printVerbosePrefix() {
+  public void setOut(PrintWriter out) { mOut= out; }
+
+  protected void printVerbosePrefix()
+  {
     StackTraceElement[] st = new Exception().getStackTrace();
     mOut.println("[JAM] Verbose: ");
     mOut.print('(');

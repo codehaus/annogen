@@ -44,6 +44,7 @@ public abstract class ElementImpl implements Comparable, MElement {
   public static final ParameterImpl[] NO_PARAMETER = new ParameterImpl[0];
   public static final JPackage[] NO_PACKAGE = new JPackage[0];//FIXME
   public static final AnnotationImpl[] NO_ANNOTATION = new AnnotationImpl[0];
+  public static final TagImpl[] NO_TAG = new TagImpl[0];
 
   public static final CommentImpl[] NO_COMMENT = new CommentImpl[0];
   public static final JProperty[] NO_PROPERTY = new JProperty[0];//FIXME

@@ -29,7 +29,7 @@ public interface MAnnotatedElement extends MElement, JAnnotatedElement {
 //  public MAnnotation[] getLiteralMutableAnnotations();
 
 //  public MAnnotation[] getLiteralMutableAnnotations(String named);
-
+  
 
   //DOCME
   public MComment getMutableComment();

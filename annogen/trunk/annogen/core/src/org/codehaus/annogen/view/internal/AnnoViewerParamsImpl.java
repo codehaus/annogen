@@ -14,12 +14,12 @@
  */
 package org.codehaus.annogen.view.internal;
 
+import org.codehaus.annogen.generate.Annogen;
+import org.codehaus.annogen.generate.internal.PropfileUtils;
+import org.codehaus.annogen.override.AnnoBean;
 import org.codehaus.annogen.override.AnnoContext;
 import org.codehaus.annogen.override.AnnoOverrider;
-import org.codehaus.annogen.override.AnnoBean;
-import org.codehaus.annogen.override.AnnoBeanMapping;
 import org.codehaus.annogen.override.internal.AnnoBeanBase;
-import org.codehaus.annogen.override.internal.DefaultAnnoBeanMapping;
 import org.codehaus.annogen.view.AnnoViewerParams;
 import org.codehaus.jam.internal.JamLoggerImpl;
 import org.codehaus.jam.provider.JamLogger;
@@ -27,12 +27,19 @@ import org.codehaus.jam.provider.JamLogger;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.Reader;
+import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.LinkedList;
-
-//FIXME factor out the stuf that is now redundant with AnnoContextImpl
+import java.util.Map;
 
 /**
+ * Implementation of both AnnoViewerParams and AnnoContext.  Those
+ * two interfaces are really just write-only and read-only APIs, respectively,
+ * to the same information - the params is the way the user sets up the
+ * context in which the viewer will act.
+ *
  * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public class AnnoViewerParamsImpl implements AnnoViewerParams, AnnoContext {
@@ -42,14 +49,13 @@ public class AnnoViewerParamsImpl implements AnnoViewerParams, AnnoContext {
 
   private LinkedList mPopulators = new LinkedList();
   private JamLogger mLogger = new JamLoggerImpl();
-  private AnnoBeanMapping mAnnoTypeRegistry;
+  private ClassLoader mClassLoader = ClassLoader.getSystemClassLoader();
+  private Map mMappingCache = new HashMap();
 
   // ========================================================================
   // Constructors
 
-  public AnnoViewerParamsImpl() {
-    mAnnoTypeRegistry = new DefaultAnnoBeanMapping(mLogger);
-  }
+  public AnnoViewerParamsImpl() {}
 
   // ========================================================================
   // Public methods
@@ -68,6 +74,14 @@ public class AnnoViewerParamsImpl implements AnnoViewerParams, AnnoContext {
     mPopulators.addFirst(over);
   }
 
+  public void setClassLoader(ClassLoader c) {
+    mClassLoader = c;
+  }
+
+  public void setLogger(JamLogger logger) {
+    mLogger = logger;
+  }
+
   public void setVerbose(Class c) {
     mLogger.setVerbose(c);
   }
@@ -80,7 +94,7 @@ public class AnnoViewerParamsImpl implements AnnoViewerParams, AnnoContext {
   // ========================================================================
   // Internal use only
 
-  public AnnoOverrider[] getPopulators() {
+  public AnnoOverrider[] getOverriders() {
     AnnoOverrider[] out = new AnnoOverrider[mPopulators.size()];
     mPopulators.toArray(out);
     return out;
@@ -91,12 +105,47 @@ public class AnnoViewerParamsImpl implements AnnoViewerParams, AnnoContext {
 
   public JamLogger getLogger() { return mLogger; }
 
-  public AnnoBeanMapping getAnnoBeanMapping() {
-    return mAnnoTypeRegistry;
+  public Class getAnnobeanClassFor(Class clazz)
+    throws ClassNotFoundException
+  {
+    Class out = (Class)mMappingCache.get(clazz);
+    if (out == null) {
+      mMappingCache.put(clazz, out = getAnnobeanClassForNocache(clazz));
+    }
+    return out;
+  }
+
+  public Class getJsr175ClassForAnnobeanClass(Class beanClass)
+    throws ClassNotFoundException
+  {
+    if (!AnnoBean.class.isAssignableFrom(beanClass)) {
+      throw new IllegalArgumentException(beanClass.getName()+
+                                         " is not a AnnoBean");
+    }
+    Field f;
+    try {
+      f = beanClass.getField(Annogen.PROXY_FOR_FIELD);
+    } catch(NoSuchFieldException nsfe) {
+      throw new IllegalArgumentException
+        (beanClass.getName()+" is an AnnoBean but does not have a "+
+         Annogen.PROXY_FOR_FIELD+" field");
+    }
+    String declaredTypeName;
+    try {
+      declaredTypeName = (String)f.get(null);
+      return beanClass.getClass().getClassLoader().loadClass(declaredTypeName);
+    } catch (IllegalAccessException e) {
+      try {
+        throw new ClassNotFoundException().initCause(e);
+      } catch(Throwable unlikely) {
+        unlikely.printStackTrace();
+        throw new IllegalStateException();
+      }
+    }
   }
 
   public ClassLoader getClassLoader() {
-    return ClassLoader.getSystemClassLoader(); //FIXME
+    return mClassLoader;
   }
 
   public AnnoBean createAnnoBeanFor(Class beanClass) {
@@ -111,4 +160,27 @@ public class AnnoViewerParamsImpl implements AnnoViewerParams, AnnoContext {
     }
     return null;
   }
+
+  // ========================================================================
+  // Private methods
+
+  private Class getAnnobeanClassForNocache(Class requestedClass)
+    throws ClassNotFoundException
+  {
+    if (AnnoBean.class.isAssignableFrom(requestedClass)) {
+      // if it already is one, we're good
+      return requestedClass;
+    } else {
+      try {
+        return PropfileUtils.getInstance().getAnnobeanTypeFor(requestedClass,
+                                                              mClassLoader);
+      } catch(IOException ioe) {
+        ClassNotFoundException cnfe = new ClassNotFoundException();
+        cnfe.initCause(ioe);
+        throw cnfe;
+      }
+    }
+  }
+
+
 }

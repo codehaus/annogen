@@ -15,27 +15,24 @@
 package org.codehaus.annogen.test.cases;
 
 import junit.framework.TestCase;
+import org.codehaus.annogen.generate.AnnoBeanMapping;
+import org.codehaus.annogen.generate.Annogen;
+import org.codehaus.annogen.generate.internal.PropfileUtils;
+import org.codehaus.jam.JClass;
+import org.codehaus.jam.JamService;
 import org.codehaus.jam.JamServiceFactory;
-import org.codehaus.jam.JamServiceParams;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.io.File;
+import java.io.IOException;
+import java.net.URLClassLoader;
+import java.net.URL;
+import java.util.Properties;
 
 /**
  * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
-public abstract class AnnogenTestCase extends TestCase {
+public class AnnogenTestCase extends TestCase {
 
-  // ========================================================================
-  // Constants
-
-  //FIXME put a knob on this please so we can get it from the ant script
-  private File[] CLASSPATH = { new File("build/annogen_test_samples") };
-
-  //FIXME put a knob on this please so we can get it from the ant script
-  private File[] SOURCEPATH = { /*new File(".","annogen/test/samples/src"),*/
-                                  new File(".","annogen/test/samples/src_150")};
 
   // ========================================================================
   // Variables
@@ -53,33 +50,7 @@ public abstract class AnnogenTestCase extends TestCase {
   // Protected methods
 
   protected AnnogenContext[] initStuffers() throws Exception {
-    List list = new ArrayList();
-    {
-      // reflect stuffer
-      list.add(new ReflectContext(ClassLoader.getSystemClassLoader()));
-    }
-    {
-      // source-based jam stuffer
-      JamServiceFactory jsf = JamServiceFactory.getInstance();
-      JamServiceParams params = jsf.createServiceParams();
-      params.includeSourcePattern(SOURCEPATH,
-                                  "org/codehaus/annogen/test/samples/**/*.java");
-      list.add(new JamContext(jsf.createService(params).getClassLoader()));
-    }
-    {
-      // class-based jam stuffer
-      JamServiceFactory jsf = JamServiceFactory.getInstance();
-      JamServiceParams params = jsf.createServiceParams();
-      params.includeClassPattern(CLASSPATH,
-                                 "org/codehaus/annogen/test/samples/**/*.class");
-      list.add(new JamContext(jsf.createService(params).getClassLoader()));
-    }
-    {
-      // package up all the stuffers and return them
-      AnnogenContext[] out = new AnnogenContext[list.size()];
-      list.toArray(out);
-      return out;
-    }
+    return new AnnogenContext[0];
   }
 
   protected AnnogenContext[] getStuffers() {
@@ -97,5 +68,54 @@ public abstract class AnnogenTestCase extends TestCase {
   // ========================================================================
   // Test methods
 
-  public void testPleaseAddSome14SafeTests() {}
+  public void testAnnoBeanMappingLogic() {
+    {
+      String type = "com.foo.bar.SimpleAnno";
+      String bean = "com.foo.bar.annobeans.SimpleAnnoBean";
+      AnnoBeanMapping abm = new AnnoBeanMapping(type,bean);
+      assertTrue(abm.getAnnoBeanFor(type).equals(bean));
+      assertTrue(abm.getAnnoBeanFor(type+"random") == null);
+      assertTrue(abm.getAnnoBeanFor("foo."+type) == null);
+    }
+    {
+      String type = "com.foo.bar.*Anno";
+      String bean = "com.foo.bar.annobeans.*AnnoBean";
+      AnnoBeanMapping abm = new AnnoBeanMapping(type,bean);
+      assertTrue(abm.getAnnoBeanFor(type).equals(bean));
+      assertTrue(abm.getAnnoBeanFor("com.bing.MyAnno") == null);
+      assertTrue(abm.getAnnoBeanFor("com.foo.bar.MyAno") == null);
+    }
+  }
+
+
+  public void testPropfileUtils() throws IOException, ClassNotFoundException {
+    File outputDir = createTempDir();
+    System.out.println("temp output in "+outputDir);
+    Class jsr175class = String.class;
+    JClass jsr175type = JamServiceFactory.getInstance().createSystemJamClassLoader().
+        loadClass(jsr175class.getName());
+    String annobeanType = Annogen.getDefaultAnnobeanClassnameFor(jsr175type);
+    assertTrue(annobeanType.equals("java.lang.annobeans.StringAnnobean"));
+    PropfileUtils.getInstance().writeAnnobeanTypeFor(jsr175type,
+                                                     annobeanType,
+                                                     outputDir);
+    ClassLoader cl = new URLClassLoader(new URL[] {outputDir.toURL()});
+    Properties props =
+        PropfileUtils.getInstance().getPropfileForAnnotype(jsr175class,cl);
+    assertTrue(props != null);
+    assertTrue(props.getProperty("annobean").equals(annobeanType));
+  }
+
+  // ========================================================================
+  // Utilitiy methods
+
+  protected static File createTempDir() throws IOException {
+    File outputFile = File.createTempFile("annogen_test","");
+    File tempDir = outputFile.getParentFile();
+    outputFile.delete();
+    File out = new File(tempDir,outputFile.getName());
+    if (!out.mkdir()) throw new IOException("failed to mkdir "+out);
+    return out;
+  }
+
 }

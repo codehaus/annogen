@@ -14,10 +14,10 @@
  */
 package org.codehaus.jam.internal.elements;
 
+import org.codehaus.jam.JAnnotation;
 import org.codehaus.jam.JAnnotationValue;
 import org.codehaus.jam.JClass;
-import org.codehaus.jam.JAnnotation;
-import org.codehaus.jam.annotation.AnnotationProxy;
+import org.codehaus.jam.annotation.DefaultAnnotationProxy;
 import org.codehaus.jam.mutable.MAnnotation;
 import org.codehaus.jam.visitor.JVisitor;
 import org.codehaus.jam.visitor.MVisitor;
@@ -32,7 +32,7 @@ public final class AnnotationImpl extends ElementImpl implements MAnnotation {
   // ========================================================================
   // Variables
 
-  private AnnotationProxy mProxy;
+  private DefaultAnnotationProxy mProxy;
   private Object mAnnotationInstance = null;
   private String mQualifiedName = null;
 
@@ -41,7 +41,7 @@ public final class AnnotationImpl extends ElementImpl implements MAnnotation {
   // Constructors
 
   /*package*/ AnnotationImpl(ElementContext ctx,
-                             AnnotationProxy proxy,
+                             DefaultAnnotationProxy proxy,
                              String qualifiedName) {
     super(ctx);
     if (proxy == null) throw new IllegalArgumentException("null proxy");
@@ -86,7 +86,7 @@ public final class AnnotationImpl extends ElementImpl implements MAnnotation {
   public MAnnotation createNestedValue(String name, String annTypeName) {
     if (name == null) throw new IllegalArgumentException("null name");
     if (annTypeName == null) throw new IllegalArgumentException("null typename");
-    AnnotationProxy p = getContext().createAnnotationProxy(annTypeName);
+    DefaultAnnotationProxy p = getContext().createAnnotationProxy(annTypeName);
     AnnotationImpl out = new AnnotationImpl(getContext(),p,annTypeName);
     JClass type  = getContext().getClassLoader().loadClass(annTypeName);
     mProxy.setValue(name,out,type);
@@ -101,7 +101,7 @@ public final class AnnotationImpl extends ElementImpl implements MAnnotation {
     if (dimensions < 0) throw new IllegalArgumentException("dimensions = "+dimensions);
     MAnnotation[] out = new MAnnotation[dimensions];
     for(int i=0; i<out.length; i++) {
-      AnnotationProxy p = getContext().createAnnotationProxy(annComponentTypeName);
+      DefaultAnnotationProxy p = getContext().createAnnotationProxy(annComponentTypeName);
       out[i] = new AnnotationImpl(getContext(),p,annComponentTypeName);
     }
     JClass type  = getContext().getClassLoader().loadClass("[L"+annComponentTypeName+";");

@@ -29,9 +29,9 @@ import com.sun.javadoc.Tag;
 import com.sun.javadoc.Type;
 import org.codehaus.jam.annotation.JavadocTagParser;
 import org.codehaus.jam.internal.JamServiceContextImpl;
-import org.codehaus.jam.internal.reflect.ReflectClassBuilder;
 import org.codehaus.jam.internal.elements.ElementContext;
 import org.codehaus.jam.internal.elements.PrimitiveClassImpl;
+import org.codehaus.jam.internal.reflect.ReflectClassBuilder;
 import org.codehaus.jam.mutable.MAnnotatedElement;
 import org.codehaus.jam.mutable.MClass;
 import org.codehaus.jam.mutable.MElement;
@@ -334,16 +334,22 @@ public class JavadocClassBuilder extends JamClassBuilder implements JamClassPopu
   private void addAnnotations(MAnnotatedElement dest, ProgramElementDoc src) {
     String comments = src.commentText();
     if (comments != null) dest.createComment().setText(comments);
-    Tag[] tags = src.tags();
-    //if (mLogger.isVerbose(this)) {
-    //  mLogger.verbose("processing "+tags.length+" javadoc tags on "+dest);
-    //}
-    for(int i=0; i<tags.length; i++) {
-      if (getLogger().isVerbose(this)) {
-        getLogger().verbose("...'"+tags[i].name()+"' ' "+tags[i].text());
+    {
+      //
+      // FIXME eventually we want to strike this block of code.  Right now,
+      // though, we have some folks who rely on this behavior.
+      //
+      Tag[] tags = src.tags();
+      //if (mLogger.isVerbose(this)) {
+      //  mLogger.verbose("processing "+tags.length+" javadoc tags on "+dest);
+      //}
+      for(int i=0; i<tags.length; i++) {
+        if (getLogger().isVerbose(this)) {
+          getLogger().verbose("...'"+tags[i].name()+"' ' "+tags[i].text());
+        }
+        //note name() returns the '@', so we strip it here
+        mTagParser.parse(dest,tags[i]);
       }
-      //note name() returns the '@', so we strip it here
-      mTagParser.parse(dest,tags[i]);
     }
     if (mTigerDelegate != null) mTigerDelegate.extractAnnotations(dest,src);
   }

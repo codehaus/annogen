@@ -14,7 +14,6 @@
  */
 package org.codehaus.jam.internal;
 
-import org.codehaus.jam.internal.elements.ElementContext;
 import org.codehaus.jam.provider.JamLogger;
 
 /**
@@ -27,7 +26,7 @@ import org.codehaus.jam.provider.JamLogger;
  *
  * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
-public abstract class TigerDelegate {
+public final class TigerDelegateHelper {
 
   // ========================================================================
   // Constants
@@ -41,47 +40,24 @@ public abstract class TigerDelegate {
   // ========================================================================
   // Variables
 
-  protected JamLogger mLogger  = null;
-
-  /**
-   * @deprecated
-   */
-  protected ElementContext mContext = null;
-
   private static boolean m14RuntimeWarningDone   = false;
   private static boolean m14BuildWarningDone = false;
 
   // ========================================================================
   // Public methods
 
-  /**
-   * @deprecated
-   */
-  public void init(ElementContext ctx) {
-    mContext = ctx;
-    init(ctx.getLogger());
-  }
-
-  public void init(JamLogger log) { mLogger = log; }
-
-  // ========================================================================
-  // Protected methods
-
-  protected TigerDelegate() {}
-
-  protected JamLogger getLogger() { return mLogger; }
 
   /**
    * Displays a warning indicating that the current build of JAM was
    * done under 1.4 (or earlier), which precludes the use of 1.5-specific
    * features.
    */
-  protected static void issue14BuildWarning(Throwable t, JamLogger log) {
+  public static void issue14BuildWarning(Throwable t, JamLogger log) {
     if (!m14BuildWarningDone) {
       log.warning("This build of JAM was not made with JDK 1.5." +
                   "Even though you are now running under JDK 1.5, "+
                   "JSR175-style annotations will not be available");
-      if (log.isVerbose(TigerDelegate.class)) log.verbose(t);
+      if (log.isVerbose(TigerDelegateHelper.class)) log.verbose(t);
       m14BuildWarningDone = true;
     }
   }
@@ -90,16 +66,16 @@ public abstract class TigerDelegate {
    * Displays a warning indicating that JAM is running under 1.4 (or earlier),
    * which precludes the use of 1.5-specific features.
    */
-  protected static void issue14RuntimeWarning(Throwable t, JamLogger log) {
+  public static void issue14RuntimeWarning(Throwable t, JamLogger log) {
     if (!m14RuntimeWarningDone) {
       log.warning("You are running under a pre-1.5 JDK.  JSR175-style "+
                   "source annotations will not be available");
-      if (log.isVerbose(TigerDelegate.class)) log.verbose(t);
+      if (log.isVerbose(TigerDelegateHelper.class)) log.verbose(t);
       m14RuntimeWarningDone = true;
     }
   }
 
-  protected static boolean isTigerJavadocAvailable(JamLogger logger) {
+  public static boolean isTigerJavadocAvailable(JamLogger logger) {
     try {
       // class for name this because it's 1.5 specific.  if it fails, we
       // don't want to use the extractor
@@ -111,7 +87,7 @@ public abstract class TigerDelegate {
     }
   }
 
-  protected static boolean isTigerReflectionAvailable(JamLogger logger) {
+  public static boolean isTigerReflectionAvailable(JamLogger logger) {
     try {
       // class for name this because it's 1.5 specific.  if it fails, we
       // don't want to use the extractor

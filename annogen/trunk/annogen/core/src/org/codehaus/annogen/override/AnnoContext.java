@@ -14,7 +14,7 @@
  */
 package org.codehaus.annogen.override;
 
-import org.codehaus.annogen.override.internal.AnnoContextImpl;
+import org.codehaus.annogen.view.internal.AnnoViewerParamsImpl;
 import org.codehaus.jam.provider.JamLogger;
 
 /**
@@ -30,15 +30,37 @@ public interface AnnoContext {
 
   public static class Factory {
 
-    public static AnnoContext newInstance() { return new AnnoContextImpl(); }
+    public static AnnoContext newInstance() {
+      return new AnnoViewerParamsImpl();
+    }
   }
 
   // ========================================================================
   // Public methods
 
-  public JamLogger getLogger();
+  /**
+   * <p>If the given class is a 175 annotation type, returns the annogen'ed
+   * class which acts as a proxy to it.  If the given class already is a
+   * annobean class, simply returns it.</p>
+   *
+   * @throws ClassNotFoundException if the bean class could not be loaded
+   */
+  Class getAnnobeanClassFor(Class declOrAnnoBeanClass)
+    throws ClassNotFoundException;
 
-  public AnnoBeanMapping getAnnoBeanMapping();
+  /**
+   * <p>Returns the 175 annotation class which corresponds to the given
+   * annobean class. </p>
+   *
+   * @throws IllegalArgumentException if the given class is not an annobean class.
+   * @throws IllegalStateException if the current vm is pre-1.5.
+   * @throws ClassNotFoundException if the 175 type could not be loaded
+   */
+
+  Class getJsr175ClassForAnnobeanClass(Class annoBeanClass)
+    throws ClassNotFoundException;
+
+  public JamLogger getLogger();
 
   public ClassLoader getClassLoader();
 

@@ -14,7 +14,6 @@
  */
 package org.codehaus.annogen.view.internal;
 
-import org.codehaus.annogen.generate.AnnogenInfo;
 import org.codehaus.annogen.override.AnnoBeanSet;
 import org.codehaus.annogen.override.AnnoBean;
 import org.codehaus.annogen.view.internal.reflect.ReflectAnnogenTigerDelegate;
@@ -35,21 +34,6 @@ public final class ReflectAnnogenTigerDelegateImpl_150
 
   // ========================================================================
   // Reflect15Delegate implementation
-
-  public Class getAnnogenInfo_annoBeanClass(Class a175class)
-    throws ClassNotFoundException
-  {
-    if (!a175class.isAnnotation()) {
-      throw new IllegalArgumentException
-        ("Requested type is not an Annotation: "+a175class.getName());
-    }
-    AnnogenInfo info = (AnnogenInfo)a175class.getAnnotation(AnnogenInfo.class);
-    if (info == null) {
-      throw new ClassNotFoundException
-        ("Missing @AnnogenInfo on specified class "+a175class.getName());
-    }
-    return a175class.getClassLoader().loadClass(info.annoBeanClass());
-  }
 
   public Class getAnnotationClassFor(/*Annotation*/Object annotation) {
     return ((Annotation)annotation).annotationType();
@@ -86,11 +70,6 @@ public final class ReflectAnnogenTigerDelegateImpl_150
     if (out == null || raw.length <= pnum) return false;
     return doExtract(out,raw[pnum]);
   }
-
-  public Class getAnnogenInfoClass() {
-    return AnnogenInfo.class;  // will only load under 1.5
-  }
-
 
   // ========================================================================
   // Private methods
@@ -163,6 +142,7 @@ public final class ReflectAnnogenTigerDelegateImpl_150
            java.lang.String.class.equals(c) ||
            java.lang.Number.class.isAssignableFrom(c) ||
            java.lang.Boolean.class.equals(c) ||
+           java.lang.Character.class.equals(c) ||
            java.lang.Class.class.equals(c);
   }
 }

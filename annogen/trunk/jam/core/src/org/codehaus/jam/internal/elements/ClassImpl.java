@@ -350,11 +350,6 @@ public class ClassImpl extends MemberImpl implements MClass,
     return super.getComment();
   }
 
-  public JAnnotation[] getAllJavadocTags() {
-    ensureLoaded();
-    return super.getAllJavadocTags();
-  }
-
   // ========================================================================
   // Element implementation - just to add ensureLoaded()
 

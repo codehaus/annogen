@@ -14,17 +14,19 @@
  */
 package org.codehaus.annogen.generate;
 
-import org.codehaus.jam.JClass;
-import org.codehaus.jam.JamService;
-import org.codehaus.jam.JamServiceFactory;
-import org.codehaus.jam.JamServiceParams;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.types.Path;
 import org.apache.tools.ant.types.Reference;
+import org.codehaus.jam.JClass;
+import org.codehaus.jam.JamService;
+import org.codehaus.jam.JamServiceFactory;
+import org.codehaus.jam.JamServiceParams;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Ant task which generates AnnoBeans.
@@ -41,6 +43,7 @@ public class AnnogenTask extends Task {
   private Path mToolpath = null;
   private Path mClasspath = null;
   private String mIncludes = "**/*.java";
+  private List mMappings = null;
 
   // ========================================================================
   // Constructors
@@ -122,6 +125,11 @@ public class AnnogenTask extends Task {
     return mClasspath.createPath();
   }
 
+
+  public void addMapping(AnnoBeanMapping m) {
+    if (mMappings == null) mMappings = new ArrayList();
+    mMappings.add(m);
+  }
 
 
   // ========================================================================
