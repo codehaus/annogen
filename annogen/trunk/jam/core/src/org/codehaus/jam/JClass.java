@@ -411,5 +411,10 @@ public interface JClass extends JMember {
   public boolean isUnresolvedType();
 
 
+  /**
+   * <p>Returns true if this JClass was populated from Java source.  This
+   * lets you know whether comments will be viewiable, for example.</p>
+   */
+  public boolean isSourceAvailable();
 
 }

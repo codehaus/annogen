@@ -353,6 +353,9 @@ public abstract class JamTestBase extends TestCase {
     List classNames = new ArrayList(classes.length);
     for(int i=0; i<classes.length; i++) {
       resolved(classes[i]);
+      assertEquals("isSourceAvailable is wrong",
+                   classes[i].isSourceAvailable(),
+                   isCommentsAvailable());
       classNames.add(classes[i].getQualifiedName());
     }
     Collection expected = new HashSet();

@@ -130,6 +130,7 @@ public class JavadocClassBuilder extends JamClassBuilder implements JamClassPopu
     }
     MClass out = createClassToBuild(packageName, className, importSpecsArray, this);
     out.setArtifact(cd);
+    out.setSourceAvailable(true);
     return out;
   }
 

@@ -88,6 +88,8 @@ public class ClassImpl extends MemberImpl implements MClass,
 
   private JamClassPopulator mPopulator;
 
+  private boolean mIsSourceAvailable = false;
+
   // FIXME implement this - we should only create one UnqualifiedJClassRef
   // for each unqualified name so as to avoid resolving them over and over.
   //private Map mName2Uqref = null;
@@ -314,6 +316,9 @@ public class ClassImpl extends MemberImpl implements MClass,
   public boolean isBuiltinType()    { return false; }
   public boolean isVoidType()       { return false; }
   public boolean isUnresolvedType() { return false; }
+
+  public boolean isSourceAvailable() { return mIsSourceAvailable; }
+
   public boolean isObjectType() {
     return getQualifiedName().equals("java.lang.Object");
   }
@@ -539,6 +544,8 @@ public class ClassImpl extends MemberImpl implements MClass,
     if (mInnerClasses == null) return;
     mInnerClasses.remove(clazz);
   }
+
+  public void setSourceAvailable(boolean b) { mIsSourceAvailable = b; }
 
   public void setIsInterface(boolean b) { mIsInterface = b; }
 

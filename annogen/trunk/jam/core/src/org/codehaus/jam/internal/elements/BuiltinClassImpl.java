@@ -158,6 +158,10 @@ public abstract class BuiltinClassImpl extends AnnotatedElementImpl
   }
   public void removeDeclaredProperty(JProperty prop) { nocando(); }
 
+  public void setSourceAvailable(boolean b) { nocando(); }
+
+  public boolean isSourceAvailable() { return false; }
+
   // ========================================================================
   // Object implementation
 

@@ -171,7 +171,10 @@ public interface MClass extends MMember, JClass {
 
   public void removeInnerClass(MClass clazz);
 
-
-
+  /**
+   * <p>Sets whether this JClass was populated from Java source.  The default
+   * is false.</p>
+   */
+  public void setSourceAvailable(boolean b);
 
 }
