@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="4" relativePaths="true" type="JAVA_MODULE">
+  <component name="ModuleRootManager" />
+  <component name="NewModuleRootManager">
+    <output url="file:///trunk/build/classes" />
+    <exclude-output />
+    <exclude-exploded />
+    <content url="file://$MODULE_DIR$/../../../trunk">
+      <sourceFolder url="file://$MODULE_DIR$/../../../trunk/annogen/adapters/jam/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../trunk/annogen/adapters/javadoc/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../trunk/annogen/adapters/javadoc/src_150" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../trunk/annogen/adapters/mirror/src_150" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../trunk/annogen/adapters/qdox/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../trunk/annogen/adapters/reflect/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../trunk/annogen/adapters/reflect/src_150" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../trunk/annogen/core/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../trunk/annogen/core/src_150" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../trunk/annogen/test/cases/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../trunk/annogen/test/cases/src_150" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../trunk/annogen/test/samples/src_150" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../trunk/examples/stored_override/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../trunk/jam/core/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../trunk/jam/core/src_150" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../trunk/jam/test/cases/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../trunk/jam/test/cases/src_150" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../trunk/jam/test/samples/external_jar/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../trunk/jam/test/samples/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../trunk/jam/test/samples/src_150" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../trunk/repackager/src" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../../trunk/external/lib/junit.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../../trunk/external/lib/stax-api.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../../trunk/external/lib/stax-impl.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../../trunk/external/lib/qdox.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntryProperties />
+  </component>
+</module>
+
