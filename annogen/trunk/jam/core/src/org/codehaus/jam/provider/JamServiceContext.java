@@ -127,19 +127,4 @@ public interface JamServiceContext extends JamLogger/*killme*/ {
   //public PrintWriter getOut();
 
   public boolean is14WarningsEnabled();
-
-
-  // ========================================================================
-  // killme
-
-  /**
-   * <p>Returns a subclass of TypedAnnotationProxyBase that should be instantiated
-   * and used to proxy annotation metadata when no registered proxy is
-   * available.  By default, this is DefaultAnnotationProxy.class, though
-   * the user can override this if, for example, they need to change the
-   * default javadoc tag parsing behavior.</p>
-   *
-   * @return
-   */
-
 }

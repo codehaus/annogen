@@ -16,6 +16,7 @@ package org.codehaus.jam.internal.elements;
 
 import org.codehaus.jam.JAnnotationValue;
 import org.codehaus.jam.JClass;
+import org.codehaus.jam.JAnnotation;
 import org.codehaus.jam.annotation.AnnotationProxy;
 import org.codehaus.jam.mutable.MAnnotation;
 import org.codehaus.jam.visitor.JVisitor;
@@ -55,12 +56,15 @@ public final class AnnotationImpl extends ElementImpl implements MAnnotation {
   // ========================================================================
   // JAnnotation implementation
 
-  public Object getProxy() { return mProxy; }
-
   public JAnnotationValue[] getValues() { return mProxy.getValues(); }
 
   public JAnnotationValue getValue(String name) {
     return mProxy.getValue(name);
+  }
+
+  public String getJavadocTagText() {
+    JAnnotationValue val = getValue(JAnnotation.SINGLE_VALUE_NAME);
+    return (val == null) ? null : val.asString();
   }
 
   public Object getAnnotationInstance() { return mAnnotationInstance; }

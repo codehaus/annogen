@@ -42,18 +42,7 @@ public interface JAnnotation extends JElement {
   // ========================================================================
   // Public methods
 
-  /**
-   * <p>If a typed annotation proxy has been registered for the annotation
-   * represented by this JAnnotation, returns this object.  Note that
-   * it's usually easier to access proxies by simply calling
-   * JAnnotatedElement.getAnnotationProxy(proxyClass).</p>
-   *
-   * <p>The value returned is guaranteed to be either a user-defined
-   * subclass of TypedAnnotationProxyBase or null.</p>
-   */
-  public Object getProxy();
-
-  /**
+ /**
    * <p>Returns an array of this annotation's member values.</p>
    */
   public JAnnotationValue[] getValues();
@@ -65,11 +54,8 @@ public interface JAnnotation extends JElement {
   public JAnnotationValue getValue(String named);
 
 
-  // we're going to expose these with getArtifact() instead.
 
   /**
-   * <p>Use of this method is *strongly* discouraged.</p>
-   *
    * <p>If this JAnnotation represents a javadoc tag, returns the raw,
    * untrimmed contents of the tag.  Otherwise, returns null.  You
    * shouldn't use this method without a really good reason - you normally
@@ -78,7 +64,7 @@ public interface JAnnotation extends JElement {
    * representing the contents of a simple javadoc tag (e.g. @mytag myvalue).
    * </p>
    */
-  //public String getJavadocTagText();
+  public String getJavadocTagText();
 
   /**
    * <p>If this JAnnotation corresponds to metadata that is stored in
@@ -90,9 +76,7 @@ public interface JAnnotation extends JElement {
    * object not be availble under pre-1.5 JREs and will generally only be
    * available if the underlying annotation was view from a class file.  Note
    * that the retention policy of the annotation type usually must also be
-   * RUNTIME.  Unless you are sure of all of these things, you are better
-   * off using an AnnotationProxy or the untyped value accessors
-   * (e.g. getValues()).</p>
+   * RUNTIME.</p>
    *
    * <p>If this method does return something other than null, it is guaranteed
    * to be an instance of <code>java.lang.annotation.Annotation</code>.  It

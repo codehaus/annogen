@@ -19,38 +19,31 @@ public abstract interface JAnnotatedElement extends JElement {
   public JAnnotation[] getAnnotations();
 
   /**
-   * <p>Returns the JAnnotation which is being proxied by the given subclass
-   * of TypedAnnotationProxyBase, or null if no such annotation exists.  If it
-   * does exist, the <code>getProxy()</code> method on the returned
-   * object is guaranteed to return be an instance of the proxyClass.</p>
+   * <p>Returns the JAnnotation representing the annotation on this element of
+   * the given JSR 175 annotation type, or null if no such annotation exists.
+   * </p>
    *
-   * @throws IllegalArgumentException if the proxyClass parameter is null
-   * or not a subclass of <code>TypedAnnotationProxyBase</code>.
+   * @throws IllegalArgumentException if the jsr175type parameter is null
+   * or not a 175 type.
    */
-  public JAnnotation getAnnotation(Class proxyClass);
+  public JAnnotation getAnnotation(Class jsr175type);
 
   /**
-   * <p>Returns an instance of TypedAnnotationProxyBase on this elements for which the given
-   * proxy class has been established.  This method is guaranteed to
-   * return either an instance of the given proxyClass or null.</p>
+   * <p>Finds an annotation on this element according to the following
+   * rules:
    *
-   * <p>This method is simply a convenient shorthand for
-   * <code>getAnnotation(proxyClass).getProxy()</code>.</p>
-   *
-   * @throws IllegalArgumentException if the proxyClass parameter is null
-   * or not a subclass of <code>AnnotationProxy</code>.
+   * <ul>
+   *   <li>If the element as a JSR175 annotation of type 'named',
+   *   returns a JAnnotation for it.</li>
+   *   <li>If a javadoc tag exists named 'named' returns a JAnnotation for
+   *   it.  If more than such javadoc tags exists, one is chosen (no
+   *   guarantees are made as to which.  For handling multiple javadoc
+   *   tags, please use getAllJavadocTags().
+   * </ul>
    */
-  /**
-   * @deprecated
-   */ 
-  public Object getAnnotationProxy(Class proxyClass);
-
-  /**
-   * <p>Returns the annotation that represents the named 175 annotation
-   * or javadoc tag on this elements.</p>
-   */
-  public JAnnotation getAnnotation(String tagnameProxynameOr175typename);
-
+  public JAnnotation getAnnotation(String named);
+  // REVIEW we should consider breaking this up and deprecating this method.
+  // Could have getJavadocTag(named) and get175Annotation(named).
 
   /**
    * Shortcut method which returns a given annotation value.  The 'valueId'
@@ -69,14 +62,9 @@ public abstract interface JAnnotatedElement extends JElement {
    */
   public JComment getComment();
 
-  //expose these soon, remove getAllJavadocTags
-
-  //public JAnnotation[] getLiteralAnnotations();
-
-  //public JAnnotation[] getLiteralAnnotations(String annotationName);
-
   /**
-   * @deprecated
+   * Returns JAnnotations representing all of the javadoc tags on this
+   * element (including multiple tags with the same name).
    */
   public JAnnotation[] getAllJavadocTags();
 

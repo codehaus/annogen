@@ -41,8 +41,8 @@ public abstract class AnnotatedElementImpl extends ElementImpl
     return getMutableAnnotations();
   }
 
-  public JAnnotation getAnnotation(Class proxyClass) {
-    return getMutableAnnotation(proxyClass.getName());
+  public JAnnotation getAnnotation(Class jsr175type) {
+    return getMutableAnnotation(jsr175type.getName());
   }
 
   public JAnnotation getAnnotation(String named) {
@@ -66,10 +66,6 @@ public abstract class AnnotatedElementImpl extends ElementImpl
     }
   }
 
-
-  public Object getAnnotationProxy(Class proxyClass) {
-    return getEditableProxy(proxyClass);
-  }
 
   public JComment getComment() { return getMutableComment(); }
 
@@ -102,12 +98,6 @@ public abstract class AnnotatedElementImpl extends ElementImpl
 
   // ========================================================================
   // MAnnotatedElement implementation
-
-  public AnnotationProxy getEditableProxy(Class proxyClass) {
-    if (mName2Annotation == null) return null;
-    MAnnotation out = getMutableAnnotation(proxyClass.getName());
-    return (out == null) ? null : (AnnotationProxy)out.getProxy();
-  }
 
   public void removeAnnotation(MAnnotation ann) {
     if (mName2Annotation != null) mName2Annotation.values().remove(ann);

@@ -330,9 +330,9 @@ public class ClassImpl extends MemberImpl implements MClass,
     return super.getAnnotations();
   }
 
-  public JAnnotation getAnnotation(Class proxyClass) {
+  public JAnnotation getAnnotation(Class jsr175type) {
     ensureLoaded();
-    return super.getAnnotation(proxyClass);
+    return super.getAnnotation(jsr175type);
   }
 
   public JAnnotation getAnnotation(String named) {
@@ -343,12 +343,6 @@ public class ClassImpl extends MemberImpl implements MClass,
   public JAnnotationValue getAnnotationValue(String valueId) {
     ensureLoaded();
     return super.getAnnotationValue(valueId);
-  }
-
-
-  public Object getAnnotationProxy(Class proxyClass) {
-    ensureLoaded();
-    return super.getAnnotationProxy(proxyClass);
   }
 
   public JComment getComment() {

@@ -37,7 +37,4 @@ public interface MAnnotation extends JAnnotation, MElement {
   public MAnnotation[] createNestedValueArray(String name,
                                               String componentTypeName,
                                               int dimensions);
-
-  //public AnnotationProxy getMutableProxy();//i think this is bad
-
 }

@@ -55,7 +55,7 @@ public abstract class JavadocTagParser {
   }
 
   /**
-   * <p>Called by JAM to initialize the proxy.  Do not try to call this
+   * <p>Called by JAM to initialize the parser.  Do not try to call this
    * yourself.</p>
    */
   public void init(JamServiceContext ctx) {

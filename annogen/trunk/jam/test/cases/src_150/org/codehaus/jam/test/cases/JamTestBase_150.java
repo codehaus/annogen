@@ -116,20 +116,6 @@ public abstract class JamTestBase_150 extends JamTestBase {
   // ========================================================================
   // Test methods
 
-/*
-  public void testAnnogen() {
-    AnnotationServiceFactory asf = AnnotationServiceFactory.getInstance();
-    AnnotationServiceParams asp = asf.createServiceParams();
-    asp.appendPopulator(new TestProxyPopulator());
-    AnnotationService as = asf.createServiceRoot(asp);
-    JClass c = mLoader.loadClass("org.codehaus.jam.test.samples.jsr175.AnnotatedClass");
-    assertTrue(c.getQualifiedName()+" is unresolved",!c.isUnresolvedType());
-    RFEAnnotationImpl ra = (RFEAnnotationImpl)
-      as.getAnnotation(RFEAnnotationImpl.class,c);
-    assertTrue("ra.id() == "+ra.id(),ra.id() == 4561413 + 1);
-  }
-*/
-
   public void testIsEnum() {
     JClass gts = resolved(mLoader.loadClass("org.codehaus.jam.test.samples.MyEnum"));
     assertTrue(gts.getQualifiedName()+" - isEnumType() must be true for "+

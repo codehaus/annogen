@@ -16,8 +16,6 @@ public interface MAnnotatedElement extends MElement, JAnnotatedElement {
    */
   public MAnnotation findOrCreateAnnotation(String annotationName);
 
-
-  
   public MAnnotation[] getMutableAnnotations();
 
   //DOCME
