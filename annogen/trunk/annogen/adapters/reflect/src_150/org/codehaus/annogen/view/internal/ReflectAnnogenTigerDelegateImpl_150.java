@@ -87,6 +87,7 @@ public final class ReflectAnnogenTigerDelegateImpl_150
     for(int i=0; i<raw.length; i++) {
       Class declClass = getAnnotationClassFor(raw[i]);
       AnnoBean proxy = out.findOrCreateBeanFor(declClass);
+      if (proxy == null) continue;
       copyValues(raw[i],proxy,declClass);
     }
     return true;

@@ -130,6 +130,7 @@ public final class JamIAE implements IndigenousAnnoExtractor {
       Class annoClass = getAnnotationTypeClass(anns[i]);
       if (annoClass == null) continue;
       AnnoBean bean = out.findOrCreateBeanFor(annoClass);
+      if (bean == null) continue;
       populate(anns[i],bean);
     }
     return true;

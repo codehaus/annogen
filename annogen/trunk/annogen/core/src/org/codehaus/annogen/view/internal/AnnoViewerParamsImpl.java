@@ -175,7 +175,8 @@ public class AnnoViewerParamsImpl implements AnnoViewerParams, AnnoContext {
         return PropfileUtils.getInstance().getAnnobeanTypeFor(requestedClass,
                                                               mClassLoader);
       } catch(IOException ioe) {
-        throw new ClassNotFoundException("IO Error:", ioe);
+        throw new ClassNotFoundException("IO Error looking up bean class for "+
+                                         requestedClass.getName(), ioe);
       }
     }
   }

@@ -83,7 +83,7 @@ public /*abstract*/ class AnnoBeanBase implements AnnoBean {
       if (c == null) return null;
       return mContext.createAnnoBeanFor(c);
     } catch (ClassNotFoundException e) {
-      mContext.getLogger().error(e);
+      mContext.getLogger().verbose(e,this);
       return null;
     }
   }

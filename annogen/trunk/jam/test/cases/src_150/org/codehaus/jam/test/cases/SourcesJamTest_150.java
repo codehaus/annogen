@@ -88,7 +88,6 @@ public class SourcesJamTest_150 extends JamTestBase_150 {
     if (mService != null) return mService;
     JamServiceFactory jsf = JamServiceFactory.getInstance();
     JamServiceParams params = jsf.createServiceParams();
-    System.out.println("=======");
     params.setCharacterEncoding("ISO-8859-1"); //FIXME need to add some real encoding tests
 
 //    params.setVerbose(JavadocRunner.class);

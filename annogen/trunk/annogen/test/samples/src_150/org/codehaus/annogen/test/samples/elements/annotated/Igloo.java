@@ -17,6 +17,7 @@ package org.codehaus.annogen.test.samples.elements.annotated;
 import org.codehaus.annogen.test.samples.annotations.BugAnnotation;
 import org.codehaus.annogen.test.samples.annotations.BugAnnotation;
 import org.codehaus.annogen.test.samples.annotations.BugAnnotation;
+import org.codehaus.annogen.test.samples.otherannotations.RandomAnnotation;
 
 
 /**
@@ -24,6 +25,8 @@ import org.codehaus.annogen.test.samples.annotations.BugAnnotation;
  */
 public interface Igloo {
 
+  @RandomAnnotation
+    
   @BugAnnotation(id = 43,
                  synopsis = "REVIEW: don't all igloos have only one door?",
                  enteredBy = "codehaus",

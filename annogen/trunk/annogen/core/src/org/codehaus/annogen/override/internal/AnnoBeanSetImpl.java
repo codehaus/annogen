@@ -56,7 +56,7 @@ public class AnnoBeanSetImpl implements AnnoBeanSet {
     try {
       beanClass = mContext.getAnnobeanClassFor(requestedClass);
     } catch(ClassNotFoundException cnfe) {
-      mLogger.error(cnfe);
+      mLogger.verbose(cnfe,this);
       return false;
     }
     return mBeanClass2AnnoClass.containsKey(beanClass);
@@ -67,7 +67,7 @@ public class AnnoBeanSetImpl implements AnnoBeanSet {
     try {
       beanClass = mContext.getAnnobeanClassFor(requestedClass);
     } catch(ClassNotFoundException cnfe) {
-      mLogger.error(cnfe);
+      mLogger.verbose(cnfe,this);
       return null;
     }
     AnnoBean ap = (AnnoBean)mBeanClass2AnnoClass.get(beanClass);
@@ -90,7 +90,7 @@ public class AnnoBeanSetImpl implements AnnoBeanSet {
     try {
       beanClass = mContext.getAnnobeanClassFor(requestedClass);
     } catch(ClassNotFoundException cnfe) {
-      mLogger.error(cnfe);
+      mLogger.verbose(cnfe, this);
       return null;
     }
     return (AnnoBean)mBeanClass2AnnoClass.remove(beanClass);

@@ -72,14 +72,14 @@ public abstract class AnnoViewerBase {
 
   /**
    * This method really should be proected, but we leave it public because
-   * it makes writing tests easier.
+   * it makes writing tests a lot easier.
    */
   /*protected*/ public AnnoBean getAnnotation(Class what, ElementId where) {
     Class beanClass;
     try {
       beanClass = mContext.getAnnobeanClassFor(what);
     } catch(ClassNotFoundException cnfe) {
-      mLogger.error(cnfe);
+      mLogger.verbose(cnfe,this);
       return null;
     }
     AnnoBean[] annos = getAnnotations(where);
