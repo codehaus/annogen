@@ -2,6 +2,8 @@
 
   <!-- Properties -->
 
+  <property file='build.properties'/>
+
   <property name='classes_dir'  value='build/classes' />
 
   <property name='repackager'   value='org.codehaus.annogen.tools.Repackage'/>
@@ -91,6 +93,7 @@
     <copy todir='${repackaged_root}'>
       <fileset dir='.'>
         <include name='build*.xml'/>
+        <include name='build.properties'/>        
         <include name='external/**'/>
         <include name='license/**'/>
       </fileset>
