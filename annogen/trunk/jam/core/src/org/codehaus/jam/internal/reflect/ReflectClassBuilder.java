@@ -35,6 +35,11 @@ import java.lang.reflect.Method;
 public class ReflectClassBuilder extends JamClassBuilder implements JamClassPopulator {
 
   // ========================================================================
+  // Constants
+
+  public static final String PARAM_NAME = "param";
+  
+  // ========================================================================
   // Variables
 
   private ClassLoader mLoader;
@@ -196,7 +201,7 @@ public class ReflectClassBuilder extends JamClassBuilder implements JamClassPopu
                                   Class paramType)
   {
     MParameter p = dest.addNewParameter();
-    p.setSimpleName("param"+paramNum);
+    p.setSimpleName(PARAM_NAME+paramNum);
     p.setType(paramType.getName());
     return p;
   }

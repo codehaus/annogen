@@ -354,7 +354,6 @@ public abstract class JamTestBase extends TestCase {
     for(int i=0; i<classes.length; i++) {
       resolved(classes[i]);
       classNames.add(classes[i].getQualifiedName());
-      //System.out.println("-- "+classes[i].getQualifiedName());
     }
     Collection expected = new HashSet();
     addAllKnownClasses(expected);
@@ -790,6 +789,27 @@ public abstract class JamTestBase extends TestCase {
                " tags, expecting 6",
                (method.getAllJavadocTags().length == 6));
     compare(mt,"testManyTags.xml");
+  }
+
+  /**
+   * Regression test for workaround described in ANNOGEN-16
+   */
+  public void testParameterNameWorkaround() throws Exception {
+    JamService js = getResultToTest();
+    JClass fooImpl = js.getClassLoader().loadClass("java.lang.String");
+    JMethod[] methods = fooImpl.getDeclaredMethods();
+    for(int i=0; i<methods.length; i++) {
+      if (methods[i].getSimpleName().equals("regionMatches")) {
+        JParameter[] params = methods[i].getParameters();
+        if (params.length != 4) continue;
+        for(int j=0; j<params.length; j++) {
+          //System.out.println("============= "+params[j].getSimpleName());
+          assertTrue(params[j].getSimpleName().equals("param"+j));
+        }
+        return;
+      }
+    }
+    assertTrue("couldn't find java.lang.String.regionMatches",false);
   }
 
   // ========================================================================

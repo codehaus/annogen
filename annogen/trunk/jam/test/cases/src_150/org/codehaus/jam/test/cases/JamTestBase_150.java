@@ -144,27 +144,6 @@ public abstract class JamTestBase_150 extends JamTestBase {
                rfe.synopsis().equals("Balance the federal budget"));
   }
 
-  public void testGoofyParamNamesCase() throws Exception {
-    JamService js = getResultToTest();
-    JClass fooImpl = js.getClassLoader().loadClass("org.codehaus.jam.test.samples.Baz");
-    JMethod[] methods = fooImpl.getDeclaredMethods();
-    for(int i=0; i<methods.length; i++) {
-      if (methods[i].getSimpleName().equals("getAString")) {
-        JClass string = methods[i].getReturnType();
-        JMethod[] smethods = string.getMethods();
-        for(int j=0; j<smethods.length; j++) {
-          if (smethods[j].getSimpleName().equals("regionMatches")) {
-            JParameter[] params = smethods[j].getParameters();
-            for(int x=0; x<params.length; x++) {
-              System.out.println("=== "+params[x].getSimpleName());
-            }
-            return;
-          }
-        }
-      }
-    }
-    assertTrue("couldn't find something",false);
-  }
 
   public void testNested175AnnotationsUntyped() throws IOException, XMLStreamException {
     JClass clazz = resolved(mLoader.loadClass("org.codehaus.jam.test.samples.jsr175.NestedAnnotatedClass"));

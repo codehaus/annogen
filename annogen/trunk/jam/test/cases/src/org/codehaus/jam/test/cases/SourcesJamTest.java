@@ -58,6 +58,9 @@ package org.codehaus.jam.test.cases;
 import org.codehaus.jam.JamService;
 import org.codehaus.jam.JamServiceFactory;
 import org.codehaus.jam.JamServiceParams;
+import org.codehaus.jam.JClass;
+import org.codehaus.jam.JMethod;
+import org.codehaus.jam.JParameter;
 import org.codehaus.jam.test.cases.JamTestBase;
 
 import java.io.File;
@@ -76,6 +79,12 @@ public class SourcesJamTest extends JamTestBase {
   public SourcesJamTest(String name) {
     super(name);
   }
+
+
+  // ========================================================================
+  // Test methods
+
+
 
   // ========================================================================
   // JamTestBase implementation

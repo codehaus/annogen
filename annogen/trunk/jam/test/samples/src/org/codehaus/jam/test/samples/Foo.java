@@ -1,5 +1,7 @@
 package org.codehaus.jam.test.samples;
 
+import java.awt.*;
+
 
 /**
  *  Dummy class for JAM tests.

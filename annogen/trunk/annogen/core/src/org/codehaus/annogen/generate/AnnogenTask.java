@@ -98,7 +98,7 @@ public class AnnogenTask extends Task {
   public Path createToolpath() {
     if (mToolpath == null) {
       mToolpath = new Path(getProject());
-    }                                                                                         jav
+    }
     return mToolpath.createPath();
   }
 

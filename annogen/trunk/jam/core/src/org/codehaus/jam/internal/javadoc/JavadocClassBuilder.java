@@ -29,6 +29,7 @@ import com.sun.javadoc.Tag;
 import com.sun.javadoc.Type;
 import org.codehaus.jam.annotation.JavadocTagParser;
 import org.codehaus.jam.internal.JamServiceContextImpl;
+import org.codehaus.jam.internal.reflect.ReflectClassBuilder;
 import org.codehaus.jam.internal.elements.ElementContext;
 import org.codehaus.jam.internal.elements.PrimitiveClassImpl;
 import org.codehaus.jam.mutable.MAnnotatedElement;
@@ -292,16 +293,29 @@ public class JavadocClassBuilder extends JamClassBuilder implements JamClassPopu
     for(int i=0; i<exceptions.length; i++) {
       dest.addException(getFdFor(exceptions[i]));
     }
-    for(int i=0; i<params.length; i++) {
-      populate(dest.addNewParameter(),src,params[i]);
+    Parameter[] params = src.parameters();
+    if (params != null && params.length >= 2 &&
+      (params[0].name().equals(params[1].name()))) {
+      //this is the workaround for ANNOGEN-16
+      for(int i=0; i<params.length; i++) {
+        populate(dest.addNewParameter(),src,params[i],
+                 ReflectClassBuilder.PARAM_NAME+i);
+      }
+    } else {
+      for(int i=0; i<params.length; i++) {
+        populate(dest.addNewParameter(),src,params[i],params[i].name());
+      }
     }
     addAnnotations(dest, src);
     addSourcePosition(dest,src);
   }
 
-  private void populate(MParameter dest, ExecutableMemberDoc method, Parameter src) {
+  private void populate(MParameter dest, 
+                        ExecutableMemberDoc method, 
+                        Parameter src,
+                        String paramNameToUse) {
     dest.setArtifact(src);
-    dest.setSimpleName(src.name());
+    dest.setSimpleName(paramNameToUse);
     dest.setType(getFdFor(src.type()));
     if (mTigerDelegate != null) mTigerDelegate.extractAnnotations(dest,method,src);
   }
