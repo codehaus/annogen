@@ -5,15 +5,15 @@
   <property environment='env'/>
   <property name='docs_build_dir' location='build/docs'/>
 
-  <property name='jam_javadocs'      location='${docs_build_dir}/javadocs/jam'/>
-  <property name='annogen_javadocs'  location='${docs_build_dir}/javadocs/annogen'/>
+  <property name='jam_javadocs'      location='${docs_build_dir}/jam-api'/>
+  <property name='annogen_javadocs'  location='${docs_build_dir}/annogen-api'/>
 
   <path id='javadoc_classpath'>
     <pathelement location='build/classes'/>
     <pathelement location='external/lib/stax-api.jar'/>
     <pathelement location='external/lib/stax-impl.jar'/>
     <pathelement location='${env.ANT_HOME}/lib/ant.jar'/>
-   </path>
+  </path>
 
   <!-- Targets -->
 
