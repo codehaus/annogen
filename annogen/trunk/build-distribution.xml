@@ -9,7 +9,8 @@
   <!-- Targets -->
 
   <target name='all' depends='require150' if='is150'>
-    <ant target='all.clean'/>
+
+    <antcall target='jars'/>
 
     <mkdir dir='${dist_dir}/examples'/>
     <copy todir='${dist_dir}/examples'><fileset dir='examples'/></copy>
@@ -29,6 +30,13 @@
       <fileset file='external/lib/stax-impl.jar'/>
     </copy>
 
+    <jar jarfile='build/annogen.zip' basedir='${dist_dir}'/>
+  </target>
+
+
+  <target name='jars' >
+    <ant target='all.clean'/>
+    <mkdir dir='${dist_dir}'/>
     <jar jarfile='${dist_dir}/annogen.jar'  basedir='${classes_dir}'/>
     <jar jarfile='${dist_dir}/annogen_src.zip' >
       <fileset includes='**/*.java' dir='jam/core/src' />
@@ -41,14 +49,6 @@
       <fileset includes='**/*.java' dir='annogen/adapters/javadoc/src_150'/>
       <fileset includes='**/*.java' dir='annogen/adapters/jam/src'/>
     </jar>
-
-    <jar jarfile='build/annogen.zip' basedir='${dist_dir}'/>
-
-  </target>
-
-
-  <target name='jars' >
-
   </target>
   
   <target name='require150' depends='check150' unless='is150'>

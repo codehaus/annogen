@@ -45,6 +45,10 @@
     <ant antfile='build-distribution.xml'/>
   </target>
 
+  <target name='jars'>
+    <ant antfile='build-distribution.xml' target='jars'/>
+  </target>
+
   <target name='examples'>
     <ant dir='examples/stored_override'/>
   </target>

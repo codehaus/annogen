@@ -33,9 +33,10 @@
     <javac srcdir='${repackager_srcdir}' destdir='${classes_dir}'
            source='1.4' target='1.4' includes='**/tools/*.java'/>
 
-    <!-- 
+    <!--
        Would be nice if repackager supported multiple source dirs so
-       we wouldn't have to do this, but it doesn't so we do.
+       we wouldn't have to do this, but it doesn't so we do.  Or
+       we could do foreach but that isn't built into ant. :(
     -->
 
     <antcall target='repackage_one_dir'>
@@ -74,6 +75,15 @@
       <param name='repackage_src_dir' value='annogen/adapters/jam/src'/>
     </antcall>
 
+    <antcall target='repackage_one_dir'>
+      <param name='repackage_src_dir' value='annogen/adapters/qdox/src'/>
+    </antcall>
+
+    <antcall target='repackage_one_dir'>
+      <param name='repackage_src_dir' value='annogen/adapters/mirror/src_150'/>
+    </antcall>
+
+
     <!-- don't need repackager classes any more -->
     <delete dir='${classes_dir}'/> 
 
@@ -83,7 +93,6 @@
         <include name='build*.xml'/>
         <include name='external/**'/>
         <include name='license/**'/>
-        <include name='website/**'/>
       </fileset>
     </copy>
 
