@@ -74,9 +74,10 @@ public abstract class AnnoViewerBase {
   }
 
   /**
-   * This method is public only because it makes writing tests a little easier.
+   * This method really should be proected, but we leave it public because
+   * it makes writing tests easier.
    */
-  public AnnoBean getAnnotation(Class what, ElementId where) {
+  /*protected*/ public AnnoBean getAnnotation(Class what, ElementId where) {
     Class beanClass;
     try {
       beanClass = mMapping.getAnnoBeanClassForRequest(what);
