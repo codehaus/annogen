@@ -370,6 +370,10 @@ public class JamServiceContextImpl extends JamLoggerImpl implements JamServiceCo
     super.setOut(out);//FIXME
   }
 
+  public void setJamLogger(JamLogger logger) {
+    throw new IllegalStateException("NYI");  //have to untangle some mess first
+  }
+
 
   public void addSourcepath(File sourcepathElement) {
     if (mSourcepath == null) {
@@ -420,7 +424,7 @@ public class JamServiceContextImpl extends JamLoggerImpl implements JamServiceCo
 
   //public boolean isUseSystemClasspath() { return mUseSystemClasspath; }
 
-  public ClassLoader[] getReflectionClassLoaders() {
+  public ClassLoader[] getReflectionClassLoaders() {                     
     if (mClassLoaders == null) {
       if (mUseSystemClasspath) {
         return new ClassLoader[] { ClassLoader.getSystemClassLoader() };

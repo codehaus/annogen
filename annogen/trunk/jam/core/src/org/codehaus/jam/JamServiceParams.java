@@ -17,6 +17,7 @@ package org.codehaus.jam;
 
 import org.codehaus.jam.annotation.JavadocTagParser;
 import org.codehaus.jam.provider.JamClassBuilder;
+import org.codehaus.jam.provider.JamLogger;
 import org.codehaus.jam.visitor.MVisitor;
 
 import java.io.File;
@@ -193,6 +194,12 @@ public interface JamServiceParams {
    * @throws IllegalArgumentException if the argument is null
    */
   public void setLoggerWriter(PrintWriter out);
+
+  /**
+   * Sets the JamLogger which will receive error and warning messages from
+   * JAM.
+   */ 
+  public void setJamLogger(JamLogger logger);
 
   /**
    * </p>Enables verbose debugging output from all instances of the given

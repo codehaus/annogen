@@ -92,7 +92,11 @@ public final class JavadocAnnogenTigerDelegateImpl_150
     } catch(ClassNotFoundException cnfe) {
       getLogger().error(cnfe);
       return null;
+    } catch(ClassCastException cce) {
+      // This is part of the fix/workaround for a javadoc bug
+      // as described in issue 14: http://jira.codehaus.org/browse/ANNOGEN-14
+      getLogger().error(cce);
+      return null;
     }
   }
-
 }

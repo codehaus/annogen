@@ -40,20 +40,11 @@ import org.codehaus.jam.provider.JamServiceContext;
  */
 public final class JavadocTigerDelegateImpl_150 extends JavadocTigerDelegate {
 
-private static final String ANNOTATION_DEFAULTS_ENABLED_PROPERTY =
-  "Javadoc15DelegateImpl.ANNOTATION_DEFAULTS_ENABLED_PROPERTY";
+  // ========================================================================
+  // Hack, remove please
 
-//temporary
-public static final void setDefaultsEnabled(boolean b) {
-  ANNOTATION_DEFAULTS_ENABLED = b;
-}
-public static boolean ANNOTATION_DEFAULTS_ENABLED = false;
 
-private final boolean useAnnotationDefaults() {
-  return ANNOTATION_DEFAULTS_ENABLED ||
-    (mContext != null &&
-    ((JamServiceContext)mContext).getProperty(ANNOTATION_DEFAULTS_ENABLED_PROPERTY) != null);
-}
+  private boolean mAnnotationDefaultsDisabled = false;
 
   // ========================================================================
   // Javadoc15Delegate implementation
@@ -64,6 +55,10 @@ private final boolean useAnnotationDefaults() {
     }
     mContext = ctx;
     mLogger = ctx.getLogger();
+
+    if (((JamServiceContext)ctx).getProperty(ANNOTATION_DEFAULTS_DISABLED_PROPERTY) != null) {
+      mAnnotationDefaultsDisabled = true;
+    }
   }
 
   public void init(JamLogger logger) {
@@ -178,13 +173,16 @@ private final boolean useAnnotationDefaults() {
   // ========================================================================
   // Private methods
 
+
   private void extractAnnotations(MAnnotatedElement dest,
                                   AnnotationDesc[] anns,
                                   SourcePosition sp)
   {
     if (anns == null) return; //?
     for(int i=0; i<anns.length; i++) {
-      String tn = JavadocClassBuilder.getFdFor(anns[i].annotationType());
+      AnnotationTypeDoc type = getAnnotationTypeFor(anns[i],sp);
+      if (type == null) continue; //oh well, this is javadoc's fault
+      String tn = JavadocClassBuilder.getFdFor(type);
       MAnnotation destAnn = dest.findOrCreateAnnotation(tn);
       populateAnnotation(destAnn,anns[i],sp);
     }
@@ -203,16 +201,15 @@ private final boolean useAnnotationDefaults() {
         setAnnotationValue(name,jmt,aval,dest,sp);
       }
     }
-if (!useAnnotationDefaults()) return;
+if (mAnnotationDefaultsDisabled) return; 
     { // also set values for the type's defaults
-      AnnotationTypeDoc atd = src.annotationType();
+      AnnotationTypeDoc atd = getAnnotationTypeFor(src,sp);
+      if (atd == null) return;
       AnnotationTypeElementDoc[] elements = atd.elements();
       for(int i=0; i<elements.length; i++) {
         AnnotationValue value = elements[i].defaultValue();
         if (value != null) {
           String name = elements[i].name();
-          System.out.println("default value named '"+name+"'  = "+
-                             " "+value+"  "+value.getClass()+" "+dest.getValue(name));
           if (dest.getValue(name) == null) {
             setAnnotationValue(name,elements[i].returnType(),
                                value,dest,sp);
@@ -345,7 +342,9 @@ if (!useAnnotationDefaults()) return;
     }
     // now go do something with them
     if (valueArray[0] instanceof AnnotationDesc) {
-      String annType = getFdFor(((AnnotationDesc)valueArray[0]).annotationType());
+      AnnotationTypeDoc atd = getAnnotationTypeFor((AnnotationDesc)valueArray[0],sp);
+      if (atd == null) return;
+      String annType = getFdFor(atd);
       MAnnotation[] anns = dest.createNestedValueArray
         (memberName, annType, valueArray.length);
       for(int i=0; i<anns.length; i++) {
@@ -400,6 +399,20 @@ if (!useAnnotationDefaults()) return;
 
   private JClass loadClass(String fd) {
     return mContext.getClassLoader().loadClass(fd);
+  }
+
+  /**
+   * This method is part of the fix/workaround for a javadoc bug
+   * as described in issue 14: http://jira.codehaus.org/browse/ANNOGEN-14
+   */
+  private AnnotationTypeDoc getAnnotationTypeFor(AnnotationDesc d,
+                                                 SourcePosition sp) {
+    try {
+      return d.annotationType();
+    } catch(ClassCastException cce) {
+      mLogger.error(new JavadocParsingException(d,sp,cce));
+      return null;
+    }
   }
 
 }
