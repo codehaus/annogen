@@ -1,0 +1,96 @@
+<project name='annogen.docs' default='all.clean' basedir='.'>
+
+  <!-- Properties -->
+
+  <property environment='env'/>
+  <property name='docs_build_dir' location='build/docs'/>
+
+  <property name='jam_javadocs'      location='${docs_build_dir}/javadocs/jam'/>
+  <property name='annogen_javadocs'  location='${docs_build_dir}/javadocs/annogen'/>
+
+  <path id='javadoc_classpath'>
+    <pathelement location='build/classes'/>
+    <pathelement location='external/lib/stax-api.jar'/>
+    <pathelement location='external/lib/stax-impl.jar'/>
+    <pathelement location='${env.ANT_HOME}/lib/ant.jar'/>
+   </path>
+
+  <!-- Targets -->
+
+  <target name='clean'>
+   <delete dir='${docs_build_dir}'/>
+  </target>
+
+  <target name='all' depends='copy,javadocs'/>
+
+  <target name='all.clean' depends='clean,all'/>
+
+  <target name='copy'>
+    <copy todir='${docs_build_dir}'>
+      <fileset dir='docs'>
+        <exclude name='private/' />
+      </fileset>
+    </copy>
+  </target>
+
+  <target name='javadocs'>
+    <!-- JAM -->
+    <mkdir dir='${jam_javadocs}' />
+    <javadoc packagenames='*'
+             classpathref='javadoc_classpath'
+             destdir='${jam_javadocs}'
+             windowtitle='JAM API Documentation'
+             overview='docs/jam_overview.html'
+             stylesheetfile='${docs_build_dir}/javadoc.css'>
+      <fileset dir='jam/core/src'>
+        <include name='**/*.java'/>
+        <exclude name='**/internal/**/*.java'/>
+        <exclude name='**/jam/annotation/**/*.java'/>
+      </fileset>
+    </javadoc>
+
+
+    <mkdir dir='${annogen_javadocs}' />
+    <javadoc packagenames='*'
+             classpathref='javadoc_classpath'
+             destdir='${annogen_javadocs}'
+             windowtitle='JAM API Documentation'
+             overview='docs/annogen_overview.html'
+             stylesheetfile='${docs_build_dir}/javadoc.css'>
+      <fileset dir='annogen/core/src'>
+        <include name='**/*.java'/>
+        <exclude name='**/internal/**/*.java'/>
+      </fileset>
+      <fileset dir='annogen/adapters/reflect/src'>
+        <include name='**/*.java'/>
+        <exclude name='**/internal/**/*.java'/>
+      </fileset>
+      <fileset dir='annogen/adapters/javadoc/src'>
+        <include name='**/*.java'/>
+        <exclude name='**/internal/**/*.java'/>
+      </fileset>
+      <fileset dir='annogen/adapters/jam/src'>
+        <include name='**/*.java'/>
+        <exclude name='**/internal/**/*.java'/>
+      </fileset>
+      <fileset dir='annogen/adapters/qdox/src'>
+        <include name='**/*.java'/>
+        <exclude name='**/internal/**/*.java'/>
+      </fileset>
+      <fileset dir='annogen/adapters/mirror/src_150'>
+        <include name='**/*.java'/>
+        <exclude name='**/internal/**/*.java'/>
+      </fileset>
+
+    </javadoc>
+
+  </target>
+
+  <target name='view' depends='all.clean'>
+    <property name='index' location="${docs_build_dir}/index.html"/>
+    <exec dir='.' executable='explorer.exe' os='Windows 2000, Windows XP'>
+      <arg line='${index}'/>
+    </exec>
+  </target>
+
+</project>

@@ -1,0 +1,166 @@
+<body>
+
+<h1>Annogen Overview</h1>
+
+<h3>What is Annogen?</h3>
+
+<p>
+Annogen is a tool which helps you work with JSR175 annotations, a new
+feature in JDK 1.5.
+</p>
+
+<h3>What specific problems does Annogen solve?</h3>
+
+<p>
+JSR175 is a much-needed improvement to java.  However,
+a few challenges may lie in store for developers of <i>frameworks</i> which need to
+process JSR175 annotations (hereafter, simply called 'frameworks').
+Annogen aims to provide an elegant solution for a few of them:
+</p>
+
+<p>
+<i>Annotation Overriding</i>
+</p>
+<p>
+Because JSR175 annotations are 'baked-in' to <code>.class</code> files by javac,
+frameworks have no elegant way to manipulate the annotation values that were
+declared by the class author.
+</p>
+
+<p>
+<i>Migration from Older JDKs</i>
+</p>
+Many existing projects may want to start using JSR175 annotations, but will
+still need to support older JDKs for some time.  This migration presents a
+dilemma because JSR175 annotation types cannot even be classloaded
+without JDK 1.5.
+</p>
+
+<p>
+<i>Disparate Access Models</i>
+</p>
+Sun has provided new <code>java.lang</code> APIs for strongly-typed access to
+JSR175 annotation values.  However, this can only be used to access
+annotations which have a 'runtime retention policy;' annotations without
+this must be accessed via <code>javadoc</code>, which provides a completely
+different, untyped API for viewing annotations.  Mediating between these two
+access models could be a problem for frameworks, particularly those which must
+access source artifacts not available via reflection, such as javadoc comments.
+</p>
+
+<h3>How does Annogen solve those problems?</h3>
+
+<p>
+Annogen uses your JSR175 annotation types to code-generate special java beans
+called <i>AnnoBeans</i>.  AnnoBeans look exactly like your JSR175 annotations;
+in fact, they can actually directly implement your JSR175 annotation
+interfaces.  AnnoBeans carry exactly the same data that appears on your
+JSR175 annotations.  You write your framework code to use AnnoBeans when it
+needs to understand what annotations are on a java class.
+</p>
+
+<p>
+One big advantage to this approach stems from the fact that AnnoBeans
+can be modified.  AnnoBeans start out reflecting the values on the actual
+annotations they represent.  You are then given the option to add,
+modify, or remove annotation values before they are consumed by your
+framework.
+</p>
+
+<p>
+Another advantage is AnnoBeans do not contain any JDK 1.5-specific
+dependencies.  This means that you can load them under JDK 1.4, unlike JSR175
+annotations.  Note, however, that AnnoBeans under JDK1.4 cannot be initialized
+with values from JSR175 annotations va1because your AnnoBeans cannot will be
+empty by default that under JDK1.4. your AnnoBeans cannot
+access JSR175 annotation values.  For Annobeans to be useful under 1.4, you
+will need to be able to supply an <i>AnnoOverrider</i> which can retrieve
+annotation values from some other source, such as javadoc tags or an XML file.
+</p>
+
+<p>
+A third advantage is that AnnoBeans can be used in conjunction with a
+variety of Java introspection APIs, including reflection, javadoc, and JAM.
+(Support for other similar APIs can easily be added in the future).  This means
+that whether your framework is driven off of class files (via reflection) or
+java sources (via javadoc), you have a single, consistent, strongly-typed API
+for viewing your annotations.
+</p>
+
+
+<h3>What do I have to do to use Annogen?</h3>
+
+<p>
+Use of Annogen is divided into three distinct phases: <i>Generate</i>,
+<i>Override</i>, and <i>View</i>.  Each phase has a corresponding
+sub-package in the Annogen class hierarchy.
+</p>
+
+<p><i>Generate</i></p>
+
+<p>
+In the generate phase, Annogen code-generates AnnoBeans from your JSR175
+annotation classes.  This should be done as part of the build of your framework,
+before your javac your framework sources.  Annogen includes an ant task to
+make this easier.  You will also need to make sure that each of your annotation
+classes are themselves annotated with a simple annotation, AnnogenInfo,
+which tells Annogen the name of the AnnoBean to be generated.
+</p>
+
+<p><i>Override</i></p>
+
+<p>
+Once you have your AnnoBeans, you can create an <i>AnnoOverrider</i> which
+adds, modifies, or remove AnnoBeans associated with a given java class.  How
+and when this is done depends upon your needs.  For example, say you had a
+'cache size' deployment annotation which your users might occasionally want
+to override at deployment time.
+You could implement an AnnoOverrider which retrieves the user's override
+preferences (say, from an XML file) and then modifies the AnnoBeans
+accordingly.
+</p>
+
+<p><i>View</i></p>
+
+<p>
+In the final step, your framework code reads the AnnoBeans and uses them to
+do something interesting with them, such as deploy a user application.  You
+retrieve instance of the AnnoBeans through the <i>AnnoViewer</i> interface.
+You simply ask the AnnoViewer to give you the AnnoBean for a given annotation
+type on a given class.  The AnnoBean you get back may or may not have been
+modified by your AnnoOverrider; the nice thing is here that you don't
+have to care.  Annogen allows you to maintain a clean separation between
+the code which gathers and manipulates annotation values and the code which
+acts on those values.
+
+<h3>Can AnnoBeans implement my JSR175 AnnotationTypes?</h3>
+
+<p>
+In the <i>Generate</i> phase, you have an option called
+'<i>implementAnnotationTypes</i>.'  If true, the generated AnnoBeans will
+directly implement your JSR175 types.  The advantage to this approach is that
+your framework code in the View phase does not ever have to know about
+AnnoBeans - you just use JSR175 annotation types just as you would with regular
+reflection.  They will be implemented by AnnoBeans, but your code
+doesn't have to know that.  This approach is somewhat simpler, cleaner and may
+make it easier to integrate with other code which use the same JSR175 types.
+</p>
+
+<p>
+The only disadvantage to it is that you sacrifice compatibility withh older
+JDKs, where your JSR175 annotation types won't even classload.  But if JDK
+1.4 support is not important to you, then you probably should set
+implementAnnotationTypes to true and write your View-phase code
+against your JSR175 types.
+</p>
+
+<p>
+Note that in either case, your Override-phase code still must import
+AnnoBeans (because JSR175 types don't have setters) and your
+View-phase code needs to use an AnnoViewer (because the
+JDK doesn't know about your overrides).
+</p>
+
+
+
+</body>

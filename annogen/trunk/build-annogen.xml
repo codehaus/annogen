@@ -1,0 +1,79 @@
+<project name='annogen.annogen' default='all' basedir='.'>
+
+  <!-- Properties -->
+
+  <property name='classes_dir'    location='build/classes'/>
+  <property name='qdox_jar'       location='external/lib/qdox.jar'/>
+  <property name='adapters'       location='annogen/adapters'/>
+  <property name='core'           location='annogen/core'/>
+
+  <!-- Targets -->
+
+  <target name='clean'>
+    <delete dir='${classes_dir}/org/pcal/annogen'/>
+  </target>
+
+  <target name='all' depends='core,adapters'/>
+
+  <target name='all.clean' depends='clean,all'/>
+
+  <!--
+    FIXME stop building the reflect adapter as part of core.
+    I think there is just one dependency to untangle
+ -->
+
+  <target name='core'>
+    <mkdir dir='${classes_dir}'/>
+    <javac destdir='${classes_dir}' source='1.4' target='1.4' debug='on'>
+      <src path='${core}/src'/>
+      <src path='${adapters}/reflect/src'/>
+    </javac>
+    <antcall target='core_150'/>
+  </target>
+
+  <target name='core_150' depends='do150check' if='is150'>
+    <javac destdir='${classes_dir}' source='1.5' target='1.5' debug='on'>
+      <src path='${core}/src_150'/>
+      <src path='${adapters}/reflect/src_150'/>
+    </javac>
+  </target>
+
+  <target name='adapters' depends='adapters.javadoc,
+                                   adapters.jam,
+                                   adapters.qdox,
+                                   adapters.mirror_150'/>
+
+  <target name='adapters.javadoc'>
+    <javac srcdir='${adapters}/javadoc/src' destdir='${classes_dir}'
+      source='1.4' target='1.4' debug='on'/>
+    <antcall target='adapters.javadoc_150'/>
+  </target>
+
+  <target name='adapters.javadoc_150' depends='do150check' if='is150'>
+    <javac srcdir='${adapters}/javadoc/src_150' destdir='${classes_dir}'
+      source='1.5' target='1.5' debug='on'/>
+  </target>
+
+  <target name='adapters.jam'>
+    <javac srcdir='${adapters}/jam/src' destdir='${classes_dir}'
+      source='1.4' target='1.4' debug='on'/>
+  </target>
+
+  <target name='adapters.qdox'>
+    <javac srcdir='${adapters}/qdox/src' destdir='${classes_dir}'
+      source='1.4' target='1.4' debug='on'
+      classpath='external/lib/qdox.jar;${java.class.path}'/>
+  </target>
+
+  <target name='adapters.mirror_150' depends='do150check' if='is150'>
+    <javac srcdir='${adapters}/mirror/src_150' destdir='${classes_dir}'
+      source='1.5' target='1.5' debug='on'/>
+  </target>
+
+  <target name='do150check'>
+    <condition property='is150'>
+      <contains string='${java.version}' substring='1.5'/>
+    </condition>
+  </target>
+
+</project>

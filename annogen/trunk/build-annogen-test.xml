@@ -1,0 +1,119 @@
+<project name='annogen.annogen-test' basedir='.' default='all'>
+
+  <!-- Properties -->
+
+  <property name='classes_dir'       location='build/classes'/>
+
+  <property name='cases_dir'         location='annogen/test/cases'/>
+  <property name='samples_dir'       location='annogen/test/samples'/>
+
+  <property name='junit_jar'         location='external/lib/junit.jar' />
+  <property name='stax_api_jar'      location='external/lib/stax-api.jar'/>
+  <property name='stax_impl_jar'     location='external/lib/stax/stax-impl.jar'/>
+
+  <property name='codegen_build_dir' location='build/annogen_codegen'/>
+  <property name='cases_build_dir'   location='build/annogen_test_cases'/>
+  <property name='samples_build_dir' location='build/annogen_test_samples'/>
+
+
+  <path id='classpath' >
+    <pathelement path='${classes_dir}' />
+    <pathelement path='${cases_build_dir}' />
+    <pathelement path='${samples_build_dir}' />
+    <pathelement location='${junit_jar}'/>
+    <pathelement location='${stax_api_jar}' />
+    <pathelement location='${stax_impl_jar}' />
+    <pathelement path='${java.class.path}' />
+  </path>
+
+  <property name='classpath-value' refid='classpath'/>
+
+  <taskdef name='annogen'
+           classname='org.codehaus.annogen.generate.AnnogenTask'
+           classpathref='classpath'/>
+
+
+  <!-- Targets -->
+
+  <target name='clean' >
+    <delete dir='${cases_build_dir}'/>
+    <delete dir='${samples_build_dir}'/>
+  </target>
+
+  <target name='all' depends='compile,run'/>
+
+  <target name='all.clean' depends='clean,all'/>
+
+  <target name='compile'>
+    <mkdir dir='${cases_build_dir}'/>
+    <javac srcdir='${cases_dir}/src' destdir='${cases_build_dir}'
+      source='1.4' target='1.4'
+      debug='on'   classpathref='classpath'/>
+    <mkdir dir='${samples_build_dir}'/>
+    <!-- no 140 samples to build yet -->
+    <antcall target='compile_150'/>
+  </target>
+
+  <target name='compile_150' depends='do150check' if='is150'>
+    <mkdir dir='${codegen_build_dir}'/>
+    <annogen outputdir='${codegen_build_dir}' srcdir='${samples_dir}/src_150'
+             includes='org/codehaus/annogen/test/samples/annotations/*.java'
+             classpathref='classpath'
+             implementAnnotationTypes='true'/>
+    <javac destdir='${samples_build_dir}' source='1.5' target='1.5'
+           debug='on' classpathref='classpath'>
+      <src path='${samples_dir}/src_150'/>
+      <src path='${codegen_build_dir}'/>
+    </javac>
+    <mkdir dir='${cases_build_dir}'/>
+    <javac srcdir='${cases_dir}/src_150' destdir='${cases_build_dir}'
+           source='1.5' target='1.5'
+           debug='on'   classpathref='classpath'/>
+  </target>
+
+  <!-- fixme we skip unless 150 because we have no non-150 tests right now -->
+  <target name='run' depends='do150check' if='is150'>
+
+    <!--
+      If you get errors here about not being able to load the junit task,
+      try copying ../external/lib/junit.jar into your ant/lib directory.
+    -->
+
+    <taskdef name='junit'
+             classname='org.apache.tools.ant.taskdefs.optional.junit.JUnitTask'
+             classpathref='classpath'/>
+
+    <condition property='suffix' value='_150'>
+     <isset property='is150'/>
+    </condition>
+    <property name='suffix' value=''/>
+
+    <echo message=''/>
+    <echo message=''/>
+    <echo message='================= beginning annogen tests ======== '/>
+
+    <junit maxmemory='256m'     fork='yes' forkmode='perTest'
+           dir='.'
+           haltonerror='yes'
+           haltonfailure='yes'
+           showoutput='yes'
+           printsummary='yes'>
+      <classpath>
+        <pathelement path='${classpath-value}'/> <!--ref no workie-->
+      </classpath>
+      <formatter type='plain' usefile='false'/>
+
+      <test name='org.codehaus.annogen.test.cases.AnnogenTestCase${suffix}'/>
+
+    </junit>
+
+
+  </target>
+
+  <target name='do150check'>
+    <condition property='is150'>
+      <contains string='${java.version}' substring='1.5'/>
+    </condition>
+  </target>
+
+</project>

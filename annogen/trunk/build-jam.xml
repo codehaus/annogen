@@ -1,0 +1,58 @@
+<project name='annogen.jam' default='all.clean' basedir='.'>
+
+  <!-- Properties -->
+
+  <property name='classes_dir'   value='build/classes' />
+
+  <property name='core'              value='jam/core'/>
+  <property name='src_dir'           value='${core}/src'/>
+  <property name='src150_dir'        value='${core}/src_150'/>
+
+  <property name='stax_api_jar'      value='external/lib/stax-api.jar'/>
+
+  <!-- Targets -->
+
+  <target name='clean'>
+    <delete dir='${classes_dir}/org/pcal/jam'/>
+  </target>
+
+  <target name='all' depends='compile'/>
+
+  <target name='all.clean' depends='clean,all'/>
+
+  <target name='compile'>
+    <mkdir dir='${classes_dir}'/>
+    <javac srcdir='${src_dir}' destdir='${classes_dir}'
+           source='1.4' target='1.4'
+           debug='on'>
+      <src path='${src_dir}'/>
+      <classpath>
+        <pathelement location='${stax_api_jar}'/>
+        <pathelement path='${classes_dir}'/>
+        <pathelement path='${java.class.path}'/>
+      </classpath>
+    </javac>
+    <antcall target='compile_150'/>
+  </target>
+
+  <target name='compile_150' depends='do150check' if='is150'>
+    <javac srcdir='${src150_dir}' destdir='${classes_dir}'
+           source='1.5' target='1.5' debug='on'>
+      <src path='${src150_dir}'/>
+      <classpath>
+        <pathelement location='${stax_api_jar}'/>
+        <pathelement path='${classes_dir}'/>
+        <pathelement path='${java.class.path}'/>
+      </classpath>
+    </javac>
+  </target>
+
+  <target name='do150check'>
+    <condition property='is150'>
+      <contains string='${java.version}' substring='1.5'/>
+    </condition>
+  </target>
+
+
+
+</project>
