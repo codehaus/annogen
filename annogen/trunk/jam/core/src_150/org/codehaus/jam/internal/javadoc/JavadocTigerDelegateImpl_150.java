@@ -259,7 +259,7 @@ if (mAnnotationDefaultsDisabled) return;
       String val = ((FieldDoc)valueObj).name(); //REVIEW is this right?
       dest.setSimpleValue(memberName,val,type);
     } else if (valueObj instanceof ClassDoc) {
-      String tn = JavadocClassBuilder.getFdFor(((FieldDoc)valueObj).containingClass());
+      String tn = JavadocClassBuilder.getFdFor(((ClassDoc)valueObj).containingClass());
        JClass clazz = mContext.getClassLoader().loadClass(tn);
       dest.setSimpleValue(memberName,clazz,loadClass(JClass.class));
     } else if (valueObj instanceof String) {
