@@ -31,6 +31,7 @@ import org.codehaus.jam.JInvokable;
 import org.codehaus.jam.JMethod;
 import org.codehaus.jam.JPackage;
 import org.codehaus.jam.JParameter;
+import org.codehaus.jam.JProperty;
 import org.codehaus.jam.provider.JamLogger;
 import org.codehaus.jam.visitor.JVisitor;
 

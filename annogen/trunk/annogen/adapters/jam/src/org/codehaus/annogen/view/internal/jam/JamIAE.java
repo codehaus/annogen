@@ -148,11 +148,13 @@ public final class JamIAE implements IndigenousAnnoExtractor {
   }
 
   //REVIEW this is pretty fragile, but do we have a choice?
+  //We really need to know from JAM whether the JAnnotation is a 175 or
+  //a javadoc tag.  Maybe we need separate abstractions.
   private Class getAnnotationTypeClass(JAnnotation ann) {
     try {
-    return Class.forName(ann.getQualifiedName());
+      return Class.forName(ann.getQualifiedName());
     } catch(ClassNotFoundException cnfe) {
-      mLogger.error(cnfe);
+      // mLogger.warning(cnfe);
     }
     return null;
   }
