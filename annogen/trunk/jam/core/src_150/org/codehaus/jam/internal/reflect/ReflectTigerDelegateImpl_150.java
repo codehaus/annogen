@@ -15,8 +15,7 @@
 package org.codehaus.jam.internal.reflect;
 
 import org.codehaus.jam.JClass;
-import org.codehaus.jam.JamClassLoader;
-import org.codehaus.jam.provider.JamLogger;
+import org.codehaus.jam.internal.elements.ElementContext;
 import org.codehaus.jam.mutable.MAnnotatedElement;
 import org.codehaus.jam.mutable.MAnnotation;
 import org.codehaus.jam.mutable.MClass;
@@ -33,6 +32,10 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
 /**
+ * Implementation of ReflectTigerDelegate.  This is where we sequester away
+ * all of the code for dealing with 1.5-specific stuff in java.lang.reflect.
+ * This class is compiled and loaded only under JRE 1.5.
+ *
  * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public final class ReflectTigerDelegateImpl_150 extends ReflectTigerDelegate {
@@ -41,15 +44,14 @@ public final class ReflectTigerDelegateImpl_150 extends ReflectTigerDelegate {
   // ========================================================================
   // Private
 
-  private JamLogger mLogger;
-  private JamClassLoader mClassLoader;
+  private ElementContext mContext;
 
   // ========================================================================
   // Reflect15Delegate implementation
 
-  public void init(JamLogger logger, JamClassLoader cl) {
-    mLogger = logger;
-    mClassLoader = cl;
+  public void init(ElementContext ctx) {
+    if (ctx == null) throw new IllegalArgumentException();
+    mContext = ctx;
   }
 
   public void populateAnnotationTypeIfNecessary(Class cd,
@@ -90,17 +92,18 @@ public final class ReflectTigerDelegateImpl_150 extends ReflectTigerDelegate {
       anns = src.getParameterAnnotations();
     } catch(NullPointerException wtf) {
       //FIXME workaround, sun code throws an NPE here
-      if (mLogger.isVerbose(this)) {
-        mLogger.verbose("ignoring unexpected error while calling Method.getParameterAnnotations():");
-        mLogger.verbose(wtf);
+      if (mContext.getLogger().isVerbose(this)) {
+        mContext.getLogger().verbose
+          ("ignoring unexpected error while calling Method.getParameterAnnotations():");
+        mContext.getLogger().verbose(wtf);
       }
       //wtf.printStackTrace();
       return;
     }
     if (anns == null) return;
     if (paramNum >= anns.length) {
-      if (mLogger.isVerbose(this)) {
-        mLogger.warning("method "+src.getName()+
+      if (mContext.getLogger().isVerbose(this)) {
+        mContext.getLogger().warning("method "+src.getName()+
                         " has fewer than expected parameter annotations ");
       }
       return;
@@ -115,17 +118,17 @@ public final class ReflectTigerDelegateImpl_150 extends ReflectTigerDelegate {
       anns = src.getParameterAnnotations();
     } catch(NullPointerException wtf) {
       //FIXME workaround, sun code throws an NPE here
-      if (mLogger.isVerbose(this)) {
-        mLogger.verbose("ignoring unexpected error while calling Constructor.getParameterAnnotations():");
-        mLogger.verbose(wtf);
+      if (mContext.getLogger().isVerbose(this)) {
+        mContext.getLogger().verbose("ignoring unexpected error while calling Constructor.getParameterAnnotations():");
+        mContext.getLogger().verbose(wtf);
       }
       //wtf.printStackTrace();
       return;
     }
     if (anns == null) return;
     if (paramNum >= anns.length) {
-      if (mLogger.isVerbose(this)) {
-        mLogger.warning("constructor "+src.getName()+
+      if (mContext.getLogger().isVerbose(this)) {
+        mContext.getLogger().warning("constructor "+src.getName()+
                         " has fewer than expected parameter annotations ");
       }
       return;
@@ -160,15 +163,15 @@ public final class ReflectTigerDelegateImpl_150 extends ReflectTigerDelegate {
   }
 
   private void populateAnnotation(MAnnotation dest, Annotation src) {
-    boolean isVerbose = mLogger.isVerbose(this);
+    boolean isVerbose = mContext.getLogger().isVerbose(this);
     if (src == null) throw new IllegalArgumentException();
     Class annType = src.annotationType();
-    if (isVerbose) mLogger.verbose("type is "+annType.getName());
+    if (isVerbose) mContext.getLogger().verbose("type is "+annType.getName());
     //FIXME this is a bit clumsy right now - I think we need to be a little
     // more surgical in identifying the annotation member methods
     Method[] methods = annType.getMethods();
     for(int i=0; i<methods.length; i++) {
-      if (isVerbose) mLogger.verbose("examining "+methods[i].toString());
+      if (isVerbose) mContext.getLogger().verbose("examining "+methods[i].toString());
       int mods = methods[i].getModifiers();
       if (Modifier.isStatic(mods)) continue;
       if (!Modifier.isPublic(mods)) continue;
@@ -182,11 +185,11 @@ public final class ReflectTigerDelegateImpl_150 extends ReflectTigerDelegate {
         }
       }
       try {
-        if (isVerbose) mLogger.verbose("invoking "+methods[i].getName()+"()");
+        if (isVerbose) mContext.getLogger().verbose("invoking "+methods[i].getName()+"()");
         Object value = methods[i].invoke(src,(Object[])null);
-        if (isVerbose) mLogger.verbose("value is "+value);
+        if (isVerbose) mContext.getLogger().verbose("value is "+value);
         if (value instanceof Annotation) {
-          if (isVerbose) mLogger.verbose("it's nested!!  creating for "+
+          if (isVerbose) mContext.getLogger().verbose("it's nested!!  creating for "+
                                          methods[i].getName()+" and "+
                                          annType.getName());
           MAnnotation nested = dest.createNestedValue(methods[i].getName(),
@@ -201,14 +204,14 @@ public final class ReflectTigerDelegateImpl_150 extends ReflectTigerDelegate {
              anns.length);
           for(int j=0; j<anns.length; j++) populateAnnotation(nested[j],anns[j]);
         } else {
-          JClass type = mClassLoader.
+          JClass type = mContext.getClassLoader().
             loadClass(methods[i].getReturnType().getName());
           dest.setSimpleValue(methods[i].getName(),value,type);
         }
       } catch (IllegalAccessException e) {
-        mLogger.warning(e);
+        mContext.getLogger().warning(e);
       } catch (InvocationTargetException e) {
-        mLogger.warning(e);
+        mContext.getLogger().warning(e);
       }
     }
   }

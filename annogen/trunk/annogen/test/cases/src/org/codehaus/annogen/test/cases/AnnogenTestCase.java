@@ -17,6 +17,7 @@ package org.codehaus.annogen.test.cases;
 import junit.framework.TestCase;
 import org.codehaus.annogen.generate.AnnoBeanMapping;
 import org.codehaus.annogen.generate.Annogen;
+import org.codehaus.annogen.generate.AnnogenTask;
 import org.codehaus.annogen.generate.internal.PropfileUtils;
 import org.codehaus.jam.JClass;
 import org.codehaus.jam.JamService;
@@ -106,10 +107,7 @@ public class AnnogenTestCase extends TestCase {
     assertTrue(props.getProperty("annobean").equals(annobeanType));
   }
 
-  // ========================================================================
-  // Utilitiy methods
-
-  protected static File createTempDir() throws IOException {
+  private static File createTempDir() throws IOException {
     File outputFile = File.createTempFile("annogen_test","");
     File tempDir = outputFile.getParentFile();
     outputFile.delete();

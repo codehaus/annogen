@@ -29,7 +29,7 @@ import java.util.List;
  *
  * @author Patrick Calaham <codehaus@bea.com>
  */
-public class CompilingJavaOutputStream extends org.codehaus.annogen.generate.internal.joust.SourceJavaOutputStream
+public class CompilingJavaOutputStream extends SourceJavaOutputStream
         implements WriterFactory
  {
   // ========================================================================
@@ -54,8 +54,7 @@ public class CompilingJavaOutputStream extends org.codehaus.annogen.generate.int
 
   /**
    * Construct a new CompilingJavaOutputStream which generates java sources
-   * in the given directory.  In order to enable compilation of those sources,
-   * you must call enableCompilation.
+   * in the given directory.
    *
    * @param srcDir Directory in which sources get generated.
    */
@@ -152,26 +151,35 @@ public class CompilingJavaOutputStream extends org.codehaus.annogen.generate.int
 
   public void close() throws IOException {
     super.close();
-    mLogger.verbose(PREFIX+" closing");
+    verbose("closing");
     if (mDoCompile && mCompileDir != null) {
-      mLogger.verbose(PREFIX+"compileDir = "+mCompileDir);
+      verbose("compileDir = "+mCompileDir);
       Iterator i = mSourceFiles.iterator();
       while(i.hasNext()) {
-        mLogger.verbose(PREFIX+i.next().toString());
+        verbose(i.next().toString());
       }
-      boolean verbose = mLogger.isVerbose();
+      boolean verbose = mLogger.isVerbose(this);
       boolean result = mSourceFiles.size() > 0 ? CodeGenUtil.
               externalCompile(mSourceFiles,mCompileDir,mJavacClasspath,
                   verbose,mJavacPath,null,null,!verbose,verbose) : true;
-      mLogger.verbose(PREFIX+" compilation result: "+result);
+      verbose("compilation result: "+result);
       if (!result) {
         throw new IOException("Compilation of sources failed, " +
                               "check log for details.");
       }
       if (!mKeepGenerated) {
-        mLogger.verbose(PREFIX+" deleting "+mSourceDir);
-        mSourceDir.delete();
+        for(Iterator j = mSourceFiles.iterator(); j.hasNext(); ) {
+          File f = (File)j.next();
+          verbose("deleting "+f);
+          f.delete();
+        }
       }
+    }
+  }
+
+  private void verbose(String msg) {
+    if (mLogger.isVerbose(this)) {
+      mLogger.verbose(PREFIX+" "+msg);
     }
   }
 }

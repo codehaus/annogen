@@ -60,6 +60,9 @@ public class PropfileUtils {
   public void writeAnnobeanTypeFor(JClass jsr175type,
                                    String annobeanType,
                                    File rootDir) throws IOException {
+    if (jsr175type == null) throw new IllegalArgumentException("null 175 type");
+    if (annobeanType == null) throw new IllegalArgumentException("null annobeanType");
+    if (rootDir == null) throw new IllegalArgumentException("null rootDir");
     Properties props = new Properties();
     props.setProperty(ANNOBEAN_PROP,annobeanType);
     writeProperties(jsr175type,props,rootDir);
@@ -92,7 +95,8 @@ public class PropfileUtils {
     String propFile =
         jsr175type.getQualifiedName().replace('.',File.separatorChar);
     File file = new File(rootDir, propFile+PROPFILE_SUFFIX);
-    if (!file.getParentFile().mkdirs()) {
+    if (!file.getParentFile().exists() &&
+        !file.getParentFile().mkdirs()) {
       throw new IOException("failed to create "+file.getParentFile());
     }
     FileOutputStream fos = null;

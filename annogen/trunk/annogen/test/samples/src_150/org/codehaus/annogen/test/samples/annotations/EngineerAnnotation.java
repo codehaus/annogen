@@ -14,9 +14,6 @@
  */
 package org.codehaus.annogen.test.samples.annotations;
 
-import org.codehaus.annogen.generate.AnnogenInfo;
-import org.codehaus.annogen.generate.AnnogenInfo;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
@@ -25,7 +22,6 @@ import java.lang.annotation.RetentionPolicy;
  *
  * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
-@AnnogenInfo(annoBeanClass= "org.codehaus.annogen.test.samples.annotations.impl.EngineerAnnotationImpl")
 @Retention(value=RetentionPolicy.RUNTIME)
 public @interface EngineerAnnotation {
   public String name();

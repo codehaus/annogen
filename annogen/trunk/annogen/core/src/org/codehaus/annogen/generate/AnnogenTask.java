@@ -16,6 +16,7 @@ package org.codehaus.annogen.generate;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
+import org.apache.tools.ant.taskdefs.Javac;
 import org.apache.tools.ant.types.Path;
 import org.apache.tools.ant.types.Reference;
 import org.codehaus.jam.JClass;
@@ -57,7 +58,7 @@ public class AnnogenTask extends Task {
    * Sets the directory into which source files should be generated.
    * @param f
    */
-  public void setOutputDir(File f) {
+  public void setDestDir(File f) {
     mAnnogen.setOutputDir(f);
   }
 
@@ -131,6 +132,9 @@ public class AnnogenTask extends Task {
     mMappings.add(m);
   }
 
+  public void setKeepGenerated(boolean b) {
+    mAnnogen.setKeepGenerated(b);
+  }
 
   // ========================================================================
   // Task implementation
@@ -142,18 +146,24 @@ public class AnnogenTask extends Task {
     JamServiceFactory jsf = JamServiceFactory.getInstance();
     JamServiceParams p = jsf.createServiceParams();
     if (mToolpath != null) {
-     File[] tcp = path2files(mToolpath);
+      File[] tcp = path2files(mToolpath);
       for(int i=0; i<tcp.length; i++) p.addToolClasspath(tcp[i]);
     }
     if (mClasspath != null) {
-     File[] cp = path2files(mClasspath);
+      File[] cp = path2files(mClasspath);
       for(int i=0; i<cp.length; i++) p.addClasspath(cp[i]);
+      mAnnogen.setClasspath(cp);
     }
     p.includeSourcePattern(path2files(mSrcDir),mIncludes);
     try {
       JamService js = jsf.createService(p);
       JClass[] classes = js.getAllClasses();
       mAnnogen.addAnnotationClasses(classes);
+      if (mMappings != null) {
+        AnnoBeanMapping[] mappings = new AnnoBeanMapping[mMappings.size()];
+        mMappings.toArray(mappings);
+        mAnnogen.setMappings(mappings);
+      }
       log("Generating annotation impls for the following classes:");
       for(int i=0; i<classes.length; i++) {
         log("  "+classes[i].getQualifiedName());
@@ -165,8 +175,9 @@ public class AnnogenTask extends Task {
     }
   }
 
+
   // ========================================================================
-  // Private methods
+  // Utility methods
 
   private File[] path2files(Path path) {
     String[] list = path.list();

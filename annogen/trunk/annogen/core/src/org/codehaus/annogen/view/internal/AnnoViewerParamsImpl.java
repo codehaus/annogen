@@ -124,11 +124,11 @@ public class AnnoViewerParamsImpl implements AnnoViewerParams, AnnoContext {
     }
     Field f;
     try {
-      f = beanClass.getField(Annogen.PROXY_FOR_FIELD);
+      f = beanClass.getField(Annogen.ANNOBEAN_FOR_FIELD);
     } catch(NoSuchFieldException nsfe) {
       throw new IllegalArgumentException
         (beanClass.getName()+" is an AnnoBean but does not have a "+
-         Annogen.PROXY_FOR_FIELD+" field");
+         Annogen.ANNOBEAN_FOR_FIELD+" field");
     }
     String declaredTypeName;
     try {
@@ -175,12 +175,8 @@ public class AnnoViewerParamsImpl implements AnnoViewerParams, AnnoContext {
         return PropfileUtils.getInstance().getAnnobeanTypeFor(requestedClass,
                                                               mClassLoader);
       } catch(IOException ioe) {
-        ClassNotFoundException cnfe = new ClassNotFoundException();
-        cnfe.initCause(ioe);
-        throw cnfe;
+        throw new ClassNotFoundException("IO Error:", ioe);
       }
     }
   }
-
-
 }

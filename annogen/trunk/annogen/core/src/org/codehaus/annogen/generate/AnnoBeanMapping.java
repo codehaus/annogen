@@ -47,6 +47,7 @@ public class AnnoBeanMapping {
   // Constants
 
   private static final char WILD = '*';
+  private static final boolean VERBOSE = false;
 
   // ========================================================================
   // Variables
@@ -77,10 +78,19 @@ public class AnnoBeanMapping {
    * be mapped to.  If the type doesn't match, null is returned.
    */
   public String getAnnoBeanFor(String classname) {
+    if (classname == null) throw new IllegalArgumentException("null classname");
+    classname = classname.trim();
+    if (VERBOSE) {
+      verbose("=============");
+      verbose("checking "+classname);
+      verbose("against  "+mTypePattern);
+    }
     if (mBeanBeforeStar == null && mTypeBeforeStar == null) {
       if (mTypePattern.equals(classname)) {
+        if (VERBOSE) verbose("No star, match!");
         return mBeanPattern;
       } else {
+        if (VERBOSE) verbose("No star, no match");
         return null;
       }
     }
@@ -90,12 +100,18 @@ public class AnnoBeanMapping {
     if (mTypeBeforeStar == null) {
       throw new IllegalStateException(WILD+" must be specified in both bean and type");
     }
+    if (VERBOSE) verbose("typeBefore="+mTypeBeforeStar);
+    if (VERBOSE) verbose("typeAfter="+mTypeAfterStar);
     if (classname.startsWith(mTypeBeforeStar) &&
         (mTypeAfterStar == null || classname.endsWith(mTypeAfterStar))) {
+      if (VERBOSE) verbose("...matched the front "+classname.startsWith(mTypeBeforeStar));
       String sub = classname.substring(mTypeBeforeStar.length(),
-                                   classname.length() -
-                                   (mTypeAfterStar == null ? 0 : mTypeAfterStar.length()));
-      return mBeanBeforeStar + sub + (mBeanAfterStar == null ? "" : mBeanAfterStar);
+                                       classname.length() -
+                                       (mTypeAfterStar == null ? 0 : mTypeAfterStar.length()));
+      String out = mBeanBeforeStar + sub +
+                   (mBeanAfterStar == null ? "" : mBeanAfterStar);
+      if (VERBOSE) verbose("result is "+out);
+      return out;
     }
     return null;
   }
@@ -112,7 +128,7 @@ public class AnnoBeanMapping {
     int wild;
     if ((wild = type.indexOf(WILD)) != -1) {
       mTypeBeforeStar = mTypePattern.substring(0,wild);
-      if (wild == mTypePattern.length()) {
+      if (wild == mTypePattern.length() -1) { //if it's the last char
         mTypeAfterStar = null;
       } else {
         mTypeAfterStar = mTypePattern.substring(wild+1);
@@ -135,6 +151,14 @@ public class AnnoBeanMapping {
         mBeanAfterStar = mBeanPattern.substring(wild+1);
       }
     }
+  }
+
+
+  // ========================================================================
+  // Private methods
+
+  private static final void verbose(String msg) {
+    System.out.println("[AnnoBeanMapping] "+ msg);
   }
 
 }

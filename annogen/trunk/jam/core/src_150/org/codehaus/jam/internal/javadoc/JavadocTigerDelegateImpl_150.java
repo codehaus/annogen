@@ -37,6 +37,10 @@ import org.codehaus.jam.provider.JamServiceContext;
 
 
 /**
+ * Implementation of JavadocTigerDelegate.  This is where we sequester away
+ * all of the code for dealing with 1.5-specific stuff in javadoc.
+ * This class is compiled and loaded only under JRE 1.5.
+ *
  * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public final class JavadocTigerDelegateImpl_150 extends JavadocTigerDelegate {
@@ -50,24 +54,19 @@ public final class JavadocTigerDelegateImpl_150 extends JavadocTigerDelegate {
   // ========================================================================
   // Variables
 
-  private JamLogger mLogger;
-  private JamClassLoader mClassLoader;
+  private ElementContext mContext;
 
   // ========================================================================
   // Javadoc15Delegate implementation
 
   public void init(ElementContext ctx) {
-    mLogger = ctx.getLogger();
-    mClassLoader = ctx.getClassLoader();
-
+    if (ctx == null) throw new IllegalArgumentException();
+    mContext = ctx;
     if (((JamServiceContext)ctx).getProperty(ANNOTATION_DEFAULTS_DISABLED_PROPERTY) != null) {
       mAnnotationDefaultsDisabled = true;
     }
   }
 
-  public void init(JamLogger logger) {
-    mLogger = logger;
-  }
 
   //AnnotationType... are 1.5-specific, so we have to hide this little
   //chunk of code away down here
@@ -233,15 +232,15 @@ if (mAnnotationDefaultsDisabled) return;
       valueObj = aval.value();
     } catch(NullPointerException npe) {
       //FIXME temporary workaround for sun bug
-      mLogger.warning
+      mContext.getLogger().warning
         ("Encountered a known javadoc bug which usually \n"+
          "indicates a syntax error in an annotation value declaration.\n"+
          "The value is being ignored.\n"+
          "[file="+sp.file()+", line="+sp.line()+"]");
       return;
     }
-    if (mLogger.isVerbose(this)) {
-      mLogger.verbose(memberName+" is a "+typeName+" with valueObj "+
+    if (mContext.getLogger().isVerbose(this)) {
+      mContext.getLogger().verbose(memberName+" is a "+typeName+" with valueObj "+
                                    valueObj+", class is "+valueObj.getClass());
     }
     // ok, take a look at how what it really is and translate it into an
@@ -251,17 +250,17 @@ if (mAnnotationDefaultsDisabled) return;
       populateAnnotation(nested,(AnnotationDesc)valueObj,sp);
     } else if (valueObj instanceof Number || valueObj instanceof Boolean) {
       String tn = JavadocClassBuilder.getFdFor(returnType);
-      JClass type = mClassLoader.loadClass(tn);
+      JClass type = mContext.getClassLoader().loadClass(tn);
       dest.setSimpleValue(memberName,valueObj,type);
     } else if (valueObj instanceof FieldDoc) {
       String tn = JavadocClassBuilder.getFdFor(((FieldDoc)valueObj).containingClass());
       // this means it's an enum constant
-      JClass type = mClassLoader.loadClass(tn);
+      JClass type = mContext.getClassLoader().loadClass(tn);
       String val = ((FieldDoc)valueObj).name(); //REVIEW is this right?
       dest.setSimpleValue(memberName,val,type);
     } else if (valueObj instanceof ClassDoc) {
       String tn = JavadocClassBuilder.getFdFor(((FieldDoc)valueObj).containingClass());
-       JClass clazz = mClassLoader.loadClass(tn);
+       JClass clazz = mContext.getClassLoader().loadClass(tn);
       dest.setSimpleValue(memberName,clazz,loadClass(JClass.class));
     } else if (valueObj instanceof String) {
       String v = ((String)valueObj).trim();
@@ -273,7 +272,7 @@ if (mAnnotationDefaultsDisabled) return;
     } else if (valueObj instanceof AnnotationValue[]) {
       populateArrayMember(dest,memberName,returnType,(AnnotationValue[])valueObj,sp);
     } else {
-      mLogger.error("Value of annotation member "+memberName+" is " +
+      mContext.getLogger().error("Value of annotation member "+memberName+" is " +
                                  "of an unexpected type: "+
                                  valueObj.getClass()+"   ["+valueObj+"]");
     }
@@ -328,14 +327,14 @@ if (mAnnotationDefaultsDisabled) return;
       try {
         valueArray[i] = annValueArray[i].value();
         if (valueArray[i] == null) {
-          mLogger.error
+          mContext.getLogger().error
             ("Javadoc provided an array annotation member value which contains "+
              "[file="+sp.file()+", line="+sp.line()+"]");
           return;
         }
       } catch(NullPointerException npe) {
         //FIXME temporary workaround for sun bug
-        mLogger.warning
+        mContext.getLogger().warning
           ("Encountered a known javadoc bug which usually \n"+
            "indicates a syntax error in an annotation value declaration.\n"+
            "The value is being ignored.\n"+
@@ -384,7 +383,7 @@ if (mAnnotationDefaultsDisabled) return;
       }
       dest.setSimpleValue(memberName,value,loadClass(String[].class));
     } else {
-      mLogger.error("Value of array annotation member "+
+      mContext.getLogger().error("Value of array annotation member "+
                                  memberName+" is of an unexpected type: "+
                                  valueArray[0].getClass()+"   ["+
                                  valueArray[0]+"]");
@@ -395,13 +394,13 @@ if (mAnnotationDefaultsDisabled) return;
 
   private JClass loadClass(Type type) { return loadClass(getFdFor(type)); }
 
-  //maybe we should put this on JamClassLoader?
+  //maybe we should put this on JamContext.getClassLoader()?
   private JClass loadClass(Class clazz) {
     return loadClass(clazz.getName());
   }
 
   private JClass loadClass(String fd) {
-    return mClassLoader.loadClass(fd);
+    return mContext.getClassLoader().loadClass(fd);
   }
 
   /**
@@ -413,7 +412,7 @@ if (mAnnotationDefaultsDisabled) return;
     try {
       return d.annotationType();
     } catch(ClassCastException cce) {
-      mLogger.error(new JavadocParsingException(d,sp,cce));
+      mContext.getLogger().error(new JavadocParsingException(d,sp,cce));
       return null;
     }
   }

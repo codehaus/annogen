@@ -15,19 +15,14 @@
 package org.codehaus.annogen.generate;
 
 import org.codehaus.annogen.generate.internal.PropfileUtils;
-import org.codehaus.annogen.generate.internal.joust.FileWriterFactory;
-import org.codehaus.annogen.generate.internal.joust.JavaOutputStream;
-import org.codehaus.annogen.generate.internal.joust.SourceJavaOutputStream;
 import org.codehaus.annogen.generate.internal.joust.Variable;
-import org.codehaus.annogen.generate.internal.joust.WriterFactory;
+import org.codehaus.annogen.generate.internal.joust.CompilingJavaOutputStream;
 import org.codehaus.annogen.override.internal.AnnoBeanBase;
-import org.codehaus.annogen.view.internal.reflect.ReflectAnnogenTigerDelegate;
 import org.codehaus.jam.JClass;
 import org.codehaus.jam.JMethod;
 import org.codehaus.jam.JamService;
 import org.codehaus.jam.JamServiceFactory;
 import org.codehaus.jam.JamServiceParams;
-import org.codehaus.jam.internal.JamLoggerImpl;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,44 +44,9 @@ import java.util.List;
 public class Annogen {
 
   // ========================================================================
-  // main() method
-
-  //FIXME need to clean up and add parameters, add usage statement
-  public static void main(String[] args) {
-    try {
-      JamServiceFactory jsf = JamServiceFactory.getInstance();
-      JamServiceParams params = jsf.createServiceParams();
-      Annogen ag = new Annogen();
-      for(int i=0; i<args.length; i++) {
-        if (args[i].equals("-d")) {
-          i++;
-          ag.setOutputDir(new File(args[i]));
-          i++;
-        } else {
-          File f = new File(args[i]);
-          if (f.isDirectory()) {
-            File[] fs = f.listFiles();
-            for(int j=0; j<fs.length; j++) params.includeSourceFile(fs[j]);
-          } else {
-            params.includeSourceFile(f);
-          }
-        }
-      }
-      JamService js = jsf.createService(params);
-      ag.addAnnotationClasses(js.getAllClasses());
-      ag.doCodegen();
-    } catch(IOException ioe) {
-      ioe.printStackTrace();
-      System.out.flush();
-      System.exit(-1);
-    }
-  }
-
-
-  // ========================================================================
   // Constants
 
-  public static final String PROXY_FOR_FIELD = "PROXY_FOR_FIELD";
+  public static final String ANNOBEAN_FOR_FIELD = "ANNOBEAN_FOR";
 
   public static final String SETTER_PREFIX = "set_";
   private static final String FIELD_PREFIX = "_";
@@ -99,21 +59,15 @@ public class Annogen {
 
   private List mClassesLeftTodo = null;
   private Collection mClassesDone = null;
-  private JavaOutputStream mJoust = null;
+  private CompilingJavaOutputStream mJoust = new CompilingJavaOutputStream();
   private boolean mImplementAnnotationTypes = true;
-  private ReflectAnnogenTigerDelegate mTiger;
   private AnnoBeanMapping[] mMappings = null;
-  private File mDestDir = null;
+  private File mOutputDir = null;
 
   // ========================================================================
   // Constructors
 
   public Annogen() {
-    mTiger = ReflectAnnogenTigerDelegate.create(new JamLoggerImpl());
-    if (mTiger == null) {
-      throw new IllegalStateException
-        ("The annogen code generator must be run under JDK 1.5 or later.");
-    }
     mClassesLeftTodo = new LinkedList();
     mClassesDone = new HashSet();
   }
@@ -133,23 +87,26 @@ public class Annogen {
   }
 
   public void setOutputDir(File dir) {
-    WriterFactory wf = new FileWriterFactory(dir);
-    mJoust = new SourceJavaOutputStream(wf);
-    mDestDir = dir;
+    mJoust.setSourceDir(dir);
+    mJoust.setCompilationDir(dir);
+    mOutputDir = dir;
   }
 
-  public void setMappings(AnnoBeanMapping[] mappings) {
-    mMappings = mappings;
-  }
+  public void setKeepGenerated(boolean b) { mJoust.setKeepGenerated(b); }
+
+  public void setMappings(AnnoBeanMapping[] mappings) { mMappings = mappings; }
+
+  public void setClasspath(File[] cp) { mJoust.setJavacClasspath(cp); }
 
   public void doCodegen() throws IOException {
-    if (mDestDir == null) throw new IllegalStateException("destdir not set");
+    if (mOutputDir == null) throw new IllegalStateException("destdir not set");
     while(mClassesLeftTodo.size() > 0) {
       JClass clazz = (JClass)mClassesLeftTodo.get(0);
       mClassesLeftTodo.remove(0);
       mClassesDone.add(clazz);
       doCodegen(clazz);
     }
+    mJoust.close();
   }
 
   public void setImplementAnnotationTypes(boolean b) {
@@ -158,6 +115,9 @@ public class Annogen {
 
   // ========================================================================
   // Private methods
+
+  /*package*/ File getOutputDir() { return mOutputDir; }
+
 
   private void doCodegen(JClass jsr175type) throws IOException {
     if (jsr175type == null) throw new IllegalArgumentException();
@@ -190,7 +150,7 @@ public class Annogen {
     // just always doing it this way.
     mJoust.writeField(Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL,
                       "java.lang.String",
-                      PROXY_FOR_FIELD,
+                      ANNOBEAN_FOR_FIELD,
                       mJoust.getExpressionFactory().
                       createString(jsr175type.getQualifiedName()));
 
@@ -201,7 +161,7 @@ public class Annogen {
       // also generate a little properties file that will tell us at runtime
       // the name of the annobean class that the annotation type maps to.
       PropfileUtils.getInstance().writeAnnobeanTypeFor
-          (jsr175type,annoBeanClassname,mDestDir);
+          (jsr175type,annoBeanClassname,mOutputDir);
     }
   }
 
@@ -297,5 +257,40 @@ public class Annogen {
         jsr175type.getSimpleName()+"Annobean";
   }
 
+
+
+  // ========================================================================
+  // main() method
+
+  //FIXME need to clean up and add parameters, add usage statement
+  public static void main(String[] args) {
+    try {
+      JamServiceFactory jsf = JamServiceFactory.getInstance();
+      JamServiceParams params = jsf.createServiceParams();
+      Annogen ag = new Annogen();
+      for(int i=0; i<args.length; i++) {
+        if (args[i].equals("-d")) {
+          i++;
+          ag.setOutputDir(new File(args[i]));
+          i++;
+        } else {
+          File f = new File(args[i]);
+          if (f.isDirectory()) {
+            File[] fs = f.listFiles();
+            for(int j=0; j<fs.length; j++) params.includeSourceFile(fs[j]);
+          } else {
+            params.includeSourceFile(f);
+          }
+        }
+      }
+      JamService js = jsf.createService(params);
+      ag.addAnnotationClasses(js.getAllClasses());
+      ag.doCodegen();
+    } catch(IOException ioe) {
+      ioe.printStackTrace();
+      System.out.flush();
+      System.exit(-1);
+    }
+  }
 
 }

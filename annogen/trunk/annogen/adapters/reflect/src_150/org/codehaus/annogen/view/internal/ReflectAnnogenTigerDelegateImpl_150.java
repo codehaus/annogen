@@ -17,6 +17,7 @@ package org.codehaus.annogen.view.internal;
 import org.codehaus.annogen.override.AnnoBeanSet;
 import org.codehaus.annogen.override.AnnoBean;
 import org.codehaus.annogen.view.internal.reflect.ReflectAnnogenTigerDelegate;
+import org.codehaus.jam.provider.JamLogger;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
@@ -31,13 +32,20 @@ import java.lang.reflect.InvocationTargetException;
 public final class ReflectAnnogenTigerDelegateImpl_150
   extends ReflectAnnogenTigerDelegate
  {
+  // ========================================================================
+  // Variables
+
+  private JamLogger mLogger;
 
   // ========================================================================
   // Reflect15Delegate implementation
 
+  public void init(JamLogger l) { mLogger = l; }
+
   public Class getAnnotationClassFor(/*Annotation*/Object annotation) {
     return ((Annotation)annotation).annotationType();
   }
+
 
   public boolean extractAnnotations(AnnoBeanSet out, Package on) {
     return doExtract(out,on.getAnnotations());

@@ -51,7 +51,7 @@ public abstract class ReflectTigerDelegate {
     try {
       ReflectTigerDelegate out = (ReflectTigerDelegate)
         Class.forName(IMPL_NAME).newInstance();
-      out.init(ctx.getLogger(),ctx.getClassLoader());
+      out.init(ctx);
       return out;
     } catch (ClassNotFoundException e) {
       TigerDelegateHelper.issue14BuildWarning(e,ctx.getLogger());
@@ -72,14 +72,14 @@ public abstract class ReflectTigerDelegate {
   // ========================================================================
   // Protected methods
 
-  protected abstract void init(JamLogger logger, JamClassLoader cl);
+  protected abstract void init(ElementContext ctx);
 
   // ========================================================================
   // Public methods
 
   public abstract void populateAnnotationTypeIfNecessary(Class cd,
-                                                MClass clazz,
-                                                ReflectClassBuilder builder);
+                                                         MClass clazz,
+                                                         ReflectClassBuilder builder);
 
   public abstract boolean isEnum(Class clazz);
 

@@ -55,19 +55,21 @@
   </target>
 
   <target name='compile_150' depends='do150check' if='is150'>
+
+    <javac destdir='${samples_build_dir}' source='1.5' target='1.5'
+           debug='on' classpathref='classpath'>
+      <src path='${samples_dir}/src_150'/>
+    </javac>
+
     <mkdir dir='${codegen_build_dir}'/>
-    <annogen outputdir='${codegen_build_dir}' srcdir='${samples_dir}/src_150'
+    <annogen destdir='${samples_build_dir}' srcdir='${samples_dir}/src_150'
              includes='org/codehaus/annogen/test/samples/annotations/*.java'
              classpathref='classpath'
              implementAnnotationTypes='true'>
       <mapping type='org.codehaus.annogen.test.samples.annotations.*'
                bean='org.codehaus.annogen.test.samples.annotations.impl.*Impl'/>
     </annogen>
-    <javac destdir='${samples_build_dir}' source='1.5' target='1.5'
-           debug='on' classpathref='classpath'>
-      <src path='${samples_dir}/src_150'/>
-      <src path='${codegen_build_dir}'/>
-    </javac>
+
     <mkdir dir='${cases_build_dir}'/>
     <javac srcdir='${cases_dir}/src_150' destdir='${cases_build_dir}'
            source='1.5' target='1.5'
