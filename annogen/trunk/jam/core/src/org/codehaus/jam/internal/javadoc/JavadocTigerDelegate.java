@@ -28,7 +28,7 @@ import org.codehaus.jam.provider.JamLogger;
  * Provides an interface to 1.5-specific functionality.  The impl of
  * this class is loaded by-name at runtime.
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public abstract class JavadocTigerDelegate extends TigerDelegate {
 

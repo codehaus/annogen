@@ -21,7 +21,7 @@ import org.codehaus.jam.provider.JamLogger;
  * Provides some context services for overriders.  REVIEW does this actually
  * need to be exposed?  
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public interface AnnoContext {
 

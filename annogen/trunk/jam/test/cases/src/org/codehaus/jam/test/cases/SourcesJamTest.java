@@ -66,7 +66,7 @@ import java.io.IOException;
 /**
  * Runs the JamTestBase samples by loading the types from source.
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public class SourcesJamTest extends JamTestBase {
 

@@ -32,7 +32,7 @@ import javax.xml.stream.XMLStreamWriter;
 import java.io.Writer;
 
 /**
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 /*package*/ class JamXmlWriter implements JamXmlElements {
 

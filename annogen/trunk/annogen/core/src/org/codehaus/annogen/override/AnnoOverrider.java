@@ -34,7 +34,7 @@ package org.codehaus.annogen.override;
  * overrides in a single pass and store them for later use in the View phase.
  * </p>
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public interface AnnoOverrider {
 

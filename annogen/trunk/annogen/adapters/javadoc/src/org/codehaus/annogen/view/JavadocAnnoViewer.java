@@ -25,7 +25,7 @@ import org.codehaus.annogen.view.internal.javadoc.JavadocAnnoViewerImpl;
  * <a href='http://java.sun.com/j2se/javadoc' target='_blank'>Doclet</a>
  * API.
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public interface JavadocAnnoViewer {
 

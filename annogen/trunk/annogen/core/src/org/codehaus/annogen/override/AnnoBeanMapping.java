@@ -20,7 +20,7 @@ package org.codehaus.annogen.override;
  * classes themselves, but this API can be implemented if a custom mapping
  * is required.
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public interface AnnoBeanMapping {
 

@@ -27,7 +27,7 @@ import java.net.URL;
 /**
  * Represent a file search path, such as a classpath or sourcepath.
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public class ResourcePath {
 

@@ -39,7 +39,7 @@ import java.util.List;
  * JAM providers need to extend this class and override whatever methods
  * they need to.</p>
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public class JamServiceFactoryImpl extends JamServiceFactory {
 

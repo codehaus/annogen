@@ -27,7 +27,7 @@ import org.codehaus.jam.JAnnotatedElement;
  * of artifcat it wraps (i.e. what reflection or javadoc thing) and
  * dispatching appropriately to a Reflect- or Javadoc- AnnoService.
  * 
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public class JamAnnoViewerImpl extends AnnoViewerBase
   implements JamAnnoViewer

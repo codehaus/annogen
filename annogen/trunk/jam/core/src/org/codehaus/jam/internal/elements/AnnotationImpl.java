@@ -24,7 +24,7 @@ import org.codehaus.jam.visitor.MVisitor;
 /**
  * <p>Standard implementation of AnnotationImpl.</p>
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public final class AnnotationImpl extends ElementImpl implements MAnnotation {
 

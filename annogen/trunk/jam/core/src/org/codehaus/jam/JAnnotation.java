@@ -27,7 +27,7 @@ package org.codehaus.jam;
  * which exposes nested attributes (which may in turn be either simple
  * or complex.</p>
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public interface JAnnotation extends JElement {
 

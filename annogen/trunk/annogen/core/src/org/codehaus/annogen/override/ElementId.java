@@ -22,7 +22,7 @@ package org.codehaus.annogen.override;
  * various ElementIdPools are provided for creating and pooling Ids using
  * various APIs.
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public interface ElementId {
 

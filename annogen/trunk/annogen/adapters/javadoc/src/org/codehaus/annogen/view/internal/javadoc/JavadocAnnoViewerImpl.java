@@ -22,7 +22,7 @@ import org.codehaus.annogen.view.internal.AnnoViewerBase;
 import org.codehaus.annogen.view.internal.AnnoViewerParamsImpl;
 
 /**
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public class JavadocAnnoViewerImpl
     extends AnnoViewerBase implements JavadocAnnoViewer {

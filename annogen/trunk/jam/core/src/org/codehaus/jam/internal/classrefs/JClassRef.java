@@ -25,7 +25,7 @@ import org.codehaus.jam.JClass;
  * to itself) as an optimization for the case where we don't need or want
  * lazy type resolution</p>.
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public interface JClassRef {
 

@@ -40,7 +40,7 @@ import org.codehaus.jam.visitor.MVisitor;
  *
  * I think this is going to include generics as well.
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public abstract class BuiltinClassImpl extends AnnotatedElementImpl
   implements MClass

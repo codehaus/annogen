@@ -20,7 +20,7 @@ package org.codehaus.annogen.override;
  * Encapsualtes a set of AnnoBeans which apply to some element in the java
  * type system, such as a class, method, or field.
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public interface AnnoBeanSet {
 

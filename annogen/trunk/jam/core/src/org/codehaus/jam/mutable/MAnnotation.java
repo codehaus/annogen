@@ -21,7 +21,7 @@ import org.codehaus.jam.JClass;
 /**
  * <p>Mutable version of JAnnotation.</p>
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public interface MAnnotation extends JAnnotation, MElement {
 

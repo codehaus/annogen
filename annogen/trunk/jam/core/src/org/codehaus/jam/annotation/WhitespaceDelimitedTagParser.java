@@ -26,7 +26,7 @@ import java.util.Properties;
  * are treated as whitespace-separated name=value pairs, where values
  * can be double-quoted.
  * 
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public class WhitespaceDelimitedTagParser extends JavadocTagParser {
 

@@ -24,7 +24,7 @@ import java.util.Iterator;
  * is encouraged as it can significantly reduce memory consumption when
  * using JAM to process large numbers of java classes.
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public class JamClassIterator implements Iterator {
 

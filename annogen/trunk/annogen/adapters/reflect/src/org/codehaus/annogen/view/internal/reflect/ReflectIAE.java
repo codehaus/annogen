@@ -28,7 +28,7 @@ import java.lang.reflect.Method;
  * Just a holder for static factory methods for getting impls of
  * IndigenousAnnoExtractor that work with reflect abstractions.
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public abstract class ReflectIAE implements IndigenousAnnoExtractor {
 

@@ -27,7 +27,7 @@ import java.lang.reflect.Field;
  * This is done by looking at the AnnogenInfo annotation (on a
  * declared type) or at the 'PROXY_FOR' static string (on an annobean).
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public class DefaultAnnoBeanMapping implements AnnoBeanMapping {
 

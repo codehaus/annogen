@@ -33,7 +33,7 @@ import java.lang.reflect.Method;
  * i.e., we don't want them to get NoClassDefFound when tools.jar isn't
  * in their classpath but they don't care about javadoc.
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public class ReflectElementIdPoolImpl implements ReflectElementIdPool {
 

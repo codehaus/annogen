@@ -33,7 +33,7 @@ import java.util.LinkedList;
 //FIXME factor out the stuf that is now redundant with AnnoContextImpl
 
 /**
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public class AnnoViewerParamsImpl implements AnnoViewerParams, AnnoContext {
 

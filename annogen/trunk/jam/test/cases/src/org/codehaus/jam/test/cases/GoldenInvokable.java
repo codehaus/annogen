@@ -27,7 +27,7 @@ import java.util.StringTokenizer;
  * Independent test structure representing a method.  Can be compared
  * to a JMethod.
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public class GoldenInvokable {
 

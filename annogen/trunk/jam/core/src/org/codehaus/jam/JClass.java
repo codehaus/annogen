@@ -49,7 +49,7 @@ package org.codehaus.jam;
  * this, because it seems unlikely and it seems heavyweight.  Seems
  * ok?</p>
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public interface JClass extends JMember {
 

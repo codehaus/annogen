@@ -30,7 +30,7 @@ import java.lang.reflect.Method;
 
 /**
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public class ReflectClassBuilder extends JamClassBuilder implements JamClassPopulator {
 

@@ -25,7 +25,7 @@ import org.codehaus.jam.provider.JamLogger;
  * This class should be moved into a common directory between annogen
  * and jam.
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public abstract class TigerDelegate {
 

@@ -26,7 +26,7 @@ package org.codehaus.jam;
  * should be a package with an empty string for a name, but we need to
  * make sure this works and document it.</p>
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public interface JPackage extends JAnnotatedElement {
 

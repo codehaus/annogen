@@ -27,7 +27,7 @@ import org.codehaus.jam.*;
 /**
  * A test case class for checking that imports function correctly.
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public interface ImportsGalore {
 

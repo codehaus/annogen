@@ -22,7 +22,7 @@ import java.net.URI;
 /**
  * <p>Mutable version of JSourcePosition.</p>
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public interface MSourcePosition extends JSourcePosition {
 

@@ -26,7 +26,7 @@ import org.codehaus.jam.JParameter;
 /**
  * <p>Composite implementation of JVisitor.</p>
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public class CompositeJVisitor extends JVisitor {
 

@@ -31,7 +31,7 @@ import org.codehaus.jam.visitor.MVisitor;
 /**
  * <p>Implementation of JProperty.</p>
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public class PropertyImpl extends AnnotatedElementImpl implements JProperty {
 

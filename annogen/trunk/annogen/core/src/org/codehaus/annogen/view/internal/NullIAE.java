@@ -18,7 +18,7 @@ import org.codehaus.annogen.override.AnnoBeanSet;
 import org.codehaus.annogen.view.internal.IndigenousAnnoExtractor;
 
 /**
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public final class NullIAE implements IndigenousAnnoExtractor {
 

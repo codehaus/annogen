@@ -48,7 +48,7 @@ import java.util.Set;
  * <p>Takes settings from the user (through JamServiceParams) and exposes
  * them to the implementation (through JamServiceContext).</p>
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public class JamServiceContextImpl extends JamLoggerImpl implements JamServiceContext,
   JamServiceParams, ElementContext

@@ -21,7 +21,7 @@ import org.codehaus.jam.mutable.MClass;
  * <p>Composite implementation of JamClassBuilder.  When building,
  * the first one in the list to not return null wins.</p>
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public class CompositeJamClassBuilder extends JamClassBuilder {
 

@@ -20,7 +20,7 @@ import org.codehaus.jam.JClass;
 /**
  * <p>Class implementation to represent the 'void' type.</p>
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public final class VoidClassImpl extends BuiltinClassImpl {
 

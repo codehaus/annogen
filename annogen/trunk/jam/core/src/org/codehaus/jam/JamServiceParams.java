@@ -26,7 +26,7 @@ import java.io.PrintWriter;
  * <p>Used to specify the parameters with which a JamService will be
  * created.</p>
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public interface JamServiceParams {
 

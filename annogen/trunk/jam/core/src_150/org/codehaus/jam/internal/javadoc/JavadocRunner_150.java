@@ -21,7 +21,7 @@ import com.sun.javadoc.LanguageVersion;
  * method while still providing a 1.4-compatible build- and runtime.
  * LanguageVersion is an enum so we can only use this under 1.5.
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public class JavadocRunner_150 extends JavadocRunner {
 

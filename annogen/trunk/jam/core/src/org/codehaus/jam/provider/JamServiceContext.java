@@ -70,7 +70,7 @@ import java.io.IOException;
  * the users' view of that data (which is write-only) from the provider's
  * view (which is view-only).</p>
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public interface JamServiceContext extends JamLogger/*killme*/ {
 

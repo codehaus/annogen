@@ -36,7 +36,7 @@ import java.lang.reflect.Modifier;
  * since this is a private class; there is no inheritance between method and
  * constructor in the public API.</p>
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public final class MethodImpl extends InvokableImpl implements MMethod {
 

@@ -24,7 +24,7 @@ import org.codehaus.jam.JamClassLoader;
  * hit here is probably not significant, but someday we might want to provide
  * switch to enable caching of references.</p>
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public class QualifiedJClassRef implements JClassRef {
 

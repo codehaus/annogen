@@ -32,7 +32,7 @@ import java.util.List;
  * documentation on <code>setMemberValue()</code> and
  * <code>getValue()</code> for details.</p>
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 /**
  * @deprecated do not use, being deleted

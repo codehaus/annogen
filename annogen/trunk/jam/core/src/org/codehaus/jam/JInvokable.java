@@ -61,7 +61,7 @@ package org.codehaus.jam;
  * <p>Base abstraction for something which can be invoked, i.e. a
  * JConstructor or JMethod.</p>
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public abstract interface JInvokable extends JMember {
   /**

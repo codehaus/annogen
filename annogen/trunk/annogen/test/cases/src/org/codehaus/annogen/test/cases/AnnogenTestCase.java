@@ -23,7 +23,7 @@ import java.util.List;
 import java.io.File;
 
 /**
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public abstract class AnnogenTestCase extends TestCase {
 

@@ -21,7 +21,7 @@ import org.codehaus.jam.JField;
 /**
  * <p>Mutable version of JField.</p>
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public interface MField extends JField, MMember {
 

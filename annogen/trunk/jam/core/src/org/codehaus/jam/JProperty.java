@@ -29,7 +29,7 @@ package org.codehaus.jam;
  * <p>An array of JProperties for a given JClass can be retrieved
  * using the getProperties factory method.</p>
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public interface JProperty extends JAnnotatedElement {
 

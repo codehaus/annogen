@@ -24,7 +24,7 @@ import org.codehaus.jam.provider.JamServiceContext;
  * public methods on this class to initialize the proxy with annotation
  * values; those methods should not be called by user code.</p>
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 /**
  * @deprecated do not use, moving into internal

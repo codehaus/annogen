@@ -24,7 +24,7 @@ import java.util.List;
  * or constructor parameters during lookahead.  The structures
  * get reused for efficiency.</p>
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public class ParamStructPool {
 

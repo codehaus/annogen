@@ -20,7 +20,7 @@ import org.codehaus.jam.visitor.JVisitor;
 /**
  * <p>The root of the java type object model.</p>
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public abstract interface JElement {
 

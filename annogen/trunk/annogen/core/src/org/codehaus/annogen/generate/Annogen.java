@@ -49,7 +49,7 @@ import java.util.Map;
  * or from the command line.  This is wrapped by Annogentask - if you use ant
  * for your build, it's probably easirer to use that instead.
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public class Annogen {
 

@@ -22,7 +22,7 @@ import java.lang.annotation.RetentionPolicy;
 /**
  * FIXME move this to org.codehaus.annogen.test.samples
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 @AnnogenInfo(annoBeanClass="org.codehaus.annogen.test.samples.annotations.impl.BugAnnotationImpl")
 @Retention(value=RetentionPolicy.RUNTIME)

@@ -21,7 +21,7 @@ package org.codehaus.jam;
  * Represents a single parameter of a Java method or constructor.
  * This type and name information as well as associated metadata.
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public interface JParameter extends JAnnotatedElement {
 

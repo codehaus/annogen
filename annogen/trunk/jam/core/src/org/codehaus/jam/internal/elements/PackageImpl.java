@@ -30,7 +30,7 @@ import java.util.List;
  * enough for all samples, right now.  This might change if we ever wrap
  * a model which natively supports package-level annotation.</p>
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public class PackageImpl extends AnnotatedElementImpl implements MPackage {
 

@@ -21,7 +21,7 @@ import org.codehaus.annogen.view.internal.AnnoViewerParamsImpl;
  * Encapsulates a set of parameters to be used in instantiating an
  * AnnoViewer, including the set of AnnoOverriders to be used.
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public interface AnnoViewerParams {
 

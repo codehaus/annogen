@@ -20,7 +20,7 @@ import org.codehaus.annogen.override.AnnoBeanSet;
 import org.codehaus.annogen.override.ElementId;
 
 /**
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public class CompositeAnnoOverrider implements AnnoOverrider {
 

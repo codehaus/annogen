@@ -22,7 +22,7 @@ import org.codehaus.jam.JProperty;
 /**
  * <p>Mutable version of JClass.</p>
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public interface MClass extends MMember, JClass {
 

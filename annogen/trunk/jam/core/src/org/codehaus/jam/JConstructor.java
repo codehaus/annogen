@@ -18,7 +18,7 @@ package org.codehaus.jam;
 /**
  * <p>Represents a constructor of a java class.</p>
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public interface JConstructor extends JInvokable {
 

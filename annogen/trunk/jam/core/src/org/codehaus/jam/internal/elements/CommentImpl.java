@@ -21,7 +21,7 @@ import org.codehaus.jam.visitor.MVisitor;
 /**
  * <p>Implementation
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public final class CommentImpl extends ElementImpl implements MComment {
 

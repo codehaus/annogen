@@ -29,7 +29,7 @@ package org.codehaus.jam.test.samples;
  * @xsdgen:type quoted_tns="http://homestarrunner.com/sbemail58.html" 
  * @someurl http://www.apache.org/foo
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public class ValuesById {
 }

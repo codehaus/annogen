@@ -28,7 +28,7 @@ import java.util.Map;
  * JamXmlReader, which does all of it's reading and building in a single
  * pass.</p>
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public class CachedClassBuilder extends JamClassBuilder {
 

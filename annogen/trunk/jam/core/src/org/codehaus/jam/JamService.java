@@ -23,7 +23,7 @@ package org.codehaus.jam;
  * particular set of JClasses, as well as a JamClassLoader which can be used
  * to load related classes.</p>
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public interface JamService {
 

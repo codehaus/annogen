@@ -27,7 +27,7 @@ import org.codehaus.jam.visitor.MVisitor;
 /**
  * <p>Implementation of JParameter and MParameter.</p>
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public class ParameterImpl extends MemberImpl implements MParameter {
 

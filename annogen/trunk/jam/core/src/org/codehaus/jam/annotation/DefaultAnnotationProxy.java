@@ -29,7 +29,7 @@ import java.util.List;
  * annotation processing behaviors from AnnotationProxy.</p>
  *
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 /**
  * @deprecated do not use, moving into internal

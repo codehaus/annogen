@@ -27,7 +27,7 @@ import java.lang.reflect.Method;
  * 'set value' requests from a AnnoOverrider and transform them into
  * reflective invocations on methods on the extending class.</p>
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public /*abstract*/ class AnnoBeanBase implements AnnoBean {
 

@@ -19,7 +19,7 @@ package org.codehaus.jam;
  * Object which can load representations of a java.lang.Class.
  * Analagous to a java.lang.ClassLoader.
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public interface JamClassLoader {
 

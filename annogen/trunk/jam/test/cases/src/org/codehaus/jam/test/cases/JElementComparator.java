@@ -21,7 +21,7 @@ import java.util.Comparator;
 /**
  * <p>Comparator for sorting JElements by qualified name.</p>
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public class JElementComparator implements Comparator {
 

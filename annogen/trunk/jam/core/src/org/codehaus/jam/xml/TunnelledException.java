@@ -17,7 +17,7 @@ package org.codehaus.jam.xml;
 import javax.xml.stream.XMLStreamException;
 
 /**
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public class TunnelledException extends RuntimeException {
 

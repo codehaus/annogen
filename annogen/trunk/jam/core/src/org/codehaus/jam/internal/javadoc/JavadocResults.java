@@ -27,7 +27,7 @@ import java.lang.reflect.Method;
  * taken to ensure that we can stash away the RootDoc result received in
  * the callback and retrieve it later.</p>
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public class JavadocResults {
 

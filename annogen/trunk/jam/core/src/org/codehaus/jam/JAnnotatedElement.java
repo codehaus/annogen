@@ -4,7 +4,7 @@ package org.codehaus.jam;
  * <p>Base abstraction for JElements which can carry annotations and comments.
  * The only JElements which cannot do this are JAnnotation and JComment.</p>
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public abstract interface JAnnotatedElement extends JElement {
 

@@ -20,7 +20,7 @@ import org.codehaus.annogen.view.internal.IndigenousAnnoExtractor;
 import org.codehaus.annogen.view.internal.NullIAE;
 
 /**
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public final class ProgramElementJavadocIAE implements IndigenousAnnoExtractor {
 

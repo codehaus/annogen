@@ -25,7 +25,7 @@ import java.lang.reflect.Modifier;
 
 /**
  *
- * @author Patrick Calahan &lt;email: codehaus-at-bea-dot-com&gt;
+ * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
 public final class ConstructorImpl extends InvokableImpl implements MConstructor {
 
