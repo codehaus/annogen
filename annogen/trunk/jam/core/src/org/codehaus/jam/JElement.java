@@ -85,6 +85,13 @@ public abstract interface JElement {
   public Object getArtifact();
 
   /**
+   * Returns true if this JElement was parsed from a source file.  If false,
+   * you can not rely on the availablilty of documentation and line numbers
+   * for the element.
+   */
+  public boolean isSourceAvailable();
+
+  /**
    * <p>Returns the same String as getQualifiedName().</p>
    */
   public String toString();

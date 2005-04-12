@@ -91,6 +91,10 @@ public abstract class ElementImpl implements Comparable, MElement {
 
   public Object getArtifact() { return mArtifact; }
 
+  public boolean isSourceAvailable() {
+    return mArtifact != null && mArtifact instanceof com.sun.javadoc.Doc;
+  }
+
   // ========================================================================
   // MElement implementation
 
