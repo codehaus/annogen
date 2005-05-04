@@ -206,6 +206,9 @@ public final class ReflectTigerDelegateImpl_150 extends ReflectTigerDelegate {
         } else {
           JClass type = mContext.getClassLoader().
             loadClass(methods[i].getReturnType().getName());
+          if (value instanceof java.lang.Class) {
+            value = mContext.getClassLoader().loadClass(((Class)value).getName());
+          }
           dest.setSimpleValue(methods[i].getName(),value,type);
         }
       } catch (IllegalAccessException e) {

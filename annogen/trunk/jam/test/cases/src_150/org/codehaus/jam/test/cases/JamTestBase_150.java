@@ -58,13 +58,10 @@ package org.codehaus.jam.test.cases;
 import org.codehaus.jam.JAnnotation;
 import org.codehaus.jam.JAnnotationValue;
 import org.codehaus.jam.JClass;
-import org.codehaus.jam.JamService;
-import org.codehaus.jam.JMethod;
-import org.codehaus.jam.JParameter;
 import org.codehaus.jam.test.samples.jsr175.EmployeeAnnotation;
 import org.codehaus.jam.test.samples.jsr175.EmployeeGroupAnnotation;
 import org.codehaus.jam.test.samples.jsr175.RFEAnnotation_150;
-import org.codehaus.jam.test.cases.JamTestBase;
+import org.codehaus.jam.test.samples.jsr175.LotsaDefaultsAnnotation;
 
 import javax.xml.stream.XMLStreamException;
 import java.io.File;
@@ -87,13 +84,15 @@ public abstract class JamTestBase_150 extends JamTestBase {
   // Cosntants
 
   private static final String[] ADDITIONAL_15_CLASSES = {
-
-    "org.codehaus.jam.test.samples.jsr175.AnnotatedClass",
-    "org.codehaus.jam.test.samples.jsr175.NestedAnnotatedClass",
     "org.codehaus.jam.test.samples.jsr175.AddressAnnotation",
+    "org.codehaus.jam.test.samples.jsr175.AnnotatedClass",
+    "org.codehaus.jam.test.samples.jsr175.Constants",
+    "org.codehaus.jam.test.samples.jsr175.InnerAnnotation",
+    "org.codehaus.jam.test.samples.jsr175.LotsaDefaultsAnnotation",
+
+    "org.codehaus.jam.test.samples.jsr175.NestedAnnotatedClass",
     "org.codehaus.jam.test.samples.jsr175.EmployeeAnnotation",
     "org.codehaus.jam.test.samples.jsr175.EmployeeGroupAnnotation",
-    "org.codehaus.jam.test.samples.jsr175.Constants",
 
     "org.codehaus.jam.test.samples.jsr175.RFEAnnotation_150",
 
@@ -144,6 +143,18 @@ public abstract class JamTestBase_150 extends JamTestBase {
                rfe.synopsis().equals("Balance the federal budget"));
   }
 
+  public void testDefaultAnnotationValues() throws IOException, XMLStreamException {
+    JClass clazz = resolved(mLoader.loadClass("org.codehaus.jam.test.samples.jsr175.AnnotatedClass"));
+    assertTrue("null clazz", clazz != null);
+    JAnnotation ann = clazz.getAnnotation(LotsaDefaultsAnnotation.class);
+    assertTrue("null annotation", ann != null);
+    JAnnotationValue value = ann.getValue("javaLangString");
+    assertTrue("null value", value != null);
+    JClass c = value.asClass();
+    assertTrue("null asClass", c != null);
+    assertTrue("wrong asClass: "+c.getQualifiedName(),
+               c.getQualifiedName().equals("java.lang.String"));
+  }
 
   public void testNested175AnnotationsUntyped() throws IOException, XMLStreamException {
     JClass clazz = resolved(mLoader.loadClass("org.codehaus.jam.test.samples.jsr175.NestedAnnotatedClass"));
