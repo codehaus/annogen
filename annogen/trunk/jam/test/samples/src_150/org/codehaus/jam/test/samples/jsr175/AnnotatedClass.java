@@ -1,5 +1,7 @@
 package org.codehaus.jam.test.samples.jsr175;
 
+
+
 @LotsaDefaultsAnnotation()
 
 @RFEAnnotation_150(

@@ -16,8 +16,6 @@ package org.codehaus.jam.test.samples.jsr175;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-import java.lang.annotation.ElementType;
 
 /**
  * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;

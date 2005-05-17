@@ -107,7 +107,7 @@ public class JamUtils {
    * <p>Returns the java.lang.Method on a given
    * java.lang.Class which is represented by a given JMethod.</p>
    *
-   * @param containedin Class to be searched for the method.
+java   * @param containedin Class to be searched for the method.
    * @return
    * @throws NoSuchFieldException if the field does not exist on the class.
    * @throws IllegalArgumentException if any argument is null
