@@ -20,8 +20,7 @@ import org.codehaus.annogen.view.internal.jam.JamAnnoViewerImpl;
 import org.codehaus.jam.JAnnotatedElement;
 
 /**
- * Retrieves annotations using
- * JAM.
+ * Retrieves annotations usin JAM.
  *
  * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */

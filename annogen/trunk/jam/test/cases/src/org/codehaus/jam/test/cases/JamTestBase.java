@@ -69,6 +69,7 @@ import org.codehaus.jam.JPackage;
 import org.codehaus.jam.JParameter;
 import org.codehaus.jam.JamClassLoader;
 import org.codehaus.jam.JamService;
+import org.codehaus.jam.JamUtils;
 import org.codehaus.jam.test.samples.OuterClass;
 import org.codehaus.jam.test.samples.VarietyOfModifiers;
 import org.codehaus.jam.xml.JamXmlUtils;
@@ -154,16 +155,6 @@ public abstract class JamTestBase extends TestCase {
   private static final String[][] FOOIMPL_METHODS = {
     {"public",                   "int",      "getId",  null,   null},
 
-    {"public",                   "void",     "setId",  "int id",null},
-
-    {"private final static",     "void",     "setId2",  "double id",null},
-
-    {"protected synchronized ",  "void",     "setId3",  "double id, double id2",null},
-
-    {"protected abstract",       "void",     "setId4",  "double id, double id2, double id3",null},
-
-    {"",             "java.lang.String[][]", "methodDealingWithArrays",  "int[] foo, java.lang.Object[] bar",null},
-
     {"protected abstract",       "void",     "iThrowExceptions",  "int p1, java.lang.String p2",
      "java.lang.IllegalArgumentException," +
           "java.lang.NoSuchMethodError," +
@@ -172,7 +163,20 @@ public abstract class JamTestBase extends TestCase {
           "java.net.MalformedURLException,"+
           "java.lang.OutOfMemoryError,"+
           "java.lang.NullPointerException"
-    }
+    },
+
+    {"",             "java.lang.String[][]", "methodDealingWithArrays",  "int[] foo, java.lang.Object[] bar",null},
+
+
+    {"public",                   "void",     "setId",  "int id",null},
+
+    {"private final static",     "void",     "setId2",  "double id",null},
+
+    {"protected synchronized ",  "void",     "setId3",  "double id, double id2",null},
+
+    {"protected abstract",       "void",     "setId4",  "double id, double id2, double id3",null}
+
+
   };
 
   // these need to correspond byte-for-byte to the comments on FooImpl:
@@ -218,6 +222,8 @@ public abstract class JamTestBase extends TestCase {
 
 
   protected abstract boolean isJavadocTagsAvailable();
+  
+  protected boolean isSourcesAvailable() { return isJavadocTagsAvailable(); }
 
 
   //kind of a quick hack for now, should remove this and make sure that
@@ -663,9 +669,12 @@ public abstract class JamTestBase extends TestCase {
    */
   public void testFooImplMethods() {
     JClass fooImpl = resolved(mLoader.loadClass("org.codehaus.jam.test.samples.FooImpl"));
-    GoldenInvokable[] methods = GoldenInvokable.createArray(FOOIMPL_METHODS);
-    GoldenInvokable.doComparison(fooImpl.getDeclaredMethods(),
-                              methods,isParameterNamesKnown(),this);
+    GoldenInvokable[] expectedMethods = GoldenInvokable.createArray(FOOIMPL_METHODS);
+    JMethod[] foundMethods = fooImpl.getDeclaredMethods();
+    JamUtils.getInstance().placeInAlphabeticalOrder(foundMethods);
+    
+    GoldenInvokable.doComparison(foundMethods,
+                              expectedMethods,isParameterNamesKnown(),this);
   }
 
 
@@ -805,16 +814,59 @@ public abstract class JamTestBase extends TestCase {
       if (methods[i].getSimpleName().equals("regionMatches")) {
         JParameter[] params = methods[i].getParameters();
         if (params.length != 4) continue;
-        for(int j=0; j<params.length; j++) {
-          //System.out.println("============= "+params[j].getSimpleName());
-          assertTrue(params[j].getSimpleName().equals("param"+j));
+        //test workaround for ANNOGEN-16 - just make sure that no parameter
+        //name is equal to any other one
+        for(int j=0; i<params.length-1; j++) {
+          for(int k=j; k<params.length; k++) {
+            assertTrue(!params[j].getSimpleName().equals(params[k]));
+          }
         }
+        /*
+        for(int j=0; j<params.length; j++) {
+          assertTrue("param name wrong; expected: "+
+                     "param"+j+", got: "+params[j].getSimpleName(),
+                     params[j].getSimpleName().equals("param"+j));
+        }
+        */
         return;
       }
     }
     assertTrue("couldn't find java.lang.String.regionMatches",false);
   }
 
+  
+  /**
+   * Tests JamUtils.getClassesCorrespoindingTo method.
+   */
+  public void testGetClassesCorrespondingTo() throws Exception {
+    if (!isSourcesAvailable()) return;
+    JamService service = getResultToTest();
+    JClass[] allClasses = service.getAllClasses();
+    File ROOT = new File("jam/test/samples/src");
+    File[] files = {
+        new File(ROOT, "org/codehaus/jam/test/samples/MyException.java"),
+        new File(ROOT,
+                 "org/codehaus/jam/test/samples/ImportsGalore.java"),
+        null, new File(ROOT, "org/codehaus/jam/test/samples/Base.java") };
+    String[] classnames = {
+        "org.codehaus.jam.test.samples.MyException",
+        "org.codehaus.jam.test.samples.ImportsGalore", null,
+        "org.codehaus.jam.test.samples.Base" };
+    JClass[] result = JamUtils.getInstance()
+                            .getClassesCorrespondingTo(files,
+                                                       allClasses);
+    assertTrue(result != null);
+    assertTrue(result.length == files.length);
+    for(int i=0; i<result.length; i++) {
+      if (files[i] == null) {
+        assertTrue(result[i] == null);
+      } else {
+        assertTrue(result[i] != null);
+        assertTrue(result[i].getQualifiedName().equals(classnames[i]));
+      }
+    }
+  }
+  
   // ========================================================================
   // Protected methods
 

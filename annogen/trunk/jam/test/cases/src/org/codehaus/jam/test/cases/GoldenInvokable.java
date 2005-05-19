@@ -142,32 +142,41 @@ public class GoldenInvokable {
   }
 
 
-  public void compare(JInvokable invk, boolean compareParamNames, Assert a) {
-    a.assertTrue("invokable names are different",
-                 invk.getSimpleName().equals(mName));
-    a.assertTrue("modifiers are different on "+invk.getSimpleName()+
-                 "["+invk.getModifiers()+","+mModifers+" expected]",
+  public void compare(JInvokable invk, boolean compareParamNames,
+                      Assert a)
+  {
+    a.assertTrue("method/ctor names are different: "
+        + invk.getSimpleName() + "  " + mName, invk.getSimpleName()
+                                                   .equals(mName));
+    a.assertTrue("modifiers are different on " + invk.getSimpleName()
+        + "[" + invk.getModifiers() + "," + mModifers + " expected]",
                  invk.getModifiers() == mModifers);
     {
       JParameter[] params = invk.getParameters();
       a.assertTrue("parameter lists are of different lengths",
                    params.length == mParamTypes.length);
-      for(int i=0; i<params.length; i++) {
-        a.assertTrue("parameter type is different on "+invk.getSimpleName()+
-                     "["+params[i].getType().getQualifiedName()+","+mParamTypes[i]+" expected]",
-                     params[i].getType().getQualifiedName().equals(mParamTypes[i]));
+      for (int i = 0; i < params.length; i++) {
+        a.assertTrue("parameter type is different on "
+            + invk.getSimpleName() + "["
+            + params[i].getType().getQualifiedName() + ","
+            + mParamTypes[i] + " expected]",
+                     params[i].getType().getQualifiedName()
+                              .equals(mParamTypes[i]));
         if (compareParamNames) {
-          a.assertTrue("parameter names are different on "+invk.getSimpleName(),
-                       params[i].getSimpleName().equals(mParamNames[i]));
+          a.assertTrue("parameter names are different on "
+              + invk.getSimpleName(), params[i].getSimpleName()
+                                               .equals(mParamNames[i]));
         }
       }
     }
     {
       JClass[] exceptions = invk.getExceptionTypes();
-      for(int i=0; i<exceptions.length; i++) {
-        a.assertTrue("exceptions type is different on "+invk.getSimpleName()+
-                     "["+exceptions[i].getQualifiedName()+","+mExceptions[i]+" expected]",
-                     exceptions[i].getQualifiedName().equals(mExceptions[i]));
+      for (int i = 0; i < exceptions.length; i++) {
+        a.assertTrue("exceptions type is different on "
+            + invk.getSimpleName() + "["
+            + exceptions[i].getQualifiedName() + "," + mExceptions[i]
+            + " expected]", exceptions[i].getQualifiedName()
+                                         .equals(mExceptions[i]));
       }
     }
   }

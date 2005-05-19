@@ -150,7 +150,8 @@ public final class ReflectAnnogenTigerDelegateImpl_150
     return c.isPrimitive() ||
            java.lang.String.class.equals(c) ||
            java.lang.Number.class.isAssignableFrom(c) ||
-           java.lang.Boolean.class.equals(c) ||
+           java.lang.Boolean.class.equals(c) |
+           java.lang.Character.class.equals(c) ||
            java.lang.Character.class.equals(c) ||
            java.lang.Class.class.equals(c);
   }
