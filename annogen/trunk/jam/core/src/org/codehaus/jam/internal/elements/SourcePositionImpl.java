@@ -31,6 +31,7 @@ public final class SourcePositionImpl implements MSourcePosition {
 
   private int mColumn = -1;
   private int mLine = -1;
+  private int mOffset = -1;
   private URI mURI = null;
 
   // ========================================================================
@@ -45,7 +46,10 @@ public final class SourcePositionImpl implements MSourcePosition {
 
   public void setLine(int line) { mLine = line; }
 
+  public void setOffset(int offset) { mOffset = offset; }
+
   public void setSourceURI(URI uri) { mURI = uri; }
+
 
   // ========================================================================
   // JSourcePosition implementation
@@ -53,6 +57,8 @@ public final class SourcePositionImpl implements MSourcePosition {
   public int getColumn() { return mColumn; }
 
   public int getLine() { return mLine; }
+
+  public int getOffset() { return mOffset; }
 
   public URI getSourceURI() { return mURI; }
 }

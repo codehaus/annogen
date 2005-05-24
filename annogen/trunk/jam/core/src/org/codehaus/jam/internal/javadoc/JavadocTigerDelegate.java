@@ -37,13 +37,6 @@ public abstract class JavadocTigerDelegate {
   private static final String JAVADOC_DELEGATE_IMPL =
     "org.codehaus.jam.internal.javadoc.JavadocTigerDelegateImpl_150";
 
-  // This is part of a hack for EJBgen, which for some reason it behaves really
-  // badly when we supply it default values.  This should be removed
-  // when EJBgen can be fixed.
-
-  public static final String ANNOTATION_DEFAULTS_DISABLED_PROPERTY =
-    "ANNOTATION_DEFAULTS_DISABLED_PROPERTY";
-
   // ========================================================================
   // Factory
 

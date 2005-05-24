@@ -39,6 +39,12 @@ public interface MSourcePosition extends JSourcePosition {
   public void setLine(int line);
 
   /**
+   * Sets the character offset for this source position.  Set to -1 if
+   * it is not known.
+   */
+  public void setOffset(int line);
+
+  /**
    * Sets the URI of the source file.  Set to null if it is not known.
    */
   public void setSourceURI(URI uri);

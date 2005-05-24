@@ -37,6 +37,12 @@ public interface JSourcePosition {
   public int getLine();
 
   /**
+   * Returns the character offset for this source position relative to
+   * the start of the file, or -1 if it is not known.
+   */
+  public int getOffset();
+
+  /**
    * Returns the URI of the source file, or null if it is not known.
    */
   public URI getSourceURI();

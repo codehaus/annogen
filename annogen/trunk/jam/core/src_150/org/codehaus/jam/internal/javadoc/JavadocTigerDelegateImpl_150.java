@@ -46,12 +46,6 @@ import org.codehaus.jam.provider.JamServiceContext;
 public final class JavadocTigerDelegateImpl_150 extends JavadocTigerDelegate {
 
   // ========================================================================
-  // Hack, remove please
-
-
-  private boolean mAnnotationDefaultsDisabled = false;
-
-  // ========================================================================
   // Variables
 
   private ElementContext mContext;
@@ -62,9 +56,6 @@ public final class JavadocTigerDelegateImpl_150 extends JavadocTigerDelegate {
   public void init(ElementContext ctx) {
     if (ctx == null) throw new IllegalArgumentException();
     mContext = ctx;
-    if (((JamServiceContext)ctx).getProperty(ANNOTATION_DEFAULTS_DISABLED_PROPERTY) != null) {
-      mAnnotationDefaultsDisabled = true;
-    }
   }
 
 
@@ -203,7 +194,6 @@ public final class JavadocTigerDelegateImpl_150 extends JavadocTigerDelegate {
         setAnnotationValue(name,jmt,aval,dest,sp);
       }
     }
-if (mAnnotationDefaultsDisabled) return; 
     { // also set values for the type's defaults
       AnnotationTypeDoc atd = getAnnotationTypeFor(src,sp);
       if (atd == null) return;
