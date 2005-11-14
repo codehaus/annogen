@@ -101,7 +101,8 @@ import java.util.Set;
  *
  * @author Patrick Calahan &lt;email: pcal-at-bea-dot-com&gt;
  */
-public abstract class JamTestBase extends TestCase {
+public abstract class
+    JamTestBase extends TestCase {
 
   // ========================================================================
   // Constants
@@ -148,7 +149,8 @@ public abstract class JamTestBase extends TestCase {
     "org.codehaus.jam.test.samples.MultilineTags",
     "org.codehaus.jam.test.samples.ManyTags",
     "org.codehaus.jam.test.samples.ValuesById",
-    "org.codehaus.jam.test.samples.VarietyOfModifiers"
+    "org.codehaus.jam.test.samples.VarietyOfModifiers",
+    "org.codehaus.jam.test.samples.ArrayOfInnerClass"
   };
 
   // this needs to correspond to the methods on the FooImpl dummyclass
@@ -866,7 +868,15 @@ public abstract class JamTestBase extends TestCase {
       }
     }
   }
-  
+
+  public void testArrayOfInner() {
+    JClass clazz = resolved(mLoader.loadClass("org.codehaus.jam.test.samples.ArrayOfInnerClass"));
+    JMethod method = clazz.getMethods()[0];
+    JParameter param = method.getParameters()[0];
+    assertEquals("org.codehaus.jam.test.samples.ArrayOfInnerClass$Inner[]", param.getType().getQualifiedName());
+    assertEquals("org.codehaus.jam.test.samples.ArrayOfInnerClass$Inner[]", method.getReturnType().getQualifiedName());
+  }
+
   // ========================================================================
   // Protected methods
 

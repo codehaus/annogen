@@ -386,11 +386,25 @@ public class JavadocClassBuilder extends JamClassBuilder implements JamClassPopu
               PrimitiveClassImpl.getPrimitiveClassForName(t.qualifiedTypeName());
       if (primFd != null) { //i.e. if primitive
         out.write(primFd);
-      } else {
+      }
+      else {
         out.write("L");
         if (t.asClassDoc() != null) {
-          out.write(t.asClassDoc().qualifiedName());
-        } else {
+          ClassDoc cd = t.asClassDoc();
+          ClassDoc outer = cd.containingClass();
+          String qualifiedName;
+          if (outer == null) {
+            qualifiedName = cd.qualifiedName();
+          }
+          else {
+            String simpleName = cd.name();
+            simpleName =
+                simpleName.substring(simpleName.lastIndexOf('.') + 1);
+            qualifiedName = outer.qualifiedName() + '$' + simpleName;
+          }
+          out.write(qualifiedName);
+        }
+        else {
           out.write(t.qualifiedTypeName());
         }
         out.write(";");
