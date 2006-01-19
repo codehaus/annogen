@@ -1,0 +1,74 @@
+<project name='annogen.distribution' default='all' basedir='.'>
+
+  <!-- Properties -->
+
+  <property file='build.properties'/>
+
+  <property name='build_dir'   location='build'/>
+  <property name='classes_dir' location='${build_dir}/classes'/>
+  <property name='dist_dir'    location='${build_dir}/distribution'/>
+  <property name='distlib_dir' location='${dist_dir}/lib'/>
+
+  <!-- Targets -->
+
+  <target name='all' depends='require150' if='is150'>
+
+    <antcall target='jars'/>
+
+    <mkdir dir='${dist_dir}/examples'/>
+    <copy todir='${dist_dir}/examples'><fileset dir='examples'/></copy>
+
+    <mkdir dir='${dist_dir}/license'/>
+    <copy todir='${dist_dir}/license'><fileset dir='license'/></copy>
+
+    <ant antfile='build-docs.xml'/>
+    <mkdir dir='${dist_dir}/docs'/>
+    <copy todir='${dist_dir}/docs'>
+      <fileset dir='build/docs'/>
+    </copy>
+
+    <mkdir dir='${dist_dir}/lib'/>
+    <copy todir='${dist_dir}/lib'>
+      <fileset file='external/lib/stax-api.jar'/>
+      <fileset file='external/lib/stax-impl.jar'/>
+    </copy>
+
+    <jar jarfile='build/annogen-devkit-${annogen-version}.zip' basedir='${dist_dir}'/>
+  </target>
+
+
+  <target name='jars' >
+    <ant target='all.clean'/>
+    <mkdir dir='${dist_dir}'/>
+    <jar jarfile='${dist_dir}/annogen-${annogen-version}.jar'  basedir='${classes_dir}'/>
+    <jar jarfile='${dist_dir}/annogen-src-${annogen-version}.zip' >
+      <fileset includes='**/*.java' dir='jam/core/src' />
+      <fileset includes='**/*.java' dir='jam/core/src_150'/>
+      <fileset includes='**/*.java' dir='annogen/core/src'/>
+      <fileset includes='**/*.java' dir='annogen/core/src_150'/>
+      <fileset includes='**/*.java' dir='annogen/adapters/reflect/src'/>
+      <fileset includes='**/*.java' dir='annogen/adapters/reflect/src_150'/>
+      <fileset includes='**/*.java' dir='annogen/adapters/javadoc/src'/>
+      <fileset includes='**/*.java' dir='annogen/adapters/javadoc/src_150'/>
+      <fileset includes='**/*.java' dir='annogen/adapters/jam/src'/>
+      <fileset includes='**/*.java' dir='annogen/adapters/qdox/src'/>
+      <fileset includes='**/*.java' dir='annogen/adapters/mirror/src_150'/>
+    </jar>
+  </target>
+  
+  <target name='require150' depends='check150' unless='is150'>
+    <echo message='======================================================'/>
+    <echo message='Building the annogen distribution under JDK 1.4 is.'/>
+    <echo message='prohibited.  It must be built under 1.5 in order to'/>
+    <echo message='be fully-functional.'/>
+    <echo message='======================================================'/>
+    <fail message='Please build the distribution under 1.5'/>
+  </target>
+
+  <target name='check150'>
+    <condition property='is150'>
+      <contains string='${java.version}' substring='1.5'/>
+    </condition>
+  </target>
+
+</project>

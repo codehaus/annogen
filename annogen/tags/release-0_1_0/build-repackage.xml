@@ -1,0 +1,119 @@
+<project name='annogen.repackage' default='all' basedir='.'>
+
+  <!-- Properties -->
+
+  <property file='build.properties'/>
+
+  <property name='classes_dir'  value='build/classes' />
+
+  <property name='repackager'   value='org.codehaus.annogen.tools.Repackage'/>
+
+  <property name='repackager_srcdir' value='repackager/src'/>
+
+  <property name='repackaged_root' value='build/repackaged'/>
+
+  <!-- Targets -->
+
+  <target name='all' depends='clean,repackage_check,repackage_do'/>
+
+  <target name='clean'>
+    <delete dir='build'/>
+  </target>
+
+  <target name='repackage_check' unless='repackage_spec'>
+    <echo message='Please specify -Drepackage_spec=org.codehaus:com.mypackage'/>
+    <echo message='on the ant command line.'/>
+  </target>
+
+  <target name='repackage_do' if='repackage_spec'>
+
+    <echo message='Building repackaged Annogen using ${repackage_spec}...'/>
+    <echo message=''/>
+
+    <mkdir dir='${classes_dir}'/>
+
+    <javac srcdir='${repackager_srcdir}' destdir='${classes_dir}'
+           source='1.4' target='1.4' includes='**/tools/*.java'/>
+
+    <!--
+       Would be nice if repackager supported multiple source dirs so
+       we wouldn't have to do this, but it doesn't so we do.  Or
+       we could do foreach but that isn't built into ant. :(
+    -->
+
+    <antcall target='repackage_one_dir'>
+      <param name='repackage_src_dir' value='jam/core/src'/>
+    </antcall>
+
+    <antcall target='repackage_one_dir'>
+      <param name='repackage_src_dir' value='jam/core/src_150'/>
+    </antcall>
+
+    <antcall target='repackage_one_dir'>
+      <param name='repackage_src_dir' value='annogen/core/src'/>
+    </antcall>
+
+    <antcall target='repackage_one_dir'>
+      <param name='repackage_src_dir' value='annogen/core/src_150'/>
+    </antcall>
+
+    <antcall target='repackage_one_dir'>
+      <param name='repackage_src_dir' value='annogen/adapters/reflect/src'/>
+    </antcall>
+
+    <antcall target='repackage_one_dir'>
+      <param name='repackage_src_dir' value='annogen/adapters/reflect/src_150'/>
+    </antcall>
+
+    <antcall target='repackage_one_dir'>
+      <param name='repackage_src_dir' value='annogen/adapters/javadoc/src'/>
+    </antcall>
+
+    <antcall target='repackage_one_dir'>
+      <param name='repackage_src_dir' value='annogen/adapters/javadoc/src_150'/>
+    </antcall>
+
+    <antcall target='repackage_one_dir'>
+      <param name='repackage_src_dir' value='annogen/adapters/jam/src'/>
+    </antcall>
+
+    <antcall target='repackage_one_dir'>
+      <param name='repackage_src_dir' value='annogen/adapters/qdox/src'/>
+    </antcall>
+
+    <antcall target='repackage_one_dir'>
+      <param name='repackage_src_dir' value='annogen/adapters/mirror/src_150'/>
+    </antcall>
+
+
+    <!-- don't need repackager classes any more -->
+    <delete dir='${classes_dir}'/> 
+
+    <!-- copy non-source stuff -->
+    <copy todir='${repackaged_root}'>
+      <fileset dir='.'>
+        <include name='build*.xml'/>
+        <include name='build.properties'/>        
+        <include name='external/**'/>
+        <include name='license/**'/>
+      </fileset>
+    </copy>
+
+    <!-- build it -->
+    <ant dir='${repackaged_root}' target='jars' inheritAll='false' />
+
+  </target>
+
+
+
+  <target name='repackage_one_dir'>
+    <mkdir dir='${repackaged_root}/${repackage_src_dir}'/>
+    <java classname='${repackager}'
+                    fork='true' failonerror='true'>
+       <classpath><pathelement location='${classes_dir}'/></classpath>
+      <arg line='-repackage ${repackage_spec} -f ${repackage_src_dir} 
+                 -t ${repackaged_root}/${repackage_src_dir}'/>
+    </java>
+  </target>
+
+</project>

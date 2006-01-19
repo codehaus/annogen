@@ -1,0 +1,80 @@
+
+<h3>JSR175: The New Metadata Frontier</h3>
+
+  <p>
+    JAM's extensibility makes it ideally suited to help Java developers
+    tackle a large problem looming on the horizon:
+    <a href='http://www.jcp.org/en/jsr/detail?id=175'>JSR175</a>,
+    "A Metadata Facility for Java."  New to JDK 1.5, this specification
+    introduces a
+    builtin mechanism for marking up java code with metadata, a job which
+    historically has been done with javadoc tags.  JSR175 introduces
+    changes to both the Java Language Specification (for declaring metadata)
+    and the Reflection API (for accessing metadata) in order to bring
+    structure and strong typing to java metadata.
+  </p>
+
+  <p>
+    These are huge improvements are desperately needed in the Java
+    community.  However, big changes usually mean pain for developers,
+    and JSR175 is no exception.  The primary challenge with JSR175 lies
+    in the simple fact that it is not backward-compatible with earlier
+    JDKs - you cannot use it without JDK1.5.
+  </p>
+
+  <p>
+    Of course, this is not a problem developers who do not care about
+    metadata, or least not about JSR175-style metadata.  It's also not
+    a problem for developers who do care about JSR175 but who
+    <ul>
+      <li>are working on brand new applications using JDK 1.5 and</li>
+      <li>will be able to require their users to upgrade to JRE 1.5</li>
+    </ul>
+  </p>
+  <p>
+    If you are fortunate enough to be one of these developers,
+    you get to start with a clean slate with JDK 1.5, use JSR175,
+    and not worry about anything.  (Well, not quite - there actually are
+    still a <a href='typedMetadata.html'>a number of reasons</a> why
+    even you should consider using JAM for metadata access).
+  </p>
+
+  <p>
+    For everyone else, though, it's going to be a big problem, and it will
+    continue to be a problem for the forseeable future.  Developers who
+    need to support JSR175 metadata under 1.5 while continuing to support
+    older javadoc-style annotations under 1.4 face a daunting task.
+    They must be able to retrieve very
+    different metadata structures from different APIs.  They
+    must then somehow structure their program code to respond appropriately
+    (and consistently) in either case.
+  </p>
+
+  <p>
+    JAM's extensibility can help in a big way here.  Remember how JAM
+    lets you be agnostic about whether you were looking at a source-
+    or class file?  Well, exactly the same principle can be brought to bear
+    on other kinds of artifacts.  As before, we want to have unified
+    view of two kinds of artifacts (javadoc tags and JSR175 annotations)
+    that really mean the same thing to our code.  JAM can give you a
+    unified view of your java metadata, one that looks the same whether
+    it is javadoc- or JSR175-based.
+  </p>
+
+  <p>
+    Unless your metadata is very simple, JAM will probably need a little
+    bit of help from you to do this correctly.  JAM's specialized
+    extension mechanism for annotations allows you to easily customize how
+    tag and JSR175 annotation values are mapped into the JAM object that
+    will act as a beanr your metadta.  In this way, the
+    mapping logic remains encapsulated, away from the parts of your code
+    that are actually trying to do something interesting with the metadata.
+  </p>
+
+  <p>
+    JAM will even let you define strongly-typed proxies so that you can get
+    the same kind of bean-like access to your metadata that JSR175 offers.
+    The big difference is that with JAM, your code will be able to
+    transparently understand javadoc tags and it will still run under
+    JRE 1.4.
+  </p>
