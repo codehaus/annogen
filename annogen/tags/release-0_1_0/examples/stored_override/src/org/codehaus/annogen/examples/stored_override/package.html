@@ -1,0 +1,16 @@
+<body>
+ <p>
+  This example supposes that we have a User who needs to deploy some
+  'Beans' contained in 'myjar' using the DeployerTool.  Those Beans
+  have JSR175 DeploymentInfo annotations which specifies a 'cacheSize'
+  value for a Bean cache that is created when the Bean is deployed.
+ </p>
+
+ <p>
+  Unfortunately, the developer of one of the beans in 'myjar' set
+  the cacheSize to be way too small for the User, and they need to
+  increase it.  Fortunately, for the User, the DeployerTool supports
+  an AnnoOverrider which will allow them to specify alternate values
+  for cacheSize for any of the beans.
+ </p>
+</body>
