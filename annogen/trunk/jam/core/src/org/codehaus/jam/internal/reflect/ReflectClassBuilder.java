@@ -158,6 +158,10 @@ public class ReflectClassBuilder extends JamClassBuilder implements JamClassPopu
     dest.setSimpleName(src.getName());
     dest.setType(src.getType().getName());
     dest.setModifiers(src.getModifiers());
+     try {
+      dest.setConstantValue(src.get(null));
+      dest.setConstantValueExpression(src.get(null).toString());
+    } catch (Exception ignore) {}
     if (mTigerDelegate != null) mTigerDelegate.extractAnnotations(dest,src);
   }
 

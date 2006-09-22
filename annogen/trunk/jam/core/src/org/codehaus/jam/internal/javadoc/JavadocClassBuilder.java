@@ -274,6 +274,8 @@ public class JavadocClassBuilder extends JamClassBuilder implements JamClassPopu
     dest.setSimpleName(src.name());
     dest.setType(getFdFor(src.type()));
     dest.setModifiers(src.modifierSpecifier());
+    dest.setConstantValue(src.constantValue());
+    dest.setConstantValueExpression(src.constantValueExpression());
     addAnnotations(dest, src);
     addSourcePosition(dest,src);
   }

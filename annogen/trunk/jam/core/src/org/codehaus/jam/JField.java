@@ -69,4 +69,18 @@ public interface JField extends JMember {
    * transient, volatile.</i></p>
    */
   public String getQualifiedName();
+
+  /**
+   * <p>Returns the value of a constant field. The value is automatically
+   * wrapped in an object if it has a primitive type. If the field is not
+   * constant, returns null.</p>
+   */
+  public Object getConstantValue();
+
+  /**
+   * <p>Returns the text of a Java language expression whose value is the
+   * value of the constant. The expression uses no identifiers other than
+   * primitive literals. If the field is not constant, returns null.</p>
+   */
+  public String getConstantValueExpression();
 }

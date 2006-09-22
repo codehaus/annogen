@@ -31,4 +31,8 @@ public interface MField extends JField, MMember {
 
   public void setType(JClass type);
 
+  public void setConstantValue(Object constantValue);
+
+  public void setConstantValueExpression(String constantValueExpression);
+
 }

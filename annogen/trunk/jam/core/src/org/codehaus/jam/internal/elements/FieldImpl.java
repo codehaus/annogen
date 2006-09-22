@@ -38,6 +38,8 @@ public final class FieldImpl extends MemberImpl implements MField {
   // Variables
 
   private JClassRef mTypeClassRef;
+  private Object constantValue;
+  private String constantValueExpression;
 
   // ========================================================================
   // Constructors
@@ -71,6 +73,14 @@ public final class FieldImpl extends MemberImpl implements MField {
             (ucname,(ClassImpl)getContainingClass());
   }
 
+  public void setConstantValue(Object constantValue) {
+    this.constantValue = constantValue;
+  }
+
+  public void setConstantValueExpression(String constantValueExpression) {
+    this.constantValueExpression = constantValueExpression;
+  }
+
   // ========================================================================
   // JField implementation
 
@@ -93,6 +103,14 @@ public final class FieldImpl extends MemberImpl implements MField {
 
   public boolean isTransient() {
     return Modifier.isTransient(getModifiers());
+  }
+
+  public Object getConstantValue() {
+    return constantValue;
+  }
+
+  public String getConstantValueExpression() {
+    return constantValueExpression;
   }
 
   // ========================================================================
