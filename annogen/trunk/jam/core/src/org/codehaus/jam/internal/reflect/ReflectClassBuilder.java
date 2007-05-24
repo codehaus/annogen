@@ -15,6 +15,7 @@
 package org.codehaus.jam.internal.reflect;
 
 import org.codehaus.jam.internal.elements.ElementContext;
+import org.codehaus.jam.internal.elements.ClassImpl;
 import org.codehaus.jam.mutable.MClass;
 import org.codehaus.jam.mutable.MConstructor;
 import org.codehaus.jam.mutable.MField;
@@ -139,6 +140,7 @@ public class ReflectClassBuilder extends JamClassBuilder implements JamClassPopu
         }
         MClass inner = dest.addNewInnerClass(simpleName);
         inner.setArtifact(inners[i]);
+        ((ClassImpl) inner).setState(ClassImpl.UNINITIALIZED);
         populate(inner);
       }
     }

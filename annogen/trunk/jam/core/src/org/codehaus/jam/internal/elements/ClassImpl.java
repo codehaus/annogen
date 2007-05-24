@@ -535,7 +535,7 @@ public class ClassImpl extends MemberImpl implements MClass,
                                  this);
     if (mInnerClasses == null) mInnerClasses = new ArrayList();
     mInnerClasses.add(inner);
-    inner.setState(LOADED); //REVIEW this works, but inner class lifecycle is not well thought-out
+    inner.setState(NEW); //REVIEW this works, but inner class lifecycle is not well thought-out
     ((JamClassLoaderImpl)getClassLoader()).addToCache(inner);
     return inner;
   }
