@@ -40,6 +40,12 @@ public final class TigerDelegateHelper {
   // ========================================================================
   // Variables
 
+  private static boolean tigerReflectionAvailable   = false;
+  private static boolean tigerJavadocAvailable = false;
+
+  private static boolean tigerReflectionCheckDone   = false;
+  private static boolean tigerJavadocCheckDone = false;
+    
   private static boolean m14RuntimeWarningDone   = false;
   private static boolean m14BuildWarningDone = false;
 
@@ -76,26 +82,32 @@ public final class TigerDelegateHelper {
   }
 
   public static boolean isTigerJavadocAvailable(JamLogger logger) {
+	if (! tigerJavadocCheckDone)
     try {
+      tigerJavadocCheckDone = true;
       // class for name this because it's 1.5 specific.  if it fails, we
       // don't want to use the extractor
       Class.forName(SOME_TIGER_SPECIFIC_JAVADOC_CLASS);
+	  tigerJavadocAvailable = true;
       return true;
     } catch (ClassNotFoundException e) {
       issue14RuntimeWarning(e,logger);
-      return false;
     }
+    return tigerJavadocAvailable;
   }
 
   public static boolean isTigerReflectionAvailable(JamLogger logger) {
-    try {
-      // class for name this because it's 1.5 specific.  if it fails, we
-      // don't want to use the extractor
-      Class.forName(SOME_TIGER_SPECIFIC_REFLECT_CLASS);
-      return true;
-    } catch (ClassNotFoundException e) {
-      issue14RuntimeWarning(e,logger);
-      return false;
-    }
+  	if (! tigerReflectionCheckDone)
+	try {
+		tigerReflectionCheckDone = true;
+	  // class for name this because it's 1.5 specific.  if it fails, we
+	  // don't want to use the extractor
+	  Class.forName(SOME_TIGER_SPECIFIC_REFLECT_CLASS);
+	  tigerReflectionAvailable = true;
+	  return true;
+	} catch (ClassNotFoundException e) {
+	  issue14RuntimeWarning(e,logger);
+	}
+	return tigerReflectionAvailable;
   }
 }
