@@ -91,7 +91,7 @@ public class JamClassLoaderImpl implements JamClassLoader {
       // yet, that means we need to go get the outer class.  when that's
       // done, the inner class will in the cache (or not).
       int dollar = fd.lastIndexOf('$');                                                         
-      if (dollar != -1) {
+      if (dollar > 0) {
         String outerName = fd.substring(0,dollar);
         ((ClassImpl)loadClass(outerName)).ensureLoaded();
         out = cacheGet(fd);
