@@ -101,7 +101,7 @@ public class ReflectClassBuilder extends JamClassBuilder implements JamClassPopu
     Field[] fields = null;
     try {
       fields = src.getFields();
-    } catch(Exception ignore) {
+    } catch(Throwable ignore) {
       //FIXME there seems to be some JDK bugs here, workaround for now 180996
     }
     if (fields != null) {
